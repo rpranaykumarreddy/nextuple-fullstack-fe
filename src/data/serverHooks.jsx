@@ -52,6 +52,30 @@ const confirmTOTPAuthData={
     link: `${serverURL}/wallet/totp/confirm`,
     method: "POST",
 }
+const rechargeWalletAuthData={
+    link: `${serverURL}/recharge`,
+    method: "POST",
+}
+const initTransactionAuthData={
+    intialState: {
+        to: "",
+        amount: 0,
+    },
+    link: `${serverURL}/transaction/init`,
+    method: "POST"
+}
+const confirmTransactionAuthData={
+    link: `${serverURL}/transaction/confirm`,
+    method: "POST"
+}
+const cancelTransactionAuthData={
+    link: `${serverURL}/transaction/cancel`,
+    method: "POST"
+}
+const checkWalletAuthData={
+    link: `${serverURL}/transaction/check-wallet`,
+    method: "GET"
+}
 export const useLogin = () => {
     const dispatch = useDispatch();
     const [data,setData] = useState(loginAuthData.intialState);
@@ -221,7 +245,6 @@ export const useGetWalletDetails = () => {
     }
     return [error,isLoading,getWalletDetails];
 }
-
 export const useGetInitTOTP = () => {
     const dispatch = useDispatch();
     const [error,setError] = useState(null);
@@ -276,13 +299,176 @@ export const useGetInitTOTP = () => {
     }
     return [error,isLoading,getInitTOTP,QRCode, confirmTOTP];
 }
+export const useRechargeWallet = () => {
+    const dispatch = useDispatch();
+    const [error,setError] = useState(null);
+    const [isLoading,setLoading] = useState(false);
+    const token = useSelector((state) => state.token);
+    const user = useSelector((state) => state.user);
+    const rechargeWallet = async (amount) => {
+        if(!user.sub) { setError("Not logged in"); return; }
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await fetch(`${rechargeWalletAuthData.link}?amount=${amount}`, {
+                method: rechargeWalletAuthData.method,
+                headers: {
+                    'Authorization': `${token.tokenType} ${token.accessToken}`,
+                },
+            });
+            const json = await response.json();
+            if (!response.ok) {
+                throw new Error(json.message);
+            }
+            setError(null);
+            dispatch(setWallet(json));
+            setLoading(false);
+            return true;
+        } catch (error) {
+            setError(error.message);
+            setLoading(false);
+            return false;
+        }
+    }
+    return [error,isLoading,rechargeWallet];
+}
+export const useTransactions= () => {
+    const dispatch = useDispatch();
+    const [error,setError] = useState(null);
+    const [isLoading,setLoading] = useState(false);
+    const [data,setData] = useState(initTransactionAuthData.intialState);
+    const [isWalletExists,setIsWalletExists] = useState(null);
+    const [transactionId,setTransactionId] = useState(null);
+    const token = useSelector((state) => state.token);
+    const user = useSelector((state) => state.user);
+    const initTransaction = async () => {
+        if(!user.sub) { setError("Not logged in"); return; }
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await fetch(initTransactionAuthData.link, {
+                method: initTransactionAuthData.method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `${token.tokenType} ${token.accessToken}`
+                },
+                body: JSON.stringify(data),
+            });
+            const json = await response.json();
+            if (!response.ok) {
+                console.log(json);
+                throw new Error(json.message);
+            }
+            console.log('response', response, json);
+            setError(null);
+            setTransactionId(json.transactionId);
+            setLoading(false);
+            return true;
+        } catch (error) {
+            setError(error.message);
+            setLoading(false);
+            return false;
+        }
+    }
+    const confirmTransaction = async (code) => {
+        if(!user.sub) { setError("Not logged in"); return; }
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await fetch(`${confirmTransactionAuthData.link}/${transactionId}?code=${code}`, {
+                method: confirmTransactionAuthData.method,
+                headers: {
+                    'Authorization': `${token.tokenType} ${token.accessToken}`,
+                },
+            });
+            const json = await response.json();
+            let returnMsg = "SUCCESS"
+            if (!response.ok) {
+                console.log(json);
+                if(json.message != "Transaction timeout"){
+                    console.log(json.message);
+                    throw new Error(json.message);
+                }else{
+                    returnMsg="TIMEOUT";
+                }
+            }
+            if(returnMsg=="TIMEOUT"){
+                setError("Transaction timeout");
+            }else{
+                setError(null);
+                dispatch(setWallet(json));
+            }
+            setLoading(false);
+            setData(initTransactionAuthData.intialState);
+            setIsWalletExists(false);
+            setTransactionId(null);
+            return returnMsg;
+        } catch (error) {
+            setError(error.message);
+            setLoading(false);
+            return "ERROR";
+        }
+    }
+    const cancelTransaction = async () => {
+        if(!user.sub) { setError("Not logged in"); return; }
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await fetch(`${cancelTransactionAuthData.link}/${transactionId}`, {
+                method: cancelTransactionAuthData.method,
+                headers: {
+                    'Authorization': `${token.tokenType} ${token.accessToken}`,
+                },
+            });
+            const json = await response.json();
+            if (!response.ok) {
+                console.log(json);
+                throw new Error(json.message);
+            }
+            setError(null);
+            setLoading(false);
+            setData(initTransactionAuthData.intialState);
+            setIsWalletExists(false);
+            setTransactionId(null);
+            return true;
+        } catch (error) {
+            setError(error.message);
+            setLoading(false);
+            return false;
+        }
+    }
+    const checkWallet = async () => {
+        setError(null);
+        try {
+            if(data.to.trim() === "") {
+                setError("Username is empty");
+                return ;
+            }
+            const response = await fetch(`${checkWalletAuthData.link}/${data.to}`, {
+                method: checkWalletAuthData.method,
+                headers: {
+                    'Authorization': `${token.tokenType} ${token.accessToken}`,
+                }
+            });
+            const json = await response.json();
+            if (!response.ok) {
+                console.log(json);
+                throw new Error(json.message);
+            }
+            setIsWalletExists(json);
+        } catch (error) {
+            setError(error.message);
+        }
+    }
+    return [error,isLoading,initTransaction,confirmTransaction,cancelTransaction,checkWallet,data, setData,isWalletExists];
+}
 /*
- "/wallet/totp": {
+ "/transaction/init": {
       "post": {
         "tags": [
-          "wallet-controller"
+          "transaction-controller"
         ],
-        "operationId": "createTotp",
+        "operationId": "initTransaction",
         "parameters": [
           {
             "name": "Authorization",
@@ -293,30 +479,41 @@ export const useGetInitTOTP = () => {
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InitTransactionRequest"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "/": {
-"schema": {
-    "$ref": "#/components/schemas/MessageResponse"
-}
-}
-}
-}
-}
-}
-},
-"/wallet/totp/confirm": {
+                "schema": {
+                    "$ref": "#/components/schemas/InitTransactionResponse"
+"/transaction/confirm/{transactionId}": {
     "post": {
         "tags": [
-            "wallet-controller"
+            "transaction-controller"
         ],
-            "operationId": "confirmTotp",
+            "operationId": "confirmTransaction",
             "parameters": [
             {
                 "name": "Authorization",
                 "in": "header",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "transactionId",
+                "in": "path",
                 "required": true,
                 "schema": {
                     "type": "string"
@@ -337,12 +534,59 @@ export const useGetInitTOTP = () => {
                     "content": {
                     "/": {
                         "schema": {
-                            "type": "boolean"
-                        }
-                    }
+                            "$ref": "#/components/schemas/GetWalletDetailsResponse"
+"/transaction/cancel/{tranactionId}": {
+    "post": {
+        "tags": [
+            "transaction-controller"
+        ],
+            "operationId": "cancelTransaction",
+            "parameters": [
+            {
+                "name": "tranactionId",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "Authorization",
+                "in": "header",
+                "required": true,
+                "schema": {
+                    "type": "string"
                 }
             }
-        }
-    }
-},
+        ],
+            "responses": {
+            "200": {
+                "description": "OK",
+                    "content": {
+                    "/": {
+                        "schema": {
+                            "$ref": "#/components/schemas/MessageResponse"
+"/transaction/check-wallet/{username}": {
+    "get": {
+        "tags": [
+            "transaction-controller"
+        ],
+            "operationId": "checkWallet",
+            "parameters": [
+            {
+                "name": "username",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        ],
+            "responses": {
+            "200": {
+                "description": "OK",
+                    "content": {
+                    "/": {
+                        "schema": {
+                            "type": "boolean"
  */

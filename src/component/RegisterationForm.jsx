@@ -25,7 +25,7 @@ export default function RegisterationForm({flipLogin, ...props}) {
                             value={data.username}
                             disabled={isLoading}
                             required
-                            onBlur={(e) => checkUsername(e.target.value)}
+                            onBlur={checkUsername}
                             onChange={(e) => setData({...data, username: e.target.value})}
                         />
                         {isUsernameAvailable === false && <FormHelperText>

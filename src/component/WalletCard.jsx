@@ -4,6 +4,7 @@ import dateAsString from "../Utils/dateAsString";
 import WalletIcon from '@mui/icons-material/Wallet';
 import dateTimeAsString from "../Utils/dateTimeAsString";
 import TOTPEnableTool from "./TOTPEnableTool";
+import WalletOpsTools from "./WalletOpsTools";
 export default function WalletCard({data}) {
 
     if(data==undefined || data==null) return null;
@@ -11,7 +12,7 @@ export default function WalletCard({data}) {
     return (
         <>
             <Card key={data.id} sx={{minWidth: 275, width:"fit-content", flexGrow: 1, flexBasis: 0, margin:"10px 20px", padding: '5px',textAlign:"left" }}>
-            <CardHeader
+                <CardHeader
                     avatar={
                         <Avatar sx={{ bgcolor: "#1976d2 " }} aria-label="Wallet">
                             <WalletIcon />
@@ -25,6 +26,8 @@ export default function WalletCard({data}) {
                         <p>TOTP Enabled</p>:
                         <TOTPEnableTool/>
                     }
+                    <br/>
+                    <WalletOpsTools />
                 </CardContent>
             </Card>
         </>

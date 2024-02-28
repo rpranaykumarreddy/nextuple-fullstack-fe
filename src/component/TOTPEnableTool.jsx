@@ -5,9 +5,10 @@ import WalletIcon from '@mui/icons-material/Wallet';
 import dateTimeAsString from "../Utils/dateTimeAsString";
 import {useConfirmTOTP, useGetInitTOTP} from "../data/serverHooks";
 import {useSelector} from "react-redux";
+import RechargeTool from "./RechargeTool";
 export default function TOTPEnableTool() {
    const [error,isLoading,getInitTOTP,QRCode, confirmTOTP] = useGetInitTOTP();
-   const [data,setData] = React.useState({username:""});
+   const [data,setData] = React.useState(null);
    const wallet = useSelector(state => state.wallet);
    if(!wallet || (wallet?.balance === undefined)){
          return null;
@@ -43,13 +44,13 @@ export default function TOTPEnableTool() {
        )
    } else {
        content = (
-           <div>
-               <ButtonGroup variant="contained" aria-label="outlined primary button group" fullWidth>
-                   <Button onClick={getInitTOTP} disabled={isLoading}>
-                       Enable TOTP
-                   </Button>
-               </ButtonGroup>
-           </div>
+               <div>
+                   <ButtonGroup variant="contained" aria-label="outlined primary button group" fullWidth>
+                       <Button onClick={getInitTOTP} disabled={isLoading}>
+                           Enable TOTP
+                       </Button>
+                   </ButtonGroup>
+               </div>
        )
    }
     return (
