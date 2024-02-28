@@ -1,11 +1,7 @@
-import {Alert, Avatar, Button, ButtonGroup, Card, CardContent, CardHeader, FormControl, TextField} from "@mui/material";
+import {Alert, Button, ButtonGroup, FormControl, TextField} from "@mui/material";
 import React from "react";
-import dateAsString from "../Utils/dateAsString";
-import WalletIcon from '@mui/icons-material/Wallet';
-import dateTimeAsString from "../Utils/dateTimeAsString";
-import {useConfirmTOTP, useGetInitTOTP} from "../data/serverHooks";
+import { useGetInitTOTP} from "../data/serverHooks";
 import {useSelector} from "react-redux";
-import RechargeTool from "./RechargeTool";
 export default function TOTPEnableTool() {
    const [error,isLoading,getInitTOTP,QRCode, confirmTOTP] = useGetInitTOTP();
    const [data,setData] = React.useState(null);
@@ -13,11 +9,11 @@ export default function TOTPEnableTool() {
    if(!wallet || (wallet?.balance === undefined)){
          return null;
    }
-   const submit = (e) => {
+   const submit = async (e) => {
          e.preventDefault();
-         confirmTOTP(data);
+         await confirmTOTP(data);
    }
-   let content = null;
+   let content ;
    if(QRCode){
        content= (
            <div>

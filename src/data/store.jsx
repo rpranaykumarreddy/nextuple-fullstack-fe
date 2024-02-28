@@ -54,19 +54,28 @@ const StatementSlice = createSlice({
     },
 });
 const statementReducer = StatementSlice.reducer;
-const transactionSlice = createSlice({
-    name: 'transaction',
-    initialState: null,
+
+const snackbarSlice = createSlice({
+    name: 'snackbar',
+    initialState: {
+        message: '',
+        isOpen: false,
+        severity: 'success',
+    },
     reducers: {
-        setTransaction: (state, action) => {
-            return action.payload;
+        showMessage: (state, action) => {
+            state.isOpen = true;
+            state.message = action.payload.message;
+            state.severity = action.payload.severity;
         },
-        clearTransaction: (state) => {
-            return null;
-        }
+        hideMessage: (state) => {
+            state.isOpen = false;
+            state.message = '';
+            state.severity = 'success';
+        },
     },
 });
-const transactionReducer = transactionSlice.reducer;
+const snackbarReducer = snackbarSlice.reducer;
 const loadStateFromLocalStorage = () => {
     try {
         const serializedState = localStorage.getItem('reduxState');
@@ -93,7 +102,7 @@ const store = configureStore({
         user: userReducer,
         wallet: walletReducer,
         statement: statementReducer,
-        transaction: transactionReducer,
+        snackbar: snackbarReducer,
     },
     preloadedState: loadStateFromLocalStorage(),
     middleware: (getDefaultMiddleware) =>
@@ -104,5 +113,5 @@ export const { setToken,clearToken } = tokenSlice.actions;
 export const { setUser,clearUser } = userSlice.actions;
 export const { setWallet , clearWallet, enableTOTP} = walletSlice.actions;
 export const { setStatement , clearStatement} = StatementSlice.actions;
-export const { setTransaction , clearTransaction} = transactionSlice.actions;
+export const { showMessage, hideMessage } = snackbarSlice.actions;
 export default store;

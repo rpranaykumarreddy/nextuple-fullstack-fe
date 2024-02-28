@@ -1,8 +1,8 @@
-import {Alert, Button, ButtonGroup, FormControl, FormHelperText, TextField} from "@mui/material";
+import {Alert, Button, ButtonGroup, FormControl, TextField} from "@mui/material";
 import React from "react";
 import {useLogin} from "../data/serverHooks";
 
-export default function LoginForm({flipLogin, ...props}) {
+export default function LoginForm({flipLogin}) {
     const [data,setData,error,isLoading,login] = useLogin();
     return(
         <>

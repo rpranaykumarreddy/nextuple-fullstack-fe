@@ -1,17 +1,17 @@
-import {Provider, useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
 import './App.css';
-import store, {clearToken, setUser} from './data/store';
+import { setUser} from './data/store';
 import NotFoundPage from "./pages/NotFoundPage";
 import AccountPage from "./pages/AccountPage";
 import StatementPage from "./pages/StatementPage";
 import HomePage from "./pages/HomePage";
-import TransactionPage from "./pages/TransactionPage";
-import Nav from "./component/nav";
+import Nav from "./component/Nav";
 import {useEffect, useState} from "react";
 import {jwtDecode} from "jwt-decode";
 import {useLogout} from "./data/serverHooks";
 import {Snackbar} from "@mui/material";
+import SnackBarSystem from "./component/SnackBarSystem";
 
 function Check({ element }) {
     const user = useSelector((state) => state.user);
@@ -40,7 +40,7 @@ function App() {
                 return () => clearTimeout(timeoutId);
             }
         }
-    },[user?.exp]);
+    },[user?.exp, logout]);
 
     useEffect(() => {
         const decodeToken = (jwtToken) => {
@@ -63,7 +63,7 @@ function App() {
         } else {
             console.log("No token found");
         }
-    }, [token, dispatch]);
+    }, [token, dispatch, logout]);
 
   return (
       <div className='main'>
@@ -73,7 +73,6 @@ function App() {
               <Route exact path="/user" element={<AccountPage/>} />
               <Route exact path="/" element={<Check element={<HomePage />} />} />
               <Route exact path="/statement" element={<Check element={<StatementPage />} />} />
-              <Route exact path="/transactions" element={<Check element={<TransactionPage />} />} />
               <Route exact path="*" element={<NotFoundPage />} />
             </Routes>
                   <Snackbar
@@ -85,6 +84,7 @@ function App() {
                   />
               </div>
             <Nav/>
+            <SnackBarSystem/>
         </Router>
       </div>
   );

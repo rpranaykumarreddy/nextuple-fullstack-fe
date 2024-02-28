@@ -4,13 +4,12 @@ import {useDispatch,useSelector} from "react-redux";
 import {
     clearStatement,
     clearToken,
-    clearTransaction,
     clearUser,
     clearWallet,
     enableTOTP,
     setStatement,
     setToken,
-    setWallet
+    setWallet, showMessage
 } from "./store";
 
 const serverURL = "http://localhost:8080";
@@ -81,7 +80,6 @@ export const useLogin = () => {
     const [data,setData] = useState(loginAuthData.intialState);
     const [error,setError] = useState(null);
     const [isLoading,setLoading] = useState(false);
-    const [response,setResponse] = useState(null);
     const token = useSelector((state) => state.token);
     const login = async () => {
         if(token) { setError("Already logged in"); return; }
@@ -99,14 +97,15 @@ export const useLogin = () => {
             if (!response.ok) {
                 throw new Error(json.message);
             }
-            setError(null);
             setData(loginAuthData.intialState);
+            setError(null);
+            setLoading(false);
             dispatch(setToken(json));
-            setResponse(json);
+            dispatch(showMessage({message: "Logged in", severity: "success"}));
         } catch (error) {
             setError(error.message);
+            setLoading(false);
         }
-        setLoading(false);
     }
     return [data,setData,error,isLoading,login];
 }
@@ -116,7 +115,6 @@ export const useRegister = () => {
     const [error,setError] = useState(null);
     const [isLoading,setLoading] = useState(false);
     const [isUsernameAvailable,setIsUsernameAvailable] = useState(null);
-    const [response,setResponse] = useState(null);
     const token = useSelector((state) => state.token);
 
     const register = async () => {
@@ -135,9 +133,11 @@ export const useRegister = () => {
             if (!response.ok) {
                 throw new Error(json.message);
             }
+            setData(registerAuthData.intialState);
             setError(null);
-            console.log('response', response, json);
             setLoading(false);
+            setIsUsernameAvailable(null);
+            dispatch(showMessage({message: json.message, severity: "success"}));
             return true;
         } catch (error) {
             console.error("Error in register",error.message);
@@ -175,9 +175,11 @@ export const useLogout = () => {
         if(token) {
             dispatch(clearToken());
             dispatch(clearUser());
-            dispatch(clearTransaction());
             dispatch(clearStatement());
             dispatch(clearWallet());
+            dispatch(showMessage({message: "Logged out", severity: "success"}));
+        }else{
+            dispatch(showMessage({message: "No token, Refresh the page", severity: "error"}));
         }
     }
     return logout;
@@ -190,7 +192,9 @@ export const useGetStatement = () => {
     const token = useSelector((state) => state.token);
     const user = useSelector((state) => state.user);
     const getStatement = async () => {
-        if(!user.sub) { setError("Not logged in"); return; }
+        if(!user.sub) {
+            setError("Not logged in");
+            return; }
         setLoading(true);
         setError(null);
         try {
@@ -206,12 +210,14 @@ export const useGetStatement = () => {
                 throw new Error(json.message);
             }
             setError(null);
+            setLoading(false);
             setResponse(json);
             dispatch(setStatement(json));
+            dispatch(showMessage({message: "Statement fetched", severity: "success"}));
         } catch (error) {
             setError(error.message);
+            setLoading(false);
         }
-        setLoading(false);
     }
     return [error,isLoading,getStatement,response];
 }
@@ -237,11 +243,13 @@ export const useGetWalletDetails = () => {
                 throw new Error(json.message);
             }
             setError(null);
+            setLoading(false);
             dispatch(setWallet(json));
+            dispatch(showMessage({message: "Wallet details fetched", severity: "success"}));
         } catch (error) {
             setError(error.message);
+            setLoading(false);
         }
-        setLoading(false);
     }
     return [error,isLoading,getWalletDetails];
 }
@@ -268,11 +276,13 @@ export const useGetInitTOTP = () => {
                 throw new Error(json.message);
             }
             setError(null);
+            setLoading(false);
             setQRCode(json);
+            dispatch(showMessage({message: "Scan the QR & Confirm the Code to enable TOTP", severity: "info"}));
         } catch (error) {
             setError(error.message);
+            setLoading(false);
         }
-        setLoading(false);
     }
     const confirmTOTP = async (code) => {
         console.log(code)
@@ -290,12 +300,14 @@ export const useGetInitTOTP = () => {
             if (!response.ok) {
                 throw new Error(json.message);
             }
-            dispatch(enableTOTP());
             setError(null);
+            setLoading(false);
+            dispatch(enableTOTP());
+            dispatch(showMessage({message: "TOTP enabled", severity: "success"}));
         } catch (error) {
             setError(error.message);
+            setLoading(false);
         }
-        setLoading(false);
     }
     return [error,isLoading,getInitTOTP,QRCode, confirmTOTP];
 }
@@ -321,8 +333,9 @@ export const useRechargeWallet = () => {
                 throw new Error(json.message);
             }
             setError(null);
-            dispatch(setWallet(json));
             setLoading(false);
+            dispatch(setWallet(json));
+            dispatch(showMessage({message: "Wallet recharged with a cashback", severity: "success"}));
             return true;
         } catch (error) {
             setError(error.message);
@@ -363,6 +376,7 @@ export const useTransactions= () => {
             setError(null);
             setTransactionId(json.transactionId);
             setLoading(false);
+            dispatch(showMessage({message: "Transaction initiated", severity: "info"}));
             return true;
         } catch (error) {
             setError(error.message);
@@ -385,21 +399,22 @@ export const useTransactions= () => {
             let returnMsg = "SUCCESS"
             if (!response.ok) {
                 console.log(json);
-                if(json.message != "Transaction timeout"){
+                if(json.message !== "Transaction timeout"){
                     console.log(json.message);
                     throw new Error(json.message);
                 }else{
                     returnMsg="TIMEOUT";
                 }
             }
-            if(returnMsg=="TIMEOUT"){
-                setError("Transaction timeout");
+            if(returnMsg==="TIMEOUT"){
+                dispatch(showMessage({message: "Transaction timeout", severity: "warning"}));
             }else{
-                setError(null);
+                setData(initTransactionAuthData.intialState);
                 dispatch(setWallet(json));
+                dispatch(showMessage({message: "Transaction Successful", severity: "success"}));
             }
+            setError(null);
             setLoading(false);
-            setData(initTransactionAuthData.intialState);
             setIsWalletExists(false);
             setTransactionId(null);
             return returnMsg;
@@ -430,6 +445,7 @@ export const useTransactions= () => {
             setData(initTransactionAuthData.intialState);
             setIsWalletExists(false);
             setTransactionId(null);
+            dispatch(showMessage({message: "Transaction cancelled", severity: "info"}));
             return true;
         } catch (error) {
             setError(error.message);
@@ -462,131 +478,3 @@ export const useTransactions= () => {
     }
     return [error,isLoading,initTransaction,confirmTransaction,cancelTransaction,checkWallet,data, setData,isWalletExists];
 }
-/*
- "/transaction/init": {
-      "post": {
-        "tags": [
-          "transaction-controller"
-        ],
-        "operationId": "initTransaction",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/InitTransactionRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "/": {
-                "schema": {
-                    "$ref": "#/components/schemas/InitTransactionResponse"
-"/transaction/confirm/{transactionId}": {
-    "post": {
-        "tags": [
-            "transaction-controller"
-        ],
-            "operationId": "confirmTransaction",
-            "parameters": [
-            {
-                "name": "Authorization",
-                "in": "header",
-                "required": true,
-                "schema": {
-                    "type": "string"
-                }
-            },
-            {
-                "name": "transactionId",
-                "in": "path",
-                "required": true,
-                "schema": {
-                    "type": "string"
-                }
-            },
-            {
-                "name": "code",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "type": "string"
-                }
-            }
-        ],
-            "responses": {
-            "200": {
-                "description": "OK",
-                    "content": {
-                    "/": {
-                        "schema": {
-                            "$ref": "#/components/schemas/GetWalletDetailsResponse"
-"/transaction/cancel/{tranactionId}": {
-    "post": {
-        "tags": [
-            "transaction-controller"
-        ],
-            "operationId": "cancelTransaction",
-            "parameters": [
-            {
-                "name": "tranactionId",
-                "in": "path",
-                "required": true,
-                "schema": {
-                    "type": "string"
-                }
-            },
-            {
-                "name": "Authorization",
-                "in": "header",
-                "required": true,
-                "schema": {
-                    "type": "string"
-                }
-            }
-        ],
-            "responses": {
-            "200": {
-                "description": "OK",
-                    "content": {
-                    "/": {
-                        "schema": {
-                            "$ref": "#/components/schemas/MessageResponse"
-"/transaction/check-wallet/{username}": {
-    "get": {
-        "tags": [
-            "transaction-controller"
-        ],
-            "operationId": "checkWallet",
-            "parameters": [
-            {
-                "name": "username",
-                "in": "path",
-                "required": true,
-                "schema": {
-                    "type": "string"
-                }
-            }
-        ],
-            "responses": {
-            "200": {
-                "description": "OK",
-                    "content": {
-                    "/": {
-                        "schema": {
-                            "type": "boolean"
- */

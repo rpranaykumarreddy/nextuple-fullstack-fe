@@ -1,13 +1,12 @@
 import {Avatar, Card, CardContent, CardHeader} from "@mui/material";
 import React from "react";
-import dateAsString from "../Utils/dateAsString";
 import WalletIcon from '@mui/icons-material/Wallet';
 import dateTimeAsString from "../Utils/dateTimeAsString";
 import TOTPEnableTool from "./TOTPEnableTool";
 import WalletOpsTools from "./WalletOpsTools";
 export default function WalletCard({data}) {
 
-    if(data==undefined || data==null) return null;
+    if(data || data==null) return null;
     console.log('Wallet data', data);
     return (
         <>

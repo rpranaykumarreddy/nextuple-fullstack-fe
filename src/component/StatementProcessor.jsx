@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import dateAsString from "../Utils/dateAsString";
 import StatementCard from "./StatementCard";
 
-export default function StatementProcessor({data,isLoading, ...props}) {
+export default function StatementProcessor({data,isLoading}) {
     const [totalData, setTotalData] = useState([]);
     useEffect(() => {
         if(data===undefined || data==null) return;

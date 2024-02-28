@@ -31,6 +31,7 @@ body {
   color: #f3f3f3;
   text-align: center;
   min-height: 85vh;
+  margin-top: 7vh;
   margin-bottom: 10vh;
   display: flex;
   flex-direction: column;

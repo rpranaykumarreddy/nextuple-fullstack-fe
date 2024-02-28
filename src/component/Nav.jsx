@@ -7,7 +7,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 
-export default function Nav(props) {
+export default function Nav() {
   const [linkValue, setValue] = useState('user');
   const location = useLocation();
 
@@ -58,14 +58,6 @@ export default function Nav(props) {
             icon={<ReceiptLongIcon />}
             sx={{color: linkValue === 'statement' ? '#1976d2 !important': '#fff !important'}}
         />
-        <BottomNavigationAction
-            component={Link}
-            to="/transactions"
-            label="Transactions"
-            value="transactions"
-            icon={<ReceiptLongIcon />}
-            sx={{color: linkValue === 'transactions' ? '#1976d2 !important': '#fff !important'}}
-            />
     </BottomNavigation>
   );
 }

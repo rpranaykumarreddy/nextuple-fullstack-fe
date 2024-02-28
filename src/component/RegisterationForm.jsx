@@ -1,8 +1,8 @@
 import {Alert, Button, ButtonGroup, FormControl, FormHelperText, TextField} from "@mui/material";
 import React from "react";
-import {useLogin, useRegister} from "../data/serverHooks";
+import {useRegister} from "../data/serverHooks";
 
-export default function RegisterationForm({flipLogin, ...props}) {
+export default function RegisterationForm({flipLogin}) {
     const [data,setData,error,isLoading,register,isUsernameAvailable,checkUsername] = useRegister()
     const submit = async ()=>{
         const response = await register();

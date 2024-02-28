@@ -2,7 +2,7 @@ import {Button} from "@mui/material";
 import React from "react";
 import {useLogout} from "../data/serverHooks";
 
-export default function WelcomeForm({user, ...props}) {
+export default function WelcomeForm({user}) {
 
     const logout = useLogout();
     return(

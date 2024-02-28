@@ -1,7 +1,6 @@
 import React from "react";
-import {useGetStatement, useGetWalletDetails} from "../data/serverHooks";
+import {useGetWalletDetails} from "../data/serverHooks";
 import {Alert, Button} from "@mui/material";
-import StatementProcessor from "../component/StatementProcessor";
 import WalletCard from "../component/WalletCard";
 import {useSelector} from "react-redux";
 
