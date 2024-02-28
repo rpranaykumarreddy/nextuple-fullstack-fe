@@ -40,7 +40,7 @@ function App() {
                 return () => clearTimeout(timeoutId);
             }
         }
-    },[user?.exp, logout]);
+    },[user?.exp]);
 
     useEffect(() => {
         const decodeToken = (jwtToken) => {
@@ -63,7 +63,7 @@ function App() {
         } else {
             console.log("No token found");
         }
-    }, [token, dispatch, logout]);
+    }, [token, dispatch]);
 
   return (
       <div className='main'>

@@ -32,7 +32,7 @@ export default function StatementCard({data}) {
             tooltip = "Initiated";
     }
 
-    if(data || data==null) return null;
+    if(!data || data==null) return null;
 
     if(data.type === "RECHARGE") {
         return (

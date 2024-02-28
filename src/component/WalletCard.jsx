@@ -6,7 +6,7 @@ import TOTPEnableTool from "./TOTPEnableTool";
 import WalletOpsTools from "./WalletOpsTools";
 export default function WalletCard({data}) {
 
-    if(data || data==null) return null;
+    if(!data || data==null) return null;
     console.log('Wallet data', data);
     return (
         <>
