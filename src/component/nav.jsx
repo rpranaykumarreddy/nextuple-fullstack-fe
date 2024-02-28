@@ -4,8 +4,8 @@ import { Link, useLocation } from 'react-router-dom';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LinkIcon from '@mui/icons-material/Link';
-import PsychologyIcon from '@mui/icons-material/Psychology';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 
 export default function Nav(props) {
   const [linkValue, setValue] = useState('user');
@@ -47,7 +47,7 @@ export default function Nav(props) {
             component={Link}
             to="/" label="Home"
             value=""
-            icon={<PsychologyIcon />}
+            icon={<AccountBalanceWalletIcon />}
             sx={{color: linkValue === '' ? '#1976d2 !important': '#fff !important'}}
         />
         <BottomNavigationAction
@@ -55,7 +55,7 @@ export default function Nav(props) {
             to="/statement"
             label="Statement"
             value="statement"
-            icon={<LinkIcon />}
+            icon={<ReceiptLongIcon />}
             sx={{color: linkValue === 'statement' ? '#1976d2 !important': '#fff !important'}}
         />
         <BottomNavigationAction
@@ -63,7 +63,7 @@ export default function Nav(props) {
             to="/transactions"
             label="Transactions"
             value="transactions"
-            icon={<LinkIcon />}
+            icon={<ReceiptLongIcon />}
             sx={{color: linkValue === 'transactions' ? '#1976d2 !important': '#fff !important'}}
             />
     </BottomNavigation>
