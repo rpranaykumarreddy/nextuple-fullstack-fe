@@ -12,7 +12,7 @@ export default function WelcomeForm({user}) {
             <div>
                 <p>Welcome {user.sub}!</p>
                 <br/>
-                <Button variant="contained" onClick={logout}>Logout</Button>
+                <Button variant="contained" onClick={()=>{logout()}}>Logout</Button>
             </div>
         </>
     );

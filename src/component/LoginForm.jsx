@@ -9,7 +9,6 @@ export default function LoginForm({flipLogin}) {
             <h2>Login to Banking</h2>
             <br/>
             <div>
-                <form onSubmit={(e) => e.preventDefault()}>
                     {error && <Alert severity="error">{error}</Alert>}
                     <FormControl fullWidth margin="normal">
                         <TextField
@@ -19,6 +18,7 @@ export default function LoginForm({flipLogin}) {
                             value={data.username}
                             disabled={isLoading}
                             required
+                            data-testid="email-input"
                             onChange={(e) => setData({...data,username:e.target.value})}
                         />
                     </FormControl>
@@ -31,6 +31,7 @@ export default function LoginForm({flipLogin}) {
                             value={data.password}
                             disabled={isLoading}
                             required
+                            data-testid="password-input"
                             onChange={(e) => setData({...data,password:e.target.value})}
                         />
                     </FormControl>
@@ -40,7 +41,6 @@ export default function LoginForm({flipLogin}) {
                             Log In User
                         </Button>
                     </ButtonGroup>
-                </form>
                 <br/>
                 <p>click here to <Button variant="text" onClick={flipLogin}>Register</Button></p>
             </div>
