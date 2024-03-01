@@ -32,6 +32,7 @@ export const useTransactions= () => {
     const [transactionId,setTransactionId] = useState(null);
     const token = useSelector((state) => state.token);
     const user = useSelector((state) => state.user);
+
     const initTransaction = async () => {
         if(!user.sub) { setError("Not logged in"); return; }
         setLoading(true);
@@ -62,6 +63,7 @@ export const useTransactions= () => {
             return false;
         }
     }
+
     const confirmTransaction = async (code) => {
         if(!user.sub) { setError("Not logged in"); return; }
         setLoading(true);
@@ -102,6 +104,7 @@ export const useTransactions= () => {
             return "ERROR";
         }
     }
+
     const cancelTransaction = async () => {
         if(!user.sub) { setError("Not logged in"); return; }
         setLoading(true);
@@ -131,6 +134,7 @@ export const useTransactions= () => {
             return false;
         }
     }
+
     const checkWallet = async () => {
         setError(null);
         try {
@@ -154,5 +158,6 @@ export const useTransactions= () => {
             setError(error.message);
         }
     }
+    
     return [error,isLoading,initTransaction,confirmTransaction,cancelTransaction,checkWallet,data, setData,isWalletExists];
 }

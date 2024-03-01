@@ -1,9 +1,10 @@
 import React from 'react';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import LoginForm from './LoginForm';
 import * as hooks from '../data/serverHooks';
 import store from '../data/store';
+
 jest.mock('../data/serverHooks');
 
 describe('LoginForm', () => {

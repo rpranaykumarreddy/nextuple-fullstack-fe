@@ -4,6 +4,7 @@ import {userSlice, userReducer} from './slice/userSlice';
 import {walletSlice, walletReducer} from './slice/walletSlice';
 import {StatementSlice, statementReducer} from './slice/statementSlice';
 import {snackbarSlice, snackbarReducer} from './slice/snackbarSlice';
+import { useSelector } from 'react-redux';
 
 
 const loadStateFromLocalStorage = () => {
@@ -38,6 +39,12 @@ const store = configureStore({
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(localStorageMiddleware),
 });
+
+//useSelector Helpers:
+export const getToken= (state)=>{
+return state.token
+}
+
 export const { setToken, clearToken } = tokenSlice.actions;
 export const { setUser,clearUser } = userSlice.actions;
 export const { setWallet , clearWallet, enableTOTP} = walletSlice.actions;
