@@ -1,11 +1,58 @@
+import jwt from "jsonwebtoken";
 
-export const user = {
-    sub: "user1",
-    iat: 1709404055,
-    exp: 1709407655
+export const wallet= {
+    responseTime: "2024-03-03T00:37:42.6491336",
+    balance: 342941.30000000075,
+    totpEnabled: true,
+    updated: "2024-03-01T17:14:15.83",
+    created: "2024-02-27T22:30:01.119"
 }
+export const walletResponse={
+    json: ()=>wallet,
+    status: 200,
+    ok: true,
+    headers: { "Content-Type": "application/json" },
+}
+
+export const walletNoTOTP= {
+    responseTime: "2024-03-03T00:37:42.6491336",
+    balance: 342941.30000000075,
+    totpEnabled: false,
+    updated: "2024-03-01T17:14:15.83",
+    created: "2024-02-27T22:30:01.119"
+}
+export const walletNoTOTPResponse={
+    json: ()=>walletNoTOTP,
+    status: 200,
+    ok: true,
+    headers: { "Content-Type": "application/json" },
+}
+function generateUser(seconds = 604800) {
+    const payload = {
+        sub: 'user1',
+        iat: Math.floor(Date.now() / 1000) - (60*60*24*30),
+        exp: Math.floor(Date.now() / 1000) + (seconds)
+    };
+    return payload;
+}
+function generateToken(seconds = 604800) {
+    const payload = {
+        sub: 'user1',
+        iat: Math.floor(Date.now() / 1000) - (60*60*24*30),
+        exp: Math.floor(Date.now() / 1000) + (seconds)
+    };
+    const secret = 'testing';
+    return jwt.sign(payload, secret);
+}
+export const user = generateUser();
+export const userExpired = generateUser(-600);
+
 export const token = {
-    accessToken: "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ1c2VyMSIsImlhdCI6MTcwOTQwMzc3MiwiZXhwIjoxNzA5NDA3MzcyfQ.nTBTjOgyViYxewRDxlsjJIxA9Ba38VUIYAaUTQSbyhlSWrlPJwncKQfNjp3wBUtC",
+    accessToken: generateToken(),
+    tokenType: "Bearer"
+}
+export const tokenExpired = {
+    accessToken: generateToken(-600),
     tokenType: "Bearer"
 }
 export const tokenResponse={
@@ -13,7 +60,6 @@ export const tokenResponse={
     status: 200,
     ok: true,
     headers: { "Content-Type": "application/json" },
-
 }
 export const statementData = {
     responseTime: "2024-03-02T21:02:40.0938321",

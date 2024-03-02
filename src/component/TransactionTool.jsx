@@ -36,7 +36,7 @@ export default function TransactionTool({ open, onClose }) {
     setData,
     isWalletExists,
   ] = useTransactions();
-  const wallet = useSelector((state) => state.user.wallet);
+  const wallet = useSelector((state) => state.wallet);
   const [initDone, setInitDone] = React.useState(false);
   const [code, setCode] = React.useState(undefined);
   const initSubmit = async (e) => {
@@ -124,7 +124,7 @@ export default function TransactionTool({ open, onClose }) {
   if (initDone) {
     content = (
       <>
-        {wallet?.totpEnabled && (
+        {wallet.totpEnabled && (
           <FormControl fullWidth margin="normal">
             <TextField
               label="TOTP"
