@@ -14,7 +14,7 @@ export default function StatementProcessor({data,isLoading}) {
 
     if(isLoading) return <p>Loading...</p>;
     if(data===undefined || data==null) return <p>No statement data exist</p>;
-
+    console.log("statement data",data);
     return (
         <>
             <p>last Updated: {dateAsString(data.responseTime)}</p>

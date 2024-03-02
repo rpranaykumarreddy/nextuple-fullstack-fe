@@ -13,6 +13,7 @@ describe("Nav", () => {
     expect(accountLink).toBeInTheDocument();
     expect(homeLink).toBeInTheDocument();
     expect(statementLink).toBeInTheDocument();
+
   });
   test("should navigate to account page when clicked on account link", () => {
     renderWithRouter(<Nav />);

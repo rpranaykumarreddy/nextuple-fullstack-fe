@@ -41,9 +41,8 @@ const store = configureStore({
 });
 
 //useSelector Helpers:
-export const getToken= (state)=>{
-return state.token
-}
+export const getToken= (state)=> state.token;
+export const getUser= (state) => state.user;
 
 export const { setToken, clearToken } = tokenSlice.actions;
 export const { setUser,clearUser } = userSlice.actions;

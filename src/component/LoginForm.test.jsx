@@ -4,6 +4,7 @@ import LoginForm from "./LoginForm";
 import { loginAuthData } from "../data/serverHooks";
 import { renderWithRedux } from "../Utils/testHelper";
 import { getToken } from "../data/store";
+import {token, tokenResponse} from "../Utils/testData";
 
 const flipLogin = jest.fn();
 
@@ -25,26 +26,8 @@ beforeEach(() => {
 
 describe("Login Form & useLogin fn()", () => {
   test("should render & success path", async () => {
-    const mockResponse = { someKey: "someValue" };
-    const expectedLink = "http://localhost:8080/auth/login";
-    const expectedMethod = "POST";
-    const expectedHeaders = {
-      "Content-Type": "application/json",
-    };
-    const expectedBody = JSON.stringify({
-      username: "pranay",
-      password: "pranay",
-    });
     getToken.mockImplementation(() => null);
-    global.fetch = jest.fn().mockResolvedValue(
-      {
-        json: jest.fn().mockResolvedValue(mockResponse),
-        status: 200,
-        ok: true,
-        headers: { "Content-Type": "application/json" },
-      },
-      { method: "POST", headers: { "Content-Type": "application/json" } },
-    );
+    global.fetch = jest.fn().mockResolvedValue(tokenResponse);
     renderWithRedux(<LoginForm flipLogin={flipLogin} />);
     const fieldMail = screen.getByTestId("email-input").querySelector("input");
     expect(fieldMail).toBeInTheDocument();
@@ -67,8 +50,9 @@ describe("Login Form & useLogin fn()", () => {
       }),
     );
   });
+
   test("should render & Token exists", () => {
-    getToken.mockImplementation(() => "null");
+    getToken.mockImplementation(() => token);
     renderWithRedux(<LoginForm flipLogin={flipLogin} />);
     const fieldMail = screen.getByTestId("email-input").querySelector("input");
     expect(fieldMail).toBeInTheDocument();
@@ -83,14 +67,10 @@ describe("Login Form & useLogin fn()", () => {
     expect(field).toBeInTheDocument();
     fireEvent.click(field);
   });
+
   test("should render & failure path", () => {
     getToken.mockImplementation(() => null);
-    const mockResponse = { someKey: "someValue" };
-    global.fetch = jest.fn().mockResolvedValue({
-      json: jest.fn().mockResolvedValue(mockResponse),
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    global.fetch = jest.fn().mockResolvedValue({...tokenResponse, ok: false});
     renderWithRedux(<LoginForm flipLogin={flipLogin} />);
     const fieldMail = screen.getByTestId("email-input").querySelector("input");
     expect(fieldMail).toBeInTheDocument();
@@ -104,13 +84,6 @@ describe("Login Form & useLogin fn()", () => {
     const field = screen.getByText("Log In User");
     expect(field).toBeInTheDocument();
     fireEvent.click(field);
-    /*
-    Test this lines:
-    const response = await fetch(loginAuthData.link, {
-        method: loginAuthData.method,
-        headers: loginAuthData.headers,
-        body: JSON.stringify(data),
-      });
-     */
+
   });
 });

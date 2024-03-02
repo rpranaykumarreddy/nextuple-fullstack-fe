@@ -1,11 +1,10 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
-import {setStatement, showMessage} from "../store";
+import {getToken, getUser, setStatement, showMessage} from "../store";
 
 export  const getStatementAuthData={
     link: `http://localhost:8080/wallet/statement`,
     method: "GET",
-
 }
 
 export const useGetStatement = () => {
@@ -13,12 +12,13 @@ export const useGetStatement = () => {
     const [error,setError] = useState(null);
     const [isLoading,setLoading] = useState(false);
     const [response,setResponse] = useState(useSelector((state) => state.statement));
-    const token = useSelector((state) => state.token);
-    const user = useSelector((state) => state.user);
+    const token = useSelector(getToken);
+    const user = useSelector(getUser);
     const getStatement = async () => {
-        if(!user.sub) {
+        if(!user || !user.sub) {
             setError("Not logged in");
-            return; }
+            return;
+        }
         setLoading(true);
         setError(null);
         try {
@@ -30,7 +30,6 @@ export const useGetStatement = () => {
             });
             const json = await response.json();
             if (!response.ok) {
-                console.log()
                 throw new Error(json.message);
             }
             setError(null);
