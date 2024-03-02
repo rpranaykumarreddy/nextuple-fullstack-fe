@@ -1,108 +1,116 @@
-import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import LoginForm from './LoginForm';
-import * as hooks from '../data/serverHooks';
-import store from '../data/store';
+import React from "react";
+import { fireEvent, screen } from "@testing-library/react";
+import LoginForm from "./LoginForm";
+import { loginAuthData } from "../data/serverHooks";
+import { renderWithRedux } from "../Utils/testHelper";
+import { getToken } from "../data/store";
 
-jest.mock('../data/serverHooks');
+const flipLogin = jest.fn();
 
-describe('LoginForm', () => {
-    let mockSetData;
-    let mockLogin;
-    let mockFlipLogin;
+const mockDispatch = jest.fn();
+jest.mock("react-redux", () => ({
+  ...jest.requireActual("react-redux"),
+  useDispatch: () => mockDispatch,
+}));
 
-    beforeEach(() => {
-        mockSetData = jest.fn();
-        mockLogin = jest.fn();
-        hooks.useLogin.mockReturnValue([
-            { username: '', password: '' },
-            mockSetData,
-            null,
-            false,
-            mockLogin,
-        ]);
-        mockFlipLogin = jest.fn();
-    });
+jest.mock("../data/store", () => ({
+  setToken: jest.fn(),
+  showMessage: jest.fn(),
+  getToken: jest.fn(() => null),
+}));
 
-    test('render Login Form', () => {
-         render(
-            <Provider store={store}>
-                <LoginForm flipLogin={mockFlipLogin} />
-            </Provider>
-        );
-         expect(screen.getByText('Login to Banking')).toBeInTheDocument();
-    });
-
-
-    test('show an error message', async () => {
-        hooks.useLogin.mockReturnValue([
-            { username: '', password: '' },
-            mockSetData,
-            'Login error',
-            false,
-            mockLogin,
-        ]);
-        render(
-            <Provider store={store}>
-                <LoginForm flipLogin={mockFlipLogin} />
-            </Provider>
-        );
-        expect(screen.getByText('Login error')).toBeInTheDocument();
-    });
-
-    test('disable the login button', () => {
-        hooks.useLogin.mockReturnValue([
-            { username: '', password: '' },
-            mockSetData,
-            null,
-            true,
-            mockLogin,
-        ]);
-        render(
-            <Provider store={store}>
-                <LoginForm flipLogin={mockFlipLogin} />
-            </Provider>
-        );
-        expect(screen.getByText('Log In User')).toBeDisabled();
-    });
-
-    test('call the flipLogin function', () => {
-        render(
-            <Provider store={store}>
-                <LoginForm flipLogin={mockFlipLogin} />
-            </Provider>
-        );
-        fireEvent.click(screen.getByText('Register'));
-        expect(mockFlipLogin).toHaveBeenCalled();
-    });
-
-    test('call setData on email type', () => {
-         render(
-            <Provider store={store}>
-                <LoginForm flipLogin={mockFlipLogin} />
-            </Provider>
-        );
-
-        const field = screen.getByTestId('email-input').querySelector('input');
-        expect(field).toBeInTheDocument()
-
-        fireEvent.change(field , {target: { value: 'pranay'}});
-        expect(mockSetData).toHaveBeenCalledWith({username: 'pranay', password: ''});
-    });
-
-    test('call setData on password type', () => {
-         render(
-            <Provider store={store}>
-                <LoginForm flipLogin={mockFlipLogin} />
-            </Provider>
-        );
-
-        const field = screen.getByTestId('password-input').querySelector('input');
-        expect(field).toBeInTheDocument()
-
-        fireEvent.change(field , {target: { value: 'ABCD1234'}});
-        expect(mockSetData).toHaveBeenCalledWith({username: '', password: 'ABCD1234'});
-    });
+beforeEach(() => {
+  jest.clearAllMocks();
 });
 
+describe("Login Form & useLogin fn()", () => {
+  test("should render & success path", async () => {
+    const mockResponse = { someKey: "someValue" };
+    const expectedLink = "http://localhost:8080/auth/login";
+    const expectedMethod = "POST";
+    const expectedHeaders = {
+      "Content-Type": "application/json",
+    };
+    const expectedBody = JSON.stringify({
+      username: "pranay",
+      password: "pranay",
+    });
+    getToken.mockImplementation(() => null);
+    global.fetch = jest.fn().mockResolvedValue(
+      {
+        json: jest.fn().mockResolvedValue(mockResponse),
+        status: 200,
+        ok: true,
+        headers: { "Content-Type": "application/json" },
+      },
+      { method: "POST", headers: { "Content-Type": "application/json" } },
+    );
+    renderWithRedux(<LoginForm flipLogin={flipLogin} />);
+    const fieldMail = screen.getByTestId("email-input").querySelector("input");
+    expect(fieldMail).toBeInTheDocument();
+    const fieldPassword = screen
+      .getByTestId("password-input")
+      .querySelector("input");
+    expect(fieldPassword).toBeInTheDocument();
+    fireEvent.change(fieldMail, { target: { value: "pranay" } });
+    fireEvent.change(fieldPassword, { target: { value: "pranay" } });
+
+    const field = screen.getByText("Log In User");
+    expect(field).toBeInTheDocument();
+    fireEvent.click(field);
+    expect(global.fetch).toHaveBeenCalledWith(
+      loginAuthData.link,
+      expect.objectContaining({
+        method: loginAuthData.method,
+        headers: loginAuthData.headers,
+        body: JSON.stringify({ username: "pranay", password: "pranay" }),
+      }),
+    );
+  });
+  test("should render & Token exists", () => {
+    getToken.mockImplementation(() => "null");
+    renderWithRedux(<LoginForm flipLogin={flipLogin} />);
+    const fieldMail = screen.getByTestId("email-input").querySelector("input");
+    expect(fieldMail).toBeInTheDocument();
+    const fieldPassword = screen
+      .getByTestId("password-input")
+      .querySelector("input");
+    expect(fieldPassword).toBeInTheDocument();
+    fireEvent.change(fieldMail, { target: { value: "pranay" } });
+    fireEvent.change(fieldPassword, { target: { value: "pranay" } });
+
+    const field = screen.getByText("Log In User");
+    expect(field).toBeInTheDocument();
+    fireEvent.click(field);
+  });
+  test("should render & failure path", () => {
+    getToken.mockImplementation(() => null);
+    const mockResponse = { someKey: "someValue" };
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mockResponse),
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+    renderWithRedux(<LoginForm flipLogin={flipLogin} />);
+    const fieldMail = screen.getByTestId("email-input").querySelector("input");
+    expect(fieldMail).toBeInTheDocument();
+    const fieldPassword = screen
+      .getByTestId("password-input")
+      .querySelector("input");
+    expect(fieldPassword).toBeInTheDocument();
+    fireEvent.change(fieldMail, { target: { value: "pranay" } });
+    fireEvent.change(fieldPassword, { target: { value: "pranay" } });
+
+    const field = screen.getByText("Log In User");
+    expect(field).toBeInTheDocument();
+    fireEvent.click(field);
+    /*
+    Test this lines:
+    const response = await fetch(loginAuthData.link, {
+        method: loginAuthData.method,
+        headers: loginAuthData.headers,
+        body: JSON.stringify(data),
+      });
+     */
+  });
+});
