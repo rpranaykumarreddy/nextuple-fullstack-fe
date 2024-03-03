@@ -33,7 +33,7 @@ describe("Nav", () => {
     expect(window.location.pathname).toBe("/statement");
   });
   test("should navigate to account page", () => {
-    renderWithRouter(<Nav />, { route: '/user/' });
+    renderWithRouter(<Nav />, '/user/');
     const accountLink = screen.getByText("Account");
     accountLink.click();
     expect(window.location.pathname).toBe("/user");

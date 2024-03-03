@@ -11,7 +11,9 @@ export function renderWithRedux(ui, { store } = {}) {
     store,
   };
 }
-export function renderWithRouter(ui, { route = "/" }) {
-  window.history.pushState({}, 'Test page', route);
+export function renderWithRouter(ui, route = "/" ) {
+  if(route !== "/") {
+    window.history.pushState({}, 'Test page', route);
+  }
   return render(<BrowserRouter>{ui}</BrowserRouter>);
 }
