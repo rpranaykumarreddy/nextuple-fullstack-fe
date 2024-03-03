@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
-import {showMessage} from "../store";
+import {getToken, showMessage} from "../store";
 
 export  const checkUsernameAuthData={
     link: `http://localhost:8080/auth/check-username`,
@@ -21,7 +21,7 @@ export const useRegister = () => {
     const [error,setError] = useState(null);
     const [isLoading,setLoading] = useState(false);
     const [isUsernameAvailable,setIsUsernameAvailable] = useState(null);
-    const token = useSelector((state) => state.token);
+    const token = useSelector(getToken);
 
     const register = async () => {
         if(token) { setError("Already logged in. Clear cache"); return; }

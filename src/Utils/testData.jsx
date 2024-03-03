@@ -61,6 +61,25 @@ export const tokenResponse={
     ok: true,
     headers: { "Content-Type": "application/json" },
 }
+export const checkUsernameAvailableResponse={
+    json: ()=>true,
+    status: 200,
+    ok: true,
+    headers: { "Content-Type": "application/json" },
+}
+export const checkUsernameNotAvailableResponse={
+    json: ()=>false,
+    status: 200,
+    ok: true,
+    headers: { "Content-Type": "application/json" },
+}
+export const registerResponse={
+    json: ()=>({message: "User Created"}),
+    status: 200,
+    ok: true,
+    headers: { "Content-Type": "application/json" },
+}
+
 export const statementData = {
     responseTime: "2024-03-02T21:02:40.0938321",
     wallet: {
