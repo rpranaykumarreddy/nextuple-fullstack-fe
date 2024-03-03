@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
-import {enableTOTP, showMessage} from "../store";
+import {enableTOTP, getToken, getUser, showMessage} from "../store";
 
 export  const getInitTOTPAuthData={
     link: `http://localhost:8080/wallet/totp`,
@@ -16,8 +16,8 @@ export const useGetInitTOTP = () => {
     const [error,setError] = useState(null);
     const [isLoading,setLoading] = useState(false);
     const [QRCode,setQRCode] = useState(null);
-    const token = useSelector((state) => state.token);
-    const user = useSelector((state) => state.user);
+    const token = useSelector(getToken);
+    const user = useSelector(getUser);
     const getInitTOTP = async () => {
         if(!user.sub) { setError("Not logged in"); return; }
         setLoading(true);

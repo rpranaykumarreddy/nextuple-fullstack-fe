@@ -21,12 +21,6 @@ export const walletNoTOTP = {
     updated: "2024-03-01T17:14:15.83",
     created: "2024-02-27T22:30:01.119"
 }
-export const walletNoTOTPResponse = {
-    json: () => walletNoTOTP,
-    status: 200,
-    ok: true,
-    headers: {"Content-Type": "application/json"},
-}
 
 function generateUser(seconds = 604800) {
     const payload = {
@@ -64,14 +58,25 @@ export const tokenResponse = {
     ok: true,
     headers: {"Content-Type": "application/json"},
 }
-export const checkUsernameAvailableResponse = {
-    json: () => true,
+
+export const QrCodeData = {
+    message:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAV4AAAFeAQAAAADlUEq3AAACpUlEQ"
+}
+export const QrCodeResponse = {
+    json: () => {return QrCodeData},
     status: 200,
     ok: true,
     headers: {"Content-Type": "application/json"},
 }
-export const checkUsernameNotAvailableResponse = {
-    json: () => false,
+export const QrCodeConfirmData = true;
+export const QrCodeConfirmResponse = {
+    json: () => QrCodeConfirmData,
+    status: 200,
+    ok: true,
+    headers: {"Content-Type": "application/json"},
+}
+export const checkUsernameAvailableResponse = {
+    json: () => true,
     status: 200,
     ok: true,
     headers: {"Content-Type": "application/json"},
@@ -156,5 +161,44 @@ export const statementResponse = {
     status: 200,
     ok: true,
     headers: {"Content-Type": "application/json"},
-
+}
+export const InitTransactionObject={
+    transactionId: "65e49a905f85ef7f7fb33889",
+    from: "user1",
+    to: "user2",
+    amount: 100,
+    created: "2024-03-03T21:13:12.6626127"
+}
+export const InitTransactionResponse = {
+    json: () => InitTransactionObject,
+    status: 200,
+    ok: true,
+    headers: {"Content-Type": "application/json"},
+}
+export const confirmTransactionTimeout ={
+    timeStamp: "2024-03-03T21:15:21.0790107",
+    error: "Bad Request",
+    message: "Transaction timeout",
+    description: "uri=/transaction/confirm/65e49a905f85ef7f7fb33889"
+}
+export const confirmTransactionTimeoutResponse = {
+    json: () => confirmTransactionTimeout,
+    status: 400,
+    ok: false,
+    headers: {"Content-Type": "application/json"},
+}
+export const confirmTransactionSuccessResponse = {
+    json: () => wallet,
+    status: 200,
+    ok: true,
+    headers: {"Content-Type": "application/json"},
+}
+export const cancelTransactionObject = {
+    message: "Transaction cancelled"
+}
+export const cancelTransactionResponse = {
+    json: () => cancelTransactionObject,
+    status: 200,
+    ok: true,
+    headers: {"Content-Type": "application/json"},
 }

@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
-import {setWallet, showMessage} from "../store";
+import {getToken, getUser, setWallet, showMessage} from "../store";
 
 export  const initTransactionAuthData={
     intialState: {
@@ -30,11 +30,13 @@ export const useTransactions= () => {
     const [data,setData] = useState(initTransactionAuthData.intialState);
     const [isWalletExists,setIsWalletExists] = useState(null);
     const [transactionId,setTransactionId] = useState(null);
-    const token = useSelector((state) => state.token);
-    const user = useSelector((state) => state.user);
+    const token = useSelector(getToken);
+    const user = useSelector(getUser);
 
     const initTransaction = async () => {
-        if(!user.sub) { setError("Not logged in"); return; }
+        if(!user.sub) {
+            setError("Not logged in");
+            return; }
         setLoading(true);
         setError(null);
         try {
@@ -48,10 +50,8 @@ export const useTransactions= () => {
             });
             const json = await response.json();
             if (!response.ok) {
-                console.log(json);
                 throw new Error(json.message);
             }
-            console.log('response', response, json);
             setError(null);
             setTransactionId(json.transactionId);
             setLoading(false);

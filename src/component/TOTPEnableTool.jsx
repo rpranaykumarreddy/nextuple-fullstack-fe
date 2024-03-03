@@ -2,10 +2,11 @@ import {Alert, Button, ButtonGroup, FormControl, TextField} from "@mui/material"
 import React from "react";
 import { useGetInitTOTP} from "../data/serverHooks";
 import {useSelector} from "react-redux";
+import {getWallet} from "../data/store";
 export default function TOTPEnableTool() {
    const [error,isLoading,getInitTOTP,QRCode, confirmTOTP] = useGetInitTOTP();
    const [data,setData] = React.useState(null);
-   const wallet = useSelector(state => state.wallet);
+   const wallet = useSelector(getWallet);
    if(!wallet || (wallet?.balance === undefined)){
          return null;
    }
@@ -28,6 +29,7 @@ export default function TOTPEnableTool() {
                        value={data}
                        disabled={isLoading}
                        required
+                       data-testid="totp-input"
                        onChange={(e) => setData(e.target.value)}
                    />
                </FormControl>
