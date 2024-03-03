@@ -13,7 +13,6 @@ describe("Nav", () => {
     expect(accountLink).toBeInTheDocument();
     expect(homeLink).toBeInTheDocument();
     expect(statementLink).toBeInTheDocument();
-
   });
   test("should navigate to account page when clicked on account link", () => {
     renderWithRouter(<Nav />);
@@ -32,5 +31,11 @@ describe("Nav", () => {
     const statementLink = screen.getByText("Statement");
     statementLink.click();
     expect(window.location.pathname).toBe("/statement");
+  });
+  test("should navigate to account page", () => {
+    renderWithRouter(<Nav />, { route: '/user/' });
+    const accountLink = screen.getByText("Account");
+    accountLink.click();
+    expect(window.location.pathname).toBe("/user");
   });
 });
