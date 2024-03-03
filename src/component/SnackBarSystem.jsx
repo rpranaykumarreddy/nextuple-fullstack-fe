@@ -1,10 +1,10 @@
 import {useDispatch, useSelector} from "react-redux";
-import {hideMessage} from "../data/store";
+import {hideMessage, getSnackbar} from "../data/store";
 import {Alert, Snackbar} from "@mui/material";
 
 export default function SnackBarSystem() {
     const dispatch = useDispatch();
-    const { message, isOpen, severity } = useSelector((state) => state.snackbar);
+    const { message, isOpen, severity } = useSelector(getSnackbar);
     const handleClose = () => {
         dispatch(hideMessage());
     };

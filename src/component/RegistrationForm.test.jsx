@@ -1,7 +1,7 @@
 import {renderWithRedux} from "../Utils/testHelper";
 import RegisterationForm from "./RegisterationForm";
 import {getToken} from "../data/store";
-import {checkUsernameAvailableResponse, registerResponse, token, tokenResponse} from "../Utils/testData";
+import {checkUsernameAvailableResponse, registerResponse, token} from "../Utils/testData";
 import {fireEvent, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {checkUsernameAuthData, registerAuthData} from "../data/serverHooks";

@@ -1,21 +1,7 @@
-import {
-    Alert,
-    Avatar, Box,
-    Button,
-    ButtonGroup,
-    Card,
-    CardContent,
-    CardHeader,
-    FormControl,
-    Modal,
-    TextField
-} from "@mui/material";
+import {Alert, Box, Button, ButtonGroup, FormControl, Modal, TextField} from "@mui/material";
 import React from "react";
-import dateAsString from "../Utils/dateAsString";
-import WalletIcon from '@mui/icons-material/Wallet';
-import dateTimeAsString from "../Utils/dateTimeAsString";
-import {useConfirmTOTP, useGetInitTOTP, useRechargeWallet} from "../data/serverHooks";
-import {useSelector} from "react-redux";
+import {useRechargeWallet} from "../data/serverHooks";
+
 export default function RechargeTool({open, onClose}) {
     const [error,isLoading,rechargeWallet] = useRechargeWallet();
     const [data,setData] = React.useState({username:""});
@@ -54,6 +40,7 @@ export default function RechargeTool({open, onClose}) {
                     value={data}
                     disabled={isLoading}
                     required
+                    data-testid="amount-input"
                     onChange={(e) => setData(e.target.value)}
                 />
             </FormControl>

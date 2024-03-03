@@ -1,10 +1,10 @@
 import { Button, ButtonGroup} from "@mui/material";
-import React from "react";
+import React,{useState} from "react";
 import RechargeTool from "./RechargeTool";
 import TransactionTool from "./TransactionTool";
 export default function WalletOpsTools() {
-    const [isRechargeModelOpen, setIsRechargeModelOpen] = React.useState(false);
-    const [isTransferModelOpen, setIsTransferModelOpen] = React.useState(false);
+    const [isRechargeModelOpen, setIsRechargeModelOpen] = useState(false);
+    const [isTransferModelOpen, setIsTransferModelOpen] = useState(false);
     const opsDisabled = isRechargeModelOpen || isTransferModelOpen;
     return (
          <div>
