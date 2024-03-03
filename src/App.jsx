@@ -1,19 +1,19 @@
 import { useDispatch, useSelector} from 'react-redux';
 import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
 import './App.css';
-import {setUser, showMessage} from './data/store';
+import {getToken, getUser, setUser} from './data/store';
 import NotFoundPage from "./pages/NotFoundPage";
 import AccountPage from "./pages/AccountPage";
 import StatementPage from "./pages/StatementPage";
 import HomePage from "./pages/HomePage";
 import Nav from "./component/Nav";
+import SnackBarSystem from "./component/SnackBarSystem";
 import {useEffect} from "react";
 import {jwtDecode} from "jwt-decode";
 import {useLogout} from "./data/serverHooks";
-import SnackBarSystem from "./component/SnackBarSystem";
 
 function Check({ element }) {
-    const user = useSelector((state) => state.user);
+    const user = useSelector(getUser);
     if (!user) {
         return <Navigate to="/user" />
     }
@@ -22,8 +22,8 @@ function Check({ element }) {
 
 function App() {
     const dispatch = useDispatch();
-    const token = useSelector((state) => state.token);
-    const user = useSelector((state) => state.user);
+    const token = useSelector(getToken);
+    const user = useSelector(getUser);
     const logout = useLogout();
     useEffect(() => {
         if(user?.exp) {

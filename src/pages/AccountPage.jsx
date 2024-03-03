@@ -5,10 +5,11 @@ import {Card, CardContent} from "@mui/material";
 import LoginForm from "../component/LoginForm";
 import RegisterationForm from "../component/RegisterationForm";
 import WelcomeForm from "../component/WelcomeForm";
+import {getUser} from "../data/store";
 
 export default function AccountPage() {
     const [isLogin, setIsLogin] = useState(true);
-    const user = useSelector((state) => state.user);
+    const user = useSelector(getUser);
     const flipLogin = () => {
         setIsLogin((prev) => !prev);
     }

@@ -34,7 +34,7 @@ export const useTransactions= () => {
     const user = useSelector(getUser);
 
     const initTransaction = async () => {
-        if(!user.sub) {
+        if(!user || !user.sub) {
             setError("Not logged in");
             return; }
         setLoading(true);
@@ -65,7 +65,7 @@ export const useTransactions= () => {
     }
 
     const confirmTransaction = async (code) => {
-        if(!user.sub) { setError("Not logged in"); return; }
+        if(!user || !user.sub) { setError("Not logged in"); return; }
         setLoading(true);
         setError(null);
         try {
@@ -106,7 +106,7 @@ export const useTransactions= () => {
     }
 
     const cancelTransaction = async () => {
-        if(!user.sub) { setError("Not logged in"); return; }
+        if(!user || !user.sub) { setError("Not logged in"); return; }
         setLoading(true);
         setError(null);
         try {

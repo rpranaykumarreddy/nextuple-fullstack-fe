@@ -52,6 +52,10 @@ export const tokenExpired = {
     accessToken: generateToken(-600),
     tokenType: "Bearer"
 }
+export const tokenInvalid = {
+    accessToken: "invalid",
+    tokenType: "Bearer"
+}
 export const tokenResponse = {
     json: () => token,
     status: 200,

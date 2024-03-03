@@ -19,7 +19,7 @@ export const useGetInitTOTP = () => {
     const token = useSelector(getToken);
     const user = useSelector(getUser);
     const getInitTOTP = async () => {
-        if(!user.sub) { setError("Not logged in"); return; }
+        if(!user || !user.sub) { setError("Not logged in"); return; }
         setLoading(true);
         setError(null);
         try {
@@ -44,7 +44,7 @@ export const useGetInitTOTP = () => {
     }
     const confirmTOTP = async (code) => {
         console.log(code)
-        if(!user.sub) { setError("Not logged in"); return; }
+        if(!user || !user.sub) { setError("Not logged in"); return; }
         setLoading(true);
         setError(null);
         try {

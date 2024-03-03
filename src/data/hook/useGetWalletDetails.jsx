@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
-import {setWallet, showMessage} from "../store";
+import {getToken, getUser, setWallet, showMessage} from "../store";
 
 export  const getWalletDetailsAuthData={
     link: `http://localhost:8080/wallet/details`,
@@ -11,10 +11,10 @@ export const useGetWalletDetails = () => {
     const dispatch = useDispatch();
     const [error,setError] = useState(null);
     const [isLoading,setLoading] = useState(false);
-    const token = useSelector((state) => state.token);
-    const user = useSelector((state) => state.user);
+    const token = useSelector(getToken);
+    const user = useSelector(getUser);
     const getWalletDetails = async () => {
-        if(!user.sub) { setError("Not logged in"); return; }
+        if(!user || !user.sub) { setError("Not logged in"); return; }
         setLoading(true);
         setError(null);
         try {
