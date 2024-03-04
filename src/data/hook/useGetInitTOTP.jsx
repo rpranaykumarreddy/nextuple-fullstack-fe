@@ -29,7 +29,9 @@ export const useGetInitTOTP = () => {
                     'Authorization': `${token.tokenType} ${token.accessToken}`,
                 },
             });
+            console.log("response", response)
             const json = await response.json();
+            console.log("json",json);
             if (!response.ok) {
                 throw new Error(json.message);
             }

@@ -1,11 +1,9 @@
 import userEvent from "@testing-library/user-event";
 import {renderWithRedux} from "../Utils/testHelper";
 import TOTPEnableTool from "./TOTPEnableTool";
-import {act, fireEvent, screen} from "@testing-library/react";
-import {loginAuthData as confirmTOTPData, loginAuthData as getInitTOTPData} from "../data/hook/useLogin";
+import {act, fireEvent, screen, waitFor, waitForElementToBeRemoved} from "@testing-library/react";
 import {getToken, getUser, getWallet} from "../data/store";
 import {QrCodeConfirmResponse, QrCodeResponse, token, user, wallet} from "../Utils/testData";
-import {confirmTOTPAuthData, getInitTOTPAuthData} from "../data/hook/useGetInitTOTP";
 
 const mockDispatch = jest.fn();
 jest.mock("react-redux", () => ({
@@ -32,20 +30,21 @@ describe("TOTPEnableTool & useTOTPEnable fn()", () => {
         getToken.mockImplementation(() => token);
         getUser.mockImplementation(() => user);
         getWallet.mockImplementation(() => wallet);
-        const userInput = userEvent;
         renderWithRedux(<TOTPEnableTool/>);
         const field = screen.getByText("Enable TOTP");
         expect(field).toBeInTheDocument();
-        act(async () => {
-            await userInput.click(field);
+        userEvent.click(field);
+        await waitFor(()=>{
+            screen.getByTestId("totp-input")
+        })
+        const fieldTOTP = screen.getByTestId("totp-input").querySelector("input");
+        expect(fieldTOTP).toBeInTheDocument();
+        act(() => {
+        fireEvent.change(fieldTOTP, {target: {value: "123456"}});
         });
-        // const fieldTOTP = screen.getByTestId("totp-input").querySelector("input");
-        // expect(fieldTOTP).toBeInTheDocument();
-        // fireEvent.change(fieldTOTP, {target: {value: "123456"}});
-        // const fieldConfirm = screen.getByText("Confirm");
-        // expect(fieldConfirm).toBeInTheDocument();
-        // fireEvent.click(fieldConfirm);
-       
+        const fieldConfirm = screen.getByText("Confirm");
+        expect(fieldConfirm).toBeInTheDocument();
+        fireEvent.click(fieldConfirm);
     });
     test("should render null", async () => {
         getWallet.mockImplementation(() => null);
