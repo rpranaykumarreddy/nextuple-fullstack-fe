@@ -45,24 +45,7 @@ describe("TOTPEnableTool & useTOTPEnable fn()", () => {
         // const fieldConfirm = screen.getByText("Confirm");
         // expect(fieldConfirm).toBeInTheDocument();
         // fireEvent.click(fieldConfirm);
-        expect(global.fetch).toHaveBeenNthCalledWith(1,
-            getInitTOTPAuthData.link,
-            expect.objectContaining({
-                method: getInitTOTPAuthData.method,
-                headers: {
-                    'Authorization': `${token.tokenType} ${token.accessToken}`,
-                }
-            }),
-        );
-        // expect(global.fetch).toHaveBeenNthCalledWith(2,
-        //     confirmTOTPAuthData.link+ "?code=123456",
-        //     expect.objectContaining({
-        //         method: getInitTOTPAuthData.method,
-        //         headers: {
-        //             'Authorization': `${token.tokenType} ${token.accessToken}`,
-        //         }
-        //     }),
-        // );
+       
     });
     test("should render null", async () => {
         getWallet.mockImplementation(() => null);

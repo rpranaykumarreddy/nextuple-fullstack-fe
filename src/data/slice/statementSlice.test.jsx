@@ -1,4 +1,4 @@
-import {  statementReducer } from './StatementSlice';
+import {  statementReducer } from './statementSlice';
 import {statementData} from "../../Utils/testData";
 
 describe('StatementSlice reducer', () => {

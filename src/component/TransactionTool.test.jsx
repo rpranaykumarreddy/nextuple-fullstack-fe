@@ -42,24 +42,15 @@ describe("TransactionTool & useTransactions fn()", () => {
         renderWithRedux(<TransactionTool open={open} onClose={closeFn}/>);
         const toInput = screen.getByTestId("to-input").querySelector("input");
         expect(toInput).toBeInTheDocument();
-
-        act(async () => {
             await userevent.type(toInput, "pranay");
             await userevent.tab();
-        });
         const amountInput = screen.getByTestId("amount-input").querySelector("input");
         expect(amountInput).toBeInTheDocument();
-        act(async () => {
             await userevent.type(amountInput, "{backspace}");
-        })
-        act(async () => {
             await userevent.type(amountInput, "100");
-        });
         const field = screen.getByText("Initiate");
         expect(field).toBeInTheDocument();
-        act(async () => {
             await userevent.click(field);
-        });
 
         expect(global.fetch).toHaveBeenNthCalledWith(1,
             checkWalletAuthData.link + "/pranay",
