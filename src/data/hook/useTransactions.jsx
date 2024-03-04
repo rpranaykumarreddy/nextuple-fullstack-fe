@@ -65,7 +65,6 @@ export const useTransactions= () => {
     }
 
     const confirmTransaction = async (code) => {
-        if(!user || !user.sub) { setError("Not logged in"); return; }
         setLoading(true);
         setError(null);
         try {
@@ -106,7 +105,6 @@ export const useTransactions= () => {
     }
 
     const cancelTransaction = async () => {
-        if(!user || !user.sub) { setError("Not logged in"); return; }
         setLoading(true);
         setError(null);
         try {

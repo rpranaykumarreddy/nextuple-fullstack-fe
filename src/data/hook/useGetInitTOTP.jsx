@@ -45,8 +45,6 @@ export const useGetInitTOTP = () => {
         }
     }
     const confirmTOTP = async (code) => {
-        console.log(code)
-        if(!user || !user.sub) { setError("Not logged in"); return; }
         setLoading(true);
         setError(null);
         try {

@@ -1,7 +1,7 @@
 import {getUser} from "../data/store";
 import {renderWithRedux} from "../Utils/testHelper";
 import AccountPage from "./AccountPage";
-import {screen} from "@testing-library/react";
+import {screen, waitFor} from "@testing-library/react";
 import LoginForm from "../component/LoginForm";
 import userEvent from "@testing-library/user-event";
 import {user} from "../Utils/testData";
@@ -33,8 +33,9 @@ jest.mock("../data/store", () => ({
 beforeEach(() => {
     jest.clearAllMocks();
 });
+
 describe("AccountPage", () => {
-    test('should render & test AccountPage', () => {
+    test('should render & test AccountPage', async () => {
         getUser.mockImplementation(() => null);
         LoginForm.mockImplementation(({flipLogin}) => {
             return <><p data-testid="LoginFrom">LoginFrom</p>
@@ -43,7 +44,7 @@ describe("AccountPage", () => {
         });
         RegisterationForm.mockImplementation(({flipLogin}) => {
             return <><p data-testid="RegisterationForm">RegisterationForm</p>
-                <button onClick={flipLogin} data-testid="flipLogin">flipLogin</button>
+                <button onClick={flipLogin} data-testid="flipReg">flipLogin</button>
             </>;
         });
         renderWithRedux(<AccountPage/>);
@@ -51,7 +52,14 @@ describe("AccountPage", () => {
         expect(loginForm).toBeInTheDocument();
         const flipLoginButton = screen.getByTestId("flipLogin");
         expect(flipLoginButton).toBeInTheDocument();
-        userEvent.click(flipLoginButton);
+        await userEvent.click(flipLoginButton);
+        await waitFor(()=>{
+            screen.getByTestId("RegisterationForm")
+        })
+        const RegistrationForm = screen.getByTestId("RegisterationForm");
+        expect(RegistrationForm).toBeInTheDocument();
+        const flipRegistrationButton = screen.getByTestId("flipReg");
+        expect(flipRegistrationButton).toBeInTheDocument();
     });
     test('should render & Show Welcome form', () => {
         getUser.mockImplementation(() => user);
