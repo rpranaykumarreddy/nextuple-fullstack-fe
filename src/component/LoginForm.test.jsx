@@ -38,7 +38,7 @@ describe("Login Form & useLogin fn()", () => {
     fireEvent.change(fieldMail, { target: { value: "pranay" } });
     fireEvent.change(fieldPassword, { target: { value: "pranay" } });
 
-    const field = screen.getByText("Log In User");
+    const field = screen.getByText("Login");
     expect(field).toBeInTheDocument();
     fireEvent.click(field);
     expect(global.fetch).toHaveBeenCalledWith(
@@ -63,7 +63,7 @@ describe("Login Form & useLogin fn()", () => {
     fireEvent.change(fieldMail, { target: { value: "pranay" } });
     fireEvent.change(fieldPassword, { target: { value: "pranay" } });
 
-    const field = screen.getByText("Log In User");
+    const field = screen.getByText("Login");
     expect(field).toBeInTheDocument();
     fireEvent.click(field);
   });
@@ -81,7 +81,7 @@ describe("Login Form & useLogin fn()", () => {
     fireEvent.change(fieldMail, { target: { value: "pranay" } });
     fireEvent.change(fieldPassword, { target: { value: "pranay" } });
 
-    const field = screen.getByText("Log In User");
+    const field = screen.getByText("Login");
     expect(field).toBeInTheDocument();
     fireEvent.click(field);
 

@@ -1,5 +1,5 @@
 import {getUser} from "../data/store";
-import {renderWithRedux} from "../Utils/testHelper";
+import {renderWithRedux, renderWithReduxAndRouter} from "../Utils/testHelper";
 import AccountPage from "./AccountPage";
 import {screen, waitFor} from "@testing-library/react";
 import LoginForm from "../component/LoginForm";
@@ -29,7 +29,14 @@ jest.mock("../component/WelcomeForm", () => ({
 jest.mock("../data/store", () => ({
     getUser: jest.fn(),
 }));
-
+const mockedNavigate = jest.fn();
+jest.mock('react-router-dom', () => {
+    const actual = jest.requireActual('react-router-dom');
+    return {
+        ...actual,
+        useNavigate: () => mockedNavigate,
+    };
+});
 beforeEach(() => {
     jest.clearAllMocks();
 });
@@ -47,7 +54,7 @@ describe("AccountPage", () => {
                 <button onClick={flipLogin} data-testid="flipReg">flipLogin</button>
             </>;
         });
-        renderWithRedux(<AccountPage/>);
+        renderWithReduxAndRouter(<AccountPage/>);
         const loginForm = screen.getByTestId("LoginFrom");
         expect(loginForm).toBeInTheDocument();
         const flipLoginButton = screen.getByTestId("flipLogin");
@@ -61,13 +68,10 @@ describe("AccountPage", () => {
         const flipRegistrationButton = screen.getByTestId("flipReg");
         expect(flipRegistrationButton).toBeInTheDocument();
     });
-    test('should render & Show Welcome form', () => {
+    test('should render & navigate to home', async () => {
         getUser.mockImplementation(() => user);
-        WelcomeForm.mockImplementation(() => {
-            return <p data-testid="WelcomeForm">WelcomeForm</p>;
-        });
-        renderWithRedux(<AccountPage/>);
-        const welcomeForm = screen.getByTestId("WelcomeForm");
-        expect(welcomeForm).toBeInTheDocument();
+        const navigate = jest.fn();
+        renderWithReduxAndRouter(<AccountPage/>);
+        expect(mockedNavigate).toBeCalledWith("/");
     });
 });

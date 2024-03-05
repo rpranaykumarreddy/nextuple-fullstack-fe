@@ -45,6 +45,11 @@ jest.mock("./component/Nav", () => {
         return <div data-testid="nav">Nav</div>;
     };
 });
+jest.mock("./component/TopNav", () => {
+    return function MockTopNav() {
+        return <div data-testid="top-nav">TopNav</div>;
+    };
+});
 jest.mock("./component/SnackBarSystem", () => {
     return function MockSnackBarSystem() {
         return <div data-testid="snack-bar-system">SnackBarSystem</div>;

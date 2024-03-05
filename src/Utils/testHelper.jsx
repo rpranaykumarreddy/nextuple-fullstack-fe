@@ -17,3 +17,9 @@ export function renderWithRouter(ui, route = "/" ) {
   }
   return render(<BrowserRouter>{ui}</BrowserRouter>);
 }
+export function renderWithReduxAndRouter(ui, { store, route } = {}) {
+    return {
+        ...render(<Provider store={mockStore(store)}><BrowserRouter>{ui}</BrowserRouter></Provider>),
+        store,
+    };
+}

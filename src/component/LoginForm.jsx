@@ -6,13 +6,13 @@ export default function LoginForm({flipLogin}) {
     const [data,setData,error,isLoading,login] = useLogin();
     return(
         <>
-            <h2>Login to Banking</h2>
+            <h2>Login to Internet Banking</h2>
             <br/>
             <div>
                     {error && <Alert severity="error">{error}</Alert>}
                     <FormControl fullWidth margin="normal">
                         <TextField
-                            label="Email"
+                            label="Username or Email"
                             type="email"
                             variant="outlined"
                             value={data.username}
@@ -38,7 +38,7 @@ export default function LoginForm({flipLogin}) {
 
                     <ButtonGroup variant="contained" aria-label="outlined primary button group" fullWidth>
                         <Button onClick={login} disabled={isLoading}>
-                            Log In User
+                            Login
                         </Button>
                     </ButtonGroup>
                 <br/>

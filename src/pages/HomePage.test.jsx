@@ -2,7 +2,7 @@ import {token, user, wallet, walletResponse} from "../Utils/testData";
 import {getToken, getUser, getWallet} from "../data/store";
 import {fireEvent, screen} from "@testing-library/react";
 import {getWalletDetailsAuthData} from "../data/hook/useGetWalletDetails";
-import {renderWithRedux} from "../Utils/testHelper";
+import {renderWithRedux, renderWithReduxAndRouter} from "../Utils/testHelper";
 import HomePage from "./HomePage";
 
 const mockDispatch = jest.fn();
@@ -29,8 +29,8 @@ describe("HomePage & useGetWalletDetails fn()", () => {
         getToken.mockImplementation(() => token);
         getUser.mockImplementation(() => user);
         global.fetch = jest.fn().mockResolvedValue(walletResponse);
-        renderWithRedux(<HomePage />);
-        const field = screen.getByText("Refresh");
+        renderWithReduxAndRouter(<HomePage />);
+        const field = screen.getByTestId("refresh");
         expect(field).toBeInTheDocument();
         fireEvent.click(field);
         expect(global.fetch).toHaveBeenCalledWith(
@@ -45,8 +45,8 @@ describe("HomePage & useGetWalletDetails fn()", () => {
         getWallet.mockImplementation(() => wallet);
         getToken.mockImplementation(() => token);
         getUser.mockImplementation(() => null);
-        renderWithRedux(<HomePage />);
-        const field = screen.getByText("Refresh");
+        renderWithReduxAndRouter(<HomePage />);
+        const field = screen.getByTestId("refresh");
         expect(field).toBeInTheDocument();
         fireEvent.click(field);
     });
@@ -55,8 +55,8 @@ describe("HomePage & useGetWalletDetails fn()", () => {
         getToken.mockImplementation(() => token);
         getUser.mockImplementation(() => user);
         global.fetch = jest.fn().mockResolvedValue({...walletResponse, ok: false});
-        renderWithRedux(<HomePage />);
-        const field = screen.getByText("Refresh");
+        renderWithReduxAndRouter(<HomePage />);
+        const field = screen.getByTestId("refresh");
         expect(field).toBeInTheDocument();
         fireEvent.click(field);
     })

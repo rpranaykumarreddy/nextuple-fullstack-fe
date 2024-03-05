@@ -6,10 +6,12 @@ import LoginForm from "../component/LoginForm";
 import RegisterationForm from "../component/RegisterationForm";
 import WelcomeForm from "../component/WelcomeForm";
 import {getUser} from "../data/store";
+import {useNavigate} from "react-router-dom";
 
 export default function AccountPage() {
     const [isLogin, setIsLogin] = useState(true);
     const user = useSelector(getUser);
+    const navigate = useNavigate();
     const flipLogin = () => {
         setIsLogin((prev) => !prev);
     }
@@ -17,7 +19,7 @@ export default function AccountPage() {
     let contents = null;
 
     if(user?.sub !==null && user?.sub !== undefined && user?.sub !== "") {
-        contents = <WelcomeForm user={user} />;
+        navigate("/");
     }else{
         if(isLogin) {
             contents = <LoginForm flipLogin={flipLogin} />;

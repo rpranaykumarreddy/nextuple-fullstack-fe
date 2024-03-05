@@ -12,13 +12,13 @@ export default function RegisterationForm({flipLogin}) {
     }
     return (
         <>
-            <h2>Registration for Banking</h2>
+            <h2>Registration for Internet Banking</h2>
             <br/>
             <div>
                 {error && <Alert severity="error">{error}</Alert>}
                 <FormControl fullWidth margin="normal">
                     <TextField
-                        label="username"
+                        label="Username"
                         type="text"
                         variant="outlined"
                         value={data.username}

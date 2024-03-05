@@ -29,7 +29,7 @@ describe("Statement Page & useGetStatement fn()", () => {
         getUser.mockImplementation(() => user);
         global.fetch = jest.fn().mockResolvedValue(statementResponse);
         renderWithRedux(<StatementPage />);
-        const field = screen.getByText("Refresh");
+        const field = screen.getByTestId("refresh");
         expect(field).toBeInTheDocument();
         fireEvent.click(field);
         expect(global.fetch).toHaveBeenCalledWith(
@@ -44,7 +44,7 @@ describe("Statement Page & useGetStatement fn()", () => {
         getToken.mockImplementation(() => token);
         getUser.mockImplementation(() => null);
         renderWithRedux(<StatementPage />);
-        const field = screen.getByText("Refresh");
+        const field = screen.getByTestId("refresh");
         expect(field).toBeInTheDocument();
         fireEvent.click(field);
     });
@@ -53,7 +53,7 @@ describe("Statement Page & useGetStatement fn()", () => {
         getUser.mockImplementation(() => user);
         global.fetch = jest.fn().mockResolvedValue({...statementResponse, ok: false});
         renderWithRedux(<StatementPage />);
-        const field = screen.getByText("Refresh");
+        const field = screen.getByTestId("refresh");
         expect(field).toBeInTheDocument();
         fireEvent.click(field);
     });

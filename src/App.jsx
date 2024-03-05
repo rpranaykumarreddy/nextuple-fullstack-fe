@@ -1,4 +1,4 @@
-import { useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
 import './App.css';
 import {getToken, getUser, setUser} from './data/store';
@@ -11,11 +11,19 @@ import SnackBarSystem from "./component/SnackBarSystem";
 import {useEffect} from "react";
 import {jwtDecode} from "jwt-decode";
 import {useLogout} from "./data/serverHooks";
+import TopNav from "./component/TopNav";
 
-function Check({ element }) {
+function Check({element}) {
     const user = useSelector(getUser);
     if (!user) {
-        return <Navigate to="/user" />
+        return <Navigate to="/user"/>
+    }
+    return element;
+}
+function RedirectOnLogin({element}) {
+    const user = useSelector(getUser);
+    if (user) {
+        return <Navigate to="/"/>
     }
     return element;
 }
@@ -26,21 +34,20 @@ function App() {
     const user = useSelector(getUser);
     const logout = useLogout();
     useEffect(() => {
-        if(user?.exp) {
+        if (user?.exp) {
             const timeout = user.exp * 1000 - Date.now();
-            console.log("Timeout:", timeout);
-            if(timeout > 0) {
+            if (timeout > 0) {
                 const timeoutId = setTimeout(() => {
                     console.log("Token expired, logging out");
-                    logout("Session expired, please login again","error");
+                    logout("Session expired, please login again", "error");
                 }, timeout);
                 return () => clearTimeout(timeoutId);
-            }else{
+            } else {
                 console.log("Token expired, logging out");
-                logout("Session expired, please login again","error");
+                logout("Session expired, please login again", "error");
             }
         }
-    },[user?.exp]);
+    }, [user?.exp]);
 
     useEffect(() => {
         const decodeAndSetUser = (jwtToken) => {
@@ -61,22 +68,23 @@ function App() {
         }
     }, [token, dispatch]);
 
-  return (
-      <div className='main'>
+    return (
         <Router>
-              <div className="complete">
-            <Routes>
-              <Route exact path="/user" element={<AccountPage/>} />
-              <Route exact path="/" element={<Check element={<HomePage />} />} />
-              <Route exact path="/statement" element={<Check element={<StatementPage />} />} />
-              <Route exact path="*" element={<NotFoundPage />} />
-            </Routes>
-              </div>
-            <Nav/>
-            <SnackBarSystem/>
+            <TopNav user={user} logout={logout}/>
+            <div className='main'>
+                <div className="complete">
+                    <Routes>
+                        <Route exact path="/user" element={<RedirectOnLogin element={<AccountPage/>}/>}/>
+                        <Route exact path="/" element={<Check element={<HomePage/>}/>}/>
+                        <Route exact path="/statement" element={<Check element={<StatementPage/>}/>}/>
+                        <Route exact path="*" element={<Check element={<NotFoundPage/>}/>}/>
+                    </Routes>
+                </div>
+                {/*<Nav/>*/}
+                <SnackBarSystem/>
+            </div>
         </Router>
-      </div>
-  );
+    );
 }
 
 export default App;

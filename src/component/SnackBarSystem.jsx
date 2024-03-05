@@ -13,7 +13,7 @@ export default function SnackBarSystem() {
             open={isOpen}
             autoHideDuration={6000}
             onClose={handleClose}
-            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         >
             <Alert onClose={handleClose} severity={severity}>
                 {message}

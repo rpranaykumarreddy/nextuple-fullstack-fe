@@ -1,4 +1,4 @@
-import {Alert, Box, Button, ButtonGroup, FormControl, FormHelperText, Modal, TextField} from "@mui/material";
+import {Alert, Box, Button, ButtonGroup, FormControl, FormHelperText, Modal, Stack, TextField} from "@mui/material";
 import React, {useState} from "react";
 import {useTransactions} from "../data/serverHooks";
 import {useSelector} from "react-redux";
@@ -76,7 +76,7 @@ export default function TransactionTool({open, onClose}) {
             </FormControl>
             <FormControl fullWidth margin="normal">
                 <TextField
-                    label="amount"
+                    label="Amount"
                     type="number"
                     variant="outlined"
                     value={data.amount}
@@ -88,15 +88,14 @@ export default function TransactionTool({open, onClose}) {
                     }
                 />
             </FormControl>
-            <ButtonGroup
-                variant="contained"
-                aria-label="outlined primary button group"
-                fullWidth
-            >
-                <Button onClick={initSubmit} disabled={isLoading || !data}>
+            <Stack spacing={2} direction="row">
+                <Button variant="contained" fullWidth onClick={initSubmit} disabled={isLoading || !data}>
                     Initiate
                 </Button>
-            </ButtonGroup>
+                <Button variant="contained" fullWidth onClick={onClose} disabled={isLoading || !data}>
+                    Cancel
+                </Button>
+            </Stack>
         </>
     );
     let contentConfirm = (
@@ -115,18 +114,14 @@ export default function TransactionTool({open, onClose}) {
                     />
                 </FormControl>
             }
-            <ButtonGroup
-                variant="contained"
-                aria-slabel="outlined primary button group"
-                fullWidth
-            >
-                <Button onClick={confirmSubmit} disabled={isLoading || !data}>
+            <Stack spacing={2} direction="row">
+                <Button variant="contained" fullWidth onClick={confirmSubmit} disabled={isLoading || !data}>
                     Confirm
                 </Button>
-                <Button onClick={cancelSubmit} disabled={isLoading}>
+                <Button variant="contained" fullWidth onClick={cancelSubmit} disabled={isLoading}>
                     Cancel
                 </Button>
-            </ButtonGroup>
+            </Stack>
         </>
     );
 

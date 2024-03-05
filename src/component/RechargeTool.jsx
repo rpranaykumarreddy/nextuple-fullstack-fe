@@ -1,4 +1,4 @@
-import {Alert, Box, Button, ButtonGroup, FormControl, Modal, TextField} from "@mui/material";
+import {Alert, Box, Button, ButtonGroup, FormControl, Modal, Stack, TextField} from "@mui/material";
 import React from "react";
 import {useRechargeWallet} from "../data/serverHooks";
 
@@ -44,11 +44,15 @@ export default function RechargeTool({open, onClose}) {
                     onChange={(e) => setData(e.target.value)}
                 />
             </FormControl>
-            <ButtonGroup variant="contained" aria-label="outlined primary button group" fullWidth>
-                <Button onClick={submit} disabled={isLoading || !data}>
+
+            <Stack spacing={2} direction="row">
+                <Button variant="contained" fullWidth onClick={submit} disabled={isLoading || !data}>
                     Confirm
                 </Button>
-            </ButtonGroup>
+                <Button variant="contained" fullWidth onClick={onClose} disabled={isLoading || !data}>
+                    Cancel
+                </Button>
+            </Stack>
         </Box>
     </Modal>
 
