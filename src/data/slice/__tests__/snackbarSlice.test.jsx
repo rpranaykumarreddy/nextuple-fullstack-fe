@@ -1,4 +1,4 @@
-import { snackbarReducer } from './snackbarSlice';
+import { snackbarReducer } from '../snackbarSlice';
 
 describe('snackbarSlice reducer', () => {
     test('should handle showMessage', () => {

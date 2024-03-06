@@ -1,10 +1,10 @@
 import {render,screen} from "@testing-library/react";
-import WalletCard from "./WalletCard";
-import {wallet} from "../Utils/testData";
-import {renderWithRouter} from "../Utils/testHelper";
-jest.mock("./TOTPEnableTool", ()=> () => {});
+import WalletCard from "../WalletCard";
+import {wallet} from "../../Utils/testData";
+import {renderWithRouter} from "../../Utils/testHelper";
+jest.mock("../TOTPEnableTool", ()=> () => {});
 
-jest.mock("./WalletOpsTools", () => () => {});
+jest.mock("../WalletOpsTools", () => () => {});
 
 describe('WalletCard', () => {
     test('renders the wallet card with null', () => {

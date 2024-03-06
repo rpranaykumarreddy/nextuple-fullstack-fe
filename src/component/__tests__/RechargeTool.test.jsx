@@ -1,9 +1,9 @@
-import {getToken, getUser} from "../data/store";
-import {token, user, walletResponse} from "../Utils/testData";
-import {renderWithRedux} from "../Utils/testHelper";
-import RechargeTool from "./RechargeTool";
+import {getToken, getUser} from "../../data/store";
+import {token, user, walletResponse} from "../../Utils/testData";
+import {renderWithRedux} from "../../Utils/testHelper";
+import RechargeTool from "../RechargeTool";
 import {fireEvent, screen} from "@testing-library/react";
-import {rechargeWalletAuthData} from "../data/hook/useRechargeWallet";
+import {rechargeWalletAuthData} from "../../data/hook/useRechargeWallet";
 
 const closeFn = jest.fn();
 
@@ -13,7 +13,7 @@ jest.mock("react-redux", () => ({
     useDispatch: () => mockDispatch,
 }));
 
-jest.mock("../data/store", () => ({
+jest.mock("../../data/store", () => ({
     showMessage: jest.fn(),
     getUser : jest.fn(),
     setWallet: jest.fn(),

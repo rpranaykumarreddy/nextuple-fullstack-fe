@@ -2,6 +2,7 @@ import { Avatar, Card, CardContent, CardHeader, Tooltip } from "@mui/material";
 import React from "react";
 import dateAsString from "../Utils/dateAsString";
 import dateTimeAsString from "../Utils/dateTimeAsString";
+import amountAsRupee from "../Utils/amountAsRupee";
 export default function StatementCard({ data }) {
   let color;
   switch (data?.status) {
@@ -57,8 +58,8 @@ export default function StatementCard({ data }) {
                 </Avatar>
               </Tooltip>
             }
-            title={data.amount}
-            subheader={"cashback: " + data.cashback}
+            title={amountAsRupee(data.amount)}
+            subheader={"cashback: " + amountAsRupee(data.cashback,0)}
           />
           <Tooltip
             title={dateTimeAsString(data.created)}
@@ -95,7 +96,7 @@ export default function StatementCard({ data }) {
                 </Avatar>
               </Tooltip>
             }
-            title={data.amount}
+            title={amountAsRupee(data.amount)}
             subheader={"from: " + data.from}
           />
           <Tooltip
@@ -133,7 +134,7 @@ export default function StatementCard({ data }) {
                 </Avatar>
               </Tooltip>
             }
-            title={data.amount}
+            title={amountAsRupee(data.amount)}
             subheader={"to: " + data.to}
           />
           <Tooltip

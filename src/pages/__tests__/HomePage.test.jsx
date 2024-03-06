@@ -1,9 +1,9 @@
-import {token, user, wallet, walletResponse} from "../Utils/testData";
-import {getToken, getUser, getWallet} from "../data/store";
+import {token, user, wallet, walletResponse} from "../../Utils/testData";
+import {getToken, getUser, getWallet} from "../../data/store";
 import {fireEvent, screen} from "@testing-library/react";
-import {getWalletDetailsAuthData} from "../data/hook/useGetWalletDetails";
-import {renderWithRedux, renderWithReduxAndRouter} from "../Utils/testHelper";
-import HomePage from "./HomePage";
+import {getWalletDetailsAuthData} from "../../data/hook/useGetWalletDetails";
+import {renderWithRedux, renderWithReduxAndRouter} from "../../Utils/testHelper";
+import HomePage from "../HomePage";
 
 const mockDispatch = jest.fn();
 jest.mock("react-redux", () => ({
@@ -11,7 +11,7 @@ jest.mock("react-redux", () => ({
     useDispatch: () => mockDispatch,
 }));
 
-jest.mock("../data/store", () => ({
+jest.mock("../../data/store", () => ({
     getWallet: jest.fn(),
     setWallet: jest.fn(),
     showMessage: jest.fn(),

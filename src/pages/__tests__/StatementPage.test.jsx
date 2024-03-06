@@ -1,10 +1,10 @@
 import React from "react";
 import { fireEvent, screen } from "@testing-library/react";
-import StatementPage from "./StatementPage";
-import { renderWithRedux } from "../Utils/testHelper";
-import {getToken, getUser} from "../data/store";
-import {token, user, statementResponse} from "../Utils/testData";
-import {getStatementAuthData} from "../data/hook/useGetStatement";
+import StatementPage from "../StatementPage";
+import { renderWithRedux } from "../../Utils/testHelper";
+import {getToken, getUser} from "../../data/store";
+import {token, user, statementResponse} from "../../Utils/testData";
+import {getStatementAuthData} from "../../data/hook/useGetStatement";
 
 const mockDispatch = jest.fn();
 jest.mock("react-redux", () => ({
@@ -12,7 +12,7 @@ jest.mock("react-redux", () => ({
     useDispatch: () => mockDispatch,
 }));
 
-jest.mock("../data/store", () => ({
+jest.mock("../../data/store", () => ({
     showMessage: jest.fn(),
     setStatement: jest.fn(),
     getToken: jest.fn(() => null),
@@ -33,7 +33,7 @@ describe("Statement Page & useGetStatement fn()", () => {
         expect(field).toBeInTheDocument();
         fireEvent.click(field);
         expect(global.fetch).toHaveBeenCalledWith(
-            getStatementAuthData.link,
+            getStatementAuthData.link + "?month=3&year=2024",
             expect.objectContaining({
                 method: getStatementAuthData.method,
                 headers: { "Authorization": "Bearer " + token.accessToken }

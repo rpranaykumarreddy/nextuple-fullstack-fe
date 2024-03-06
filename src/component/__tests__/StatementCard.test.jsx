@@ -1,7 +1,7 @@
-import StatementCard from "./StatementCard";
+import StatementCard from "../StatementCard";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import {statementData} from "../Utils/testData";
+import {statementData} from "../../Utils/testData";
 describe('StatementCard', () => {
     test('renders the statement card with null', () => {
         render(<StatementCard data={null}/>);
@@ -11,7 +11,7 @@ describe('StatementCard', () => {
     });
     test('renders the statement card with debit initiated', async () => {
         render(<StatementCard data={statementData.debits[0]}/>);
-        const amount = screen.getByText("1000");
+        const amount = screen.getByText("₹1,000.00");
         const type = screen.getByText("Dr");
         const date = screen.getByText("28 Feb 2024");
         const to = screen.getByText("to: user2");
@@ -35,7 +35,7 @@ describe('StatementCard', () => {
     });
     test('renders the statement card with credit', () => {
         render(<StatementCard data={statementData.credits[0]}/>);
-        const amount = screen.getByText("40000");
+        const amount = screen.getByText("₹40,000.00");
         const type = screen.getByText("Cr");
         const date = screen.getByText("27 Feb 2024");
         const from = screen.getByText("from: user2");
@@ -46,10 +46,10 @@ describe('StatementCard', () => {
     });
     test('renders the statement card with recharge', () => {
         render(<StatementCard data={statementData.recharges[0]}/>);
-        const amount = screen.getByText("1000");
+        const amount = screen.getByText("₹1,000.00");
         const type = screen.getByText("Re");
         const date = screen.getByText("1 Mar 2024");
-        const cashback = screen.getByText("cashback: 10");
+        const cashback = screen.getByText("cashback: ₹10");
         expect(amount).toBeInTheDocument();
         expect(type).toBeInTheDocument();
         expect(type).toHaveStyle("background: green");

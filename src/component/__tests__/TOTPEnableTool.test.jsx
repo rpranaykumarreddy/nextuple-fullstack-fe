@@ -1,9 +1,9 @@
 import userEvent from "@testing-library/user-event";
-import {renderWithRedux} from "../Utils/testHelper";
-import TOTPEnableTool from "./TOTPEnableTool";
+import {renderWithRedux} from "../../Utils/testHelper";
+import TOTPEnableTool from "../TOTPEnableTool";
 import {act, fireEvent, screen, waitFor, waitForElementToBeRemoved} from "@testing-library/react";
-import {getToken, getUser, getWallet} from "../data/store";
-import {QrCodeConfirmResponse, QrCodeResponse, token, user, wallet} from "../Utils/testData";
+import {getToken, getUser, getWallet} from "../../data/store";
+import {QrCodeConfirmResponse, QrCodeResponse, token, user, wallet} from "../../Utils/testData";
 
 const mockDispatch = jest.fn();
 jest.mock("react-redux", () => ({
@@ -11,7 +11,7 @@ jest.mock("react-redux", () => ({
     useDispatch: () => mockDispatch,
 }));
 
-jest.mock("../data/store", () => ({
+jest.mock("../../data/store", () => ({
     showMessage: jest.fn(),
     enableTOTP: jest.fn(),
     getToken: jest.fn(() => null),

@@ -1,25 +1,26 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {getToken, getUser, setWallet, showMessage} from "../store";
+import {GLOBALS} from "../../GLOBALS";
 
 export  const initTransactionAuthData={
     intialState: {
         to: "",
         amount: 0,
     },
-    link: `http://localhost:8080/transaction/init`,
+    link: `${GLOBALS.serverHost}/transaction/init`,
     method: "POST"
 }
 export  const confirmTransactionAuthData={
-    link: `http://localhost:8080/transaction/confirm`,
+    link: `${GLOBALS.serverHost}/transaction/confirm`,
     method: "POST"
 }
 export  const cancelTransactionAuthData={
-    link: `http://localhost:8080/transaction/cancel`,
+    link: `${GLOBALS.serverHost}/transaction/cancel`,
     method: "POST"
 }
 export  const checkWalletAuthData={
-    link: `http://localhost:8080/transaction/check-wallet`,
+    link: `${GLOBALS.serverHost}/transaction/check-wallet`,
     method: "GET"
 }
 

@@ -1,9 +1,10 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {getToken, showMessage} from "../store";
+import {GLOBALS} from "../../GLOBALS";
 
 export  const checkUsernameAuthData={
-    link: `http://localhost:8080/auth/check-username`,
+    link: `${GLOBALS.serverHost}/auth/check-username`,
     method: "GET",
 }
 export  const registerAuthData={
@@ -12,7 +13,7 @@ export  const registerAuthData={
             password: "",
             email: "",
         },
-        link: `http://localhost:8080/auth/register`,
+        link: `${GLOBALS.serverHost}/auth/register`,
         method: "POST",
 }
 export const useRegister = () => {

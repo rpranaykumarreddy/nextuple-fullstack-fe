@@ -1,5 +1,5 @@
-import { tokenReducer } from './tokenSlice';
-import {token as tokenData} from "../../Utils/testData";
+import { tokenReducer } from '../tokenSlice';
+import {token as tokenData} from "../../../Utils/testData";
 describe('tokenSlice reducer', () => {
     test('should handle setToken', () => {
         const initialState = null;

@@ -2,6 +2,7 @@
 import React, {useEffect, useState} from "react";
 import dateAsString from "../Utils/dateAsString";
 import StatementCard from "./StatementCard";
+import amountAsRupee from "../Utils/amountAsRupee";
 
 export default function StatementProcessor({data,isLoading}) {
     const [totalData, setTotalData] = useState([]);
@@ -18,7 +19,7 @@ export default function StatementProcessor({data,isLoading}) {
     return (
         <>
             <p>last Updated: {dateAsString(data.responseTime)}</p>
-            <p>Wallet Balance: {data.wallet.balance}</p>
+            <p>Wallet Balance: {amountAsRupee(data.wallet.balance)}</p>
             <p>Wallet last updated: {dateAsString(data.wallet.updated)}</p>
             <div style={{display:"flex", flexDirection:"row", alignItems:"space-evenly", flexWrap:"wrap", justifyContent:"center", padding:"20px 20px"}}>
             {totalData.map((item) => {

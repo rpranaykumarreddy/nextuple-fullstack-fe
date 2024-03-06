@@ -1,5 +1,5 @@
-import store, {getToken, getUser, getSnackbar, getWallet, setToken} from './store';
-import {statementData, token, user, wallet} from "../Utils/testData";
+import store, {getToken, getUser, getSnackbar, getWallet, setToken} from '../store';
+import {statementData, token, user, wallet} from "../../Utils/testData";
 
 describe('Redux Store and Slices', () => {
 

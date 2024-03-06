@@ -1,13 +1,14 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {enableTOTP, getToken, getUser, showMessage} from "../store";
+import {GLOBALS} from "../../GLOBALS";
 
 export  const getInitTOTPAuthData={
-    link: `http://localhost:8080/wallet/totp`,
+    link: `${GLOBALS.serverHost}/wallet/totp`,
     method: "POST",
 }
 export  const confirmTOTPAuthData={
-    link: `http://localhost:8080/wallet/totp/confirm`,
+    link: `${GLOBALS.serverHost}/wallet/totp/confirm`,
     method: "POST",
 }
 

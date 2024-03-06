@@ -1,7 +1,7 @@
 
-import {statementData} from "../Utils/testData";
-import StatementProcessor from "./StatementProcessor";
-import {renderWithRedux} from "../Utils/testHelper";
+import {statementData} from "../../Utils/testData";
+import StatementProcessor from "../StatementProcessor";
+import {renderWithRedux} from "../../Utils/testHelper";
 import { screen} from "@testing-library/react";
 import React from "react";
 describe("Statement Processor", () => {
@@ -9,7 +9,7 @@ describe("Statement Processor", () => {
         renderWithRedux(<StatementProcessor data={statementData} isLoading={false} />);
         const lastUpdated = screen.getByText("last Updated: 2 Mar 2024");
         expect(lastUpdated).toBeInTheDocument();
-        const walletBalance = screen.getByText("Wallet Balance: 342941.30000000075");
+        const walletBalance = screen.getByText("Wallet Balance: ₹3,42,941.30");
         expect(walletBalance).toBeInTheDocument();
         const walletUpdated = screen.getByText("Wallet last updated: 1 Mar 2024");
         expect(walletUpdated).toBeInTheDocument();

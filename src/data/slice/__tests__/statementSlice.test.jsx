@@ -1,5 +1,5 @@
-import {  statementReducer } from './statementSlice';
-import {statementData} from "../../Utils/testData";
+import {  statementReducer } from '../statementSlice';
+import {statementData} from "../../../Utils/testData";
 
 describe('StatementSlice reducer', () => {
     test('should handle setStatement', () => {

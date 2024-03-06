@@ -1,9 +1,10 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {getToken, getUser, setWallet, showMessage} from "../store";
+import {GLOBALS} from "../../GLOBALS";
 
 export  const rechargeWalletAuthData={
-    link: `http://localhost:8080/recharge`,
+    link: `${GLOBALS.serverHost}/recharge`,
     method: "POST",
 }
 

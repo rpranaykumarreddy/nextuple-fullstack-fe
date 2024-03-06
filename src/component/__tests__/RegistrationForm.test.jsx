@@ -1,10 +1,10 @@
-import {renderWithRedux} from "../Utils/testHelper";
-import RegisterationForm from "./RegisterationForm";
-import {getToken} from "../data/store";
-import {checkUsernameAvailableResponse, registerResponse, token} from "../Utils/testData";
+import {renderWithRedux} from "../../Utils/testHelper";
+import RegisterationForm from "../RegisterationForm";
+import {getToken} from "../../data/store";
+import {checkUsernameAvailableResponse, registerResponse, token} from "../../Utils/testData";
 import {fireEvent, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import {checkUsernameAuthData, registerAuthData} from "../data/serverHooks";
+import {checkUsernameAuthData, registerAuthData} from "../../data/serverHooks";
 
 const flipLogin = jest.fn();
 
@@ -14,7 +14,7 @@ jest.mock("react-redux", () => ({
     useDispatch: () => mockDispatch,
 }));
 
-jest.mock("../data/store", () => ({
+jest.mock("../../data/store", () => ({
     showMessage: jest.fn(),
     getToken: jest.fn(() => null),
 }));

@@ -1,5 +1,5 @@
-import {walletReducer } from './walletSlice';
-import {wallet, walletNoTOTP} from "../../Utils/testData";
+import {walletReducer } from '../walletSlice';
+import {wallet, walletNoTOTP} from "../../../Utils/testData";
 
 describe('walletSlice reducer', () => {
     test('should handle setWallet', () => {

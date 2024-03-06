@@ -1,9 +1,10 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {getToken, getUser, setWallet, showMessage} from "../store";
+import {GLOBALS} from "../../GLOBALS";
 
 export  const getWalletDetailsAuthData={
-    link: `http://localhost:8080/wallet/details`,
+    link: `${GLOBALS.serverHost}/wallet/details`,
     method: "GET",
 }
 

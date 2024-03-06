@@ -1,9 +1,10 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {getToken, getUser, setStatement, showMessage} from "../store";
+import {GLOBALS} from "../../GLOBALS";
 
 export  const getStatementAuthData={
-    link: `http://localhost:8080/wallet/statement`,
+    link: `${GLOBALS.serverHost}/wallet/statement`,
     method: "GET",
 }
 
@@ -22,7 +23,9 @@ export const useGetStatement = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(getStatementAuthData.link, {
+            const response = await fetch(
+                getStatementAuthData.link + `?month=${new Date().getMonth()+1}&year=${new Date().getFullYear()}`
+                , {
                 method: getStatementAuthData.method,
                 headers: {
                     'Authorization': `${token.tokenType} ${token.accessToken}`,

@@ -1,16 +1,16 @@
 
-import WalletOpsTools from "./WalletOpsTools";
+import WalletOpsTools from "../WalletOpsTools";
 import {fireEvent, render, screen} from "@testing-library/react";
-import RechargeTool from "./RechargeTool";
-import TransactionTool from "./TransactionTool";
+import RechargeTool from "../RechargeTool";
+import TransactionTool from "../TransactionTool";
 
-jest.mock("./RechargeTool", () => ({
+jest.mock("../RechargeTool", () => ({
     __esModule: true,
     default: jest.fn(() => {
         return <p data-testid="RecTool">Rec</p>;
     }),
 }));
-jest.mock("./TransactionTool", () => ({
+jest.mock("../TransactionTool", () => ({
     __esModule: true,
     default: jest.fn(() => {
         return <p data-testid="TransTool">Trans</p>;

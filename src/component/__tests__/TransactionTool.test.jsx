@@ -1,4 +1,4 @@
-import {getToken, getUser, getWallet} from "../data/store";
+import {getToken, getUser, getWallet} from "../../data/store";
 import {
     checkUsernameAvailableResponse,
     confirmTransactionSuccessResponse, InitTransactionObject,cancelTransactionResponse, confirmTransactionTimeoutResponse,
@@ -7,9 +7,9 @@ import {
     user,
     wallet,
     walletResponse,
-} from "../Utils/testData";
-import {renderWithRedux} from "../Utils/testHelper";
-import TransactionTool from "./TransactionTool";
+} from "../../Utils/testData";
+import {renderWithRedux} from "../../Utils/testHelper";
+import TransactionTool from "../TransactionTool";
 import {fireEvent, screen, act, waitFor} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
@@ -17,7 +17,7 @@ import {
     checkWalletAuthData,
     confirmTransactionAuthData,
     initTransactionAuthData,
-} from "../data/hook/useTransactions";
+} from "../../data/hook/useTransactions";
 import React from "react";
 
 const open = true;
@@ -28,7 +28,7 @@ jest.mock("react-redux", () => ({
     ...jest.requireActual("react-redux"),
     useDispatch: () => mockDispatch,
 }));
-jest.mock("../data/store", () => ({
+jest.mock("../../data/store", () => ({
     showMessage: jest.fn(),
     getUser: jest.fn(),
     setWallet: jest.fn(),

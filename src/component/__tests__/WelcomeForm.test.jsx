@@ -1,5 +1,5 @@
-import WelcomeForm from "./WelcomeForm";
-import { renderWithRedux } from "../Utils/testHelper";
+import WelcomeForm from "../WelcomeForm";
+import { renderWithRedux } from "../../Utils/testHelper";
 import {
   clearStatement,
   clearToken,
@@ -7,7 +7,7 @@ import {
   clearWallet,
   getToken,
   showMessage,
-} from "../data/store";
+} from "../../data/store";
 import { fireEvent, screen } from "@testing-library/react";
 
 beforeEach(() => {
@@ -20,7 +20,7 @@ jest.mock("react-redux", () => ({
   useDispatch: () => mockDispatch,
 }));
 
-jest.mock("../data/store", () => ({
+jest.mock("../../data/store", () => ({
   clearStatement: jest.fn(),
   clearToken: jest.fn(),
   clearUser: jest.fn(),

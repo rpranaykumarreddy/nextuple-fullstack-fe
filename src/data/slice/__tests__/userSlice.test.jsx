@@ -1,6 +1,6 @@
-import { userReducer } from './userSlice';
+import { userReducer } from '../userSlice';
 
-import {user as userData} from "../../Utils/testData";
+import {user as userData} from "../../../Utils/testData";
 describe('userSlice reducer', () => {
     test('should handle setUser', () => {
         const initialState = null;

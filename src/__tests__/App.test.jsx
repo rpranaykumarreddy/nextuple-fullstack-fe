@@ -1,7 +1,7 @@
-import App from './App';
-import {getToken, getUser} from "./data/store";
-import {renderWithRedux} from "./Utils/testHelper";
-import {token, tokenExpired, tokenInvalid, user, userExpired} from "./Utils/testData";
+import App from '../App';
+import {getToken, getUser} from "../data/store";
+import {renderWithRedux} from "../Utils/testHelper";
+import {token, tokenExpired, tokenInvalid, user, userExpired} from "../Utils/testData";
 
 const mockDispatch = jest.fn();
 jest.mock("react-redux", () => ({
@@ -9,7 +9,7 @@ jest.mock("react-redux", () => ({
     useDispatch: () => mockDispatch,
 }));
 
-jest.mock("./data/store", () => ({
+jest.mock("../data/store", () => ({
     showMessage: jest.fn(),
     setStatement: jest.fn(),
     getToken: jest.fn(() => null),
@@ -20,37 +20,37 @@ jest.mock("./data/store", () => ({
     clearUser: jest.fn(),
     clearWallet: jest.fn(),
 }));
-jest.mock("./pages/NotFoundPage", () => {
+jest.mock("../pages/NotFoundPage", () => {
     return function MockNotFoundPage() {
         return <div data-testid="not-found-page">Not Found Page</div>;
     };
 });
-jest.mock("./pages/AccountPage", () => {
+jest.mock("../pages/AccountPage", () => {
     return function MockAccountPage() {
         return <div data-testid="account-page">Account Page</div>;
     };
 });
-jest.mock("./pages/StatementPage", () => {
+jest.mock("../pages/StatementPage", () => {
     return function MockStatementPage() {
         return <div data-testid="statement-page">Statement Page</div>;
     };
 });
-jest.mock("./pages/HomePage", () => {
+jest.mock("../pages/HomePage", () => {
     return function MockHomePage() {
         return <div data-testid="home-page">Home Page</div>;
     };
 });
-jest.mock("./component/Nav", () => {
+jest.mock("../component/Nav", () => {
     return function MockNav() {
         return <div data-testid="nav">Nav</div>;
     };
 });
-jest.mock("./component/TopNav", () => {
+jest.mock("../component/TopNav", () => {
     return function MockTopNav() {
         return <div data-testid="top-nav">TopNav</div>;
     };
 });
-jest.mock("./component/SnackBarSystem", () => {
+jest.mock("../component/SnackBarSystem", () => {
     return function MockSnackBarSystem() {
         return <div data-testid="snack-bar-system">SnackBarSystem</div>;
     };
@@ -79,5 +79,10 @@ describe('App', () => {
         getToken.mockImplementation(() =>tokenInvalid);
         getUser.mockImplementation(() => null);
         renderWithRedux(<App />)
+    });
+    test('renders App component with user && at /user', () => {
+        getToken.mockImplementation(() => token);
+        getUser.mockImplementation(() => user);
+        renderWithRedux(<App />, '/user')
     });
 });

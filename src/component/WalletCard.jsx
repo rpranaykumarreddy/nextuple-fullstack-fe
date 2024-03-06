@@ -9,6 +9,7 @@ import SendIcon from "@mui/icons-material/Send";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import {useNavigate} from "react-router-dom";
+import amountAsRupee from "../Utils/amountAsRupee";
 
 export default function WalletCard({data}) {
 
@@ -41,7 +42,7 @@ export default function WalletCard({data}) {
                                     <WalletIcon/>
                                 </Avatar>
                             }
-                            title={"Balance: " + data.balance}
+                            title={"Balance: " + amountAsRupee(data.balance)}
                             subheader={"updated: " + dateTimeAsString(data.updated)}
                         />
                             <CardContent>
