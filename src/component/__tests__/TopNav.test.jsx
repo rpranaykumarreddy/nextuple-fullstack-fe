@@ -41,7 +41,7 @@ describe("TopNav", () => {
         expect(logout).toHaveBeenCalled();
     });
     test("should change color of active page", () => {
-        renderWithRouter(<TopNav />,  "/statement");
+        renderWithRouter(<TopNav />,  "/statement/");
         const walletMenu = screen.getByTestId("nav-bar-statement");
         waitFor(() => {
             expect(walletMenu).toHaveStyle("color: #1976d2");

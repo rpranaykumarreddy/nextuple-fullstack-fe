@@ -175,6 +175,13 @@ export const cashbackData = {
             amount: 1000,
             cashback: 10,
             created: "2024-03-01T17:14:15.83"
+        },
+        {
+            type: "RECHARGE",
+            id: "65e1bf8ff489f939d0b29cd2",
+            amount: 1202,
+            cashback: 11,
+            created: "2024-04-01T17:14:15.83"
         }
     ]
 }

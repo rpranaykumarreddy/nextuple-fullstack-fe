@@ -54,6 +54,7 @@ export default function TopNav({user, logout}) {
         handleCloseUserMenu();
         logout();
     }
+    console.log(user);
     return (
         <AppBar position="sticky" sx={{width: "100%", zIndex: 1000, backgroundColor: "#111"}}>
             <Container maxWidth="xl">
@@ -163,7 +164,9 @@ export default function TopNav({user, logout}) {
                         {user != null &&
                             <Tooltip title="Account">
                                 <IconButton data-testid="handleOpenUserMenu" onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>
+                                    <Avatar>
+                                        {user.sub.charAt(0).toUpperCase()}
+                                    </Avatar>
                                 </IconButton>
                             </Tooltip>
                         }
@@ -183,8 +186,8 @@ export default function TopNav({user, logout}) {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <MenuItem>
-                                <Typography textAlign="center">Hi, {user && user?.sub}</Typography>
+                            <MenuItem style={{ pointerEvents: 'none' }}>
+                                <Typography textAlign="center">username: {user && user?.sub}</Typography>
                             </MenuItem>
                             <MenuItem onClick={handleLogout} data-testid="logout">
                                 <Typography textAlign="center">Logout</Typography>

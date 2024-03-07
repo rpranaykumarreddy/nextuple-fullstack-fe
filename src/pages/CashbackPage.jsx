@@ -40,7 +40,7 @@ export default function CashbackPage() {
             getCashback(data.month, Number(selectedOption));
     }
     const handleMonthChange = (event, selectedOption) => {
-        setData({...data, month: selectedOption ? Number(selectedOption.value) : null});
+        setData({...data, month: Number(selectedOption.value)});
         if(!isLoading)
             getCashback(Number(selectedOption.value), data.year);
     }
@@ -68,7 +68,7 @@ export default function CashbackPage() {
                            spacing={{xs: 2, sm: 3, md: 4}}>
                         <div>
                             <Autocomplete
-                                value={monthValues.find(item => item.value === data.month) || null}
+                                value={monthValues.find(item => item.value === data.month)}
                                 onChange={handleMonthChange}
                                 getOptionLabel={(monthValues) => monthValues.label}
                                 options={monthValues}

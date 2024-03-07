@@ -104,4 +104,21 @@ describe("TOTPEnableTool & useTOTPEnable fn()", () => {
         getWallet.mockImplementation(() => null);
         renderWithRedux(<TOTPEnableTool/>);
     });
+    test("should render & cancel path", async () => {
+        global.fetch = jest.fn()
+            .mockResolvedValueOnce(QrCodeResponse);
+        getToken.mockImplementation(() => token);
+        getUser.mockImplementation(() => user);
+        getWallet.mockImplementation(() => wallet);
+        renderWithRedux(<TOTPEnableTool/>);
+        const field = screen.getByText("Enable TOTP");
+        expect(field).toBeInTheDocument();
+        await userEvent.click(field);
+        await waitFor(() => {
+            screen.getByTestId("totp-input")
+        })
+        const fieldCancel = screen.getByText("Cancel");
+        expect(fieldCancel).toBeInTheDocument();
+        fireEvent.click(fieldCancel);
+    });
 });

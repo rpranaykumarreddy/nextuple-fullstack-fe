@@ -42,7 +42,7 @@ export default function StatementPage() {
         setData({...data, year: Number(selectedOption)});
     }
     const handleMonthChange = (event, selectedOption) => {
-        setData({...data, month: selectedOption ? Number(selectedOption.value) : null});
+        setData({...data, month: Number(selectedOption.value)});
     }
     return (
         <main>
@@ -65,7 +65,7 @@ export default function StatementPage() {
                            spacing={{xs: 2, sm: 3, md: 4}}>
                         <div>
                             <Autocomplete
-                                value={monthValues.find(item => item.value === data.month) || null}
+                                value={monthValues.find(item => item.value === data.month)}
                                 onChange={handleMonthChange}
                                 getOptionLabel={(monthValues) => monthValues.label}
                                 options={monthValues}
