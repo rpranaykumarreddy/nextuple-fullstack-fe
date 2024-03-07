@@ -2,14 +2,22 @@ import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {getToken, getUser, setStatement, showMessage} from "../store";
 import {GLOBALS} from "../../GLOBALS";
+import {registerAuthData} from "./useRegister";
 
 export  const getStatementAuthData={
     link: `${GLOBALS.serverHost}/wallet/statement`,
     method: "GET",
+    intialState() {
+        return {
+            month: new Date().getMonth()+1,
+            year: new Date().getFullYear(),
+        }
+    }
 }
 
 export const useGetStatement = () => {
     const dispatch = useDispatch();
+    const [data,setData] = useState(getStatementAuthData.intialState);
     const [error,setError] = useState(null);
     const [isLoading,setLoading] = useState(false);
     const [response,setResponse] = useState(useSelector((state) => state.statement));
@@ -24,7 +32,7 @@ export const useGetStatement = () => {
         setError(null);
         try {
             const response = await fetch(
-                getStatementAuthData.link + `?month=${new Date().getMonth()+1}&year=${new Date().getFullYear()}`
+                getStatementAuthData.link + `?month=${data.month}&year=${data.year}`
                 , {
                 method: getStatementAuthData.method,
                 headers: {
@@ -45,5 +53,5 @@ export const useGetStatement = () => {
             setLoading(false);
         }
     }
-    return [error,isLoading,getStatement,response];
+    return [data,setData, error,isLoading,getStatement,response];
 }

@@ -28,6 +28,7 @@ body {
 /*Admin style*/
 
 .main{
+  padding: 20px 0px;
   color: #f3f3f3;
   text-align: center;
   min-height: 85vh;

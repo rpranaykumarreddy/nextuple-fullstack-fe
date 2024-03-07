@@ -15,14 +15,9 @@ export default function HomePage() {
     }, []);
     return (
         <main>
-            <h1>Wallet
-                <IconButton color="primary" data-testid="refresh" aria-label="refresh" onClick={getWalletDetails}
-                            disabled={isLoading}>
-                    <RefreshIcon/>
-                </IconButton></h1>
+            <h1>Wallet</h1>
             {error && <Alert severity="error">{error}</Alert>}
-            <br/><br/>
-            <WalletCard data={wallletData}/>
+            <WalletCard data={wallletData} getWalletDetails={getWalletDetails} isLoading={isLoading}/>
         </main>
     );
 }

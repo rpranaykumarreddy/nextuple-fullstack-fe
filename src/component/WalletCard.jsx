@@ -4,14 +4,14 @@ import WalletIcon from '@mui/icons-material/Wallet';
 import dateTimeAsString from "../Utils/dateTimeAsString";
 import TOTPEnableTool from "./TOTPEnableTool";
 import WalletOpsTools from "./WalletOpsTools";
-import AddCardIcon from "@mui/icons-material/AddCard";
-import SendIcon from "@mui/icons-material/Send";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import {useNavigate} from "react-router-dom";
 import amountAsRupee from "../Utils/amountAsRupee";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import IconButton from "@mui/material/IconButton";
 
-export default function WalletCard({data}) {
+export default function WalletCard({data, getWalletDetails, isLoading}) {
 
     const navigate = useNavigate();
 
@@ -42,7 +42,19 @@ export default function WalletCard({data}) {
                                     <WalletIcon/>
                                 </Avatar>
                             }
-                            title={"Balance: " + amountAsRupee(data.balance)}
+                            title={<h4>
+                                <span>Balance: {amountAsRupee(data.balance)}</span>
+                                <IconButton color="primary"
+                                            sx={{
+                                                fontSize:"inherit"
+                                            }}
+                                            data-testid="refresh"
+                                            aria-label="refresh"
+                                            onClick={getWalletDetails}
+                                            disabled={isLoading}>
+                                    <RefreshIcon/>
+                                </IconButton>
+                            </h4>}
                             subheader={"updated: " + dateTimeAsString(data.updated)}
                         />
                             <CardContent>
@@ -79,7 +91,7 @@ export default function WalletCard({data}) {
                         </div>
                     </Stack>
                 </Card>
-                <h3>How to use:</h3>
+                {/*<h3>How to use:</h3>*/}
                 <p></p>
             </>
         );

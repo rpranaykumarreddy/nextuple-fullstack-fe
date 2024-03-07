@@ -6,12 +6,13 @@ import {getWalletDetailsAuthData,useGetWalletDetails } from "./hook/useGetWallet
 import {getInitTOTPAuthData,confirmTOTPAuthData,useGetInitTOTP} from "./hook/useGetInitTOTP";
 import {rechargeWalletAuthData, useRechargeWallet} from "./hook/useRechargeWallet";
 import {initTransactionAuthData, confirmTransactionAuthData, cancelTransactionAuthData, checkWalletAuthData, useTransactions} from "./hook/useTransactions";
-
+import {getCashbackAuthData, useGetCashback} from "./hook/useGetCashback";
 // A collection of hooks to call the server
 
 export {useLogin,loginAuthData };
 export {registerAuthData, checkUsernameAuthData,useRegister};
 export {useLogout};
+export {getCashbackAuthData, useGetCashback};
 export {getStatementAuthData, useGetStatement};
 export {getWalletDetailsAuthData,useGetWalletDetails};
 export {getInitTOTPAuthData,confirmTOTPAuthData,useGetInitTOTP};

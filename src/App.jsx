@@ -6,7 +6,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import AccountPage from "./pages/AccountPage";
 import StatementPage from "./pages/StatementPage";
 import HomePage from "./pages/HomePage";
-import Nav from "./component/Nav";
+import CashbackPage from "./pages/CashbackPage";
 import SnackBarSystem from "./component/SnackBarSystem";
 import {useEffect} from "react";
 import {jwtDecode} from "jwt-decode";
@@ -77,10 +77,10 @@ function App() {
                         <Route exact path="/user" element={<RedirectOnLogin element={<AccountPage/>}/>}/>
                         <Route exact path="/" element={<Check element={<HomePage/>}/>}/>
                         <Route exact path="/statement" element={<Check element={<StatementPage/>}/>}/>
+                        <Route exact path="/cashback" element={<Check element={<CashbackPage/>}/>}/>
                         <Route exact path="*" element={<Check element={<NotFoundPage/>}/>}/>
                     </Routes>
                 </div>
-                {/*<Nav/>*/}
                 <SnackBarSystem/>
             </div>
         </Router>

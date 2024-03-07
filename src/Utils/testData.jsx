@@ -166,6 +166,24 @@ export const statementResponse = {
     ok: true,
     headers: {"Content-Type": "application/json"},
 }
+export const cashbackData = {
+    responseTime: "2024-03-02T21:02:40.0938321",
+    recharges: [
+        {
+            type: "RECHARGE",
+            id: "65e1bf8ff489f939d0b29cd1",
+            amount: 1000,
+            cashback: 10,
+            created: "2024-03-01T17:14:15.83"
+        }
+    ]
+}
+export const cashbackResponse = {
+    json: () => cashbackData,
+    status: 200,
+    ok: true,
+    headers: {"Content-Type": "application/json"},
+}
 export const InitTransactionObject={
     transactionId: "65e49a905f85ef7f7fb33889",
     from: "user1",

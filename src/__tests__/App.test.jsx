@@ -40,9 +40,9 @@ jest.mock("../pages/HomePage", () => {
         return <div data-testid="home-page">Home Page</div>;
     };
 });
-jest.mock("../component/Nav", () => {
-    return function MockNav() {
-        return <div data-testid="nav">Nav</div>;
+jest.mock("../pages/CashbackPage", () => {
+    return function MockCashbackPage() {
+        return <div data-testid="cashback-page">Cashback Page</div>;
     };
 });
 jest.mock("../component/TopNav", () => {
@@ -55,7 +55,6 @@ jest.mock("../component/SnackBarSystem", () => {
         return <div data-testid="snack-bar-system">SnackBarSystem</div>;
     };
 });
-
 describe('App', () => {
     test('renders App component', () => {
         jest.useFakeTimers();

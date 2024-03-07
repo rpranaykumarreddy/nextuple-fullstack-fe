@@ -1,31 +1,95 @@
-
 import React, {useEffect, useState} from "react";
-import dateAsString from "../Utils/dateAsString";
-import StatementCard from "./StatementCard";
+import {DataGrid} from '@mui/x-data-grid';
 import amountAsRupee from "../Utils/amountAsRupee";
+import dateTimeAsString from "../Utils/dateTimeAsString";
+import {Card} from "@mui/material";
 
-export default function StatementProcessor({data,isLoading}) {
+export default function StatementProcessor({data, isLoading}) {
     const [totalData, setTotalData] = useState([]);
     useEffect(() => {
-        if(data===undefined || data==null) return;
+        if (data === undefined || data == null) return;
         const totalData = [...data.credits, ...data.debits, ...data.recharges];
-        totalData.sort((a,b) => new Date(b.created) - new Date(a.created));
+        totalData.sort((a, b) => new Date(b.created) - new Date(a.created));
         setTotalData(totalData);
-    },[data]);
+    }, [data]);
 
-    if(isLoading) return <p>Loading...</p>;
-    if(data===undefined || data==null) return <p>No statement data exist</p>;
-    console.log("statement data",data);
-    return (
-        <>
-            <p>last Updated: {dateAsString(data.responseTime)}</p>
-            <p>Wallet Balance: {amountAsRupee(data.wallet.balance)}</p>
-            <p>Wallet last updated: {dateAsString(data.wallet.updated)}</p>
-            <div style={{display:"flex", flexDirection:"row", alignItems:"space-evenly", flexWrap:"wrap", justifyContent:"center", padding:"20px 20px"}}>
-            {totalData.map((item) => {
-                return <StatementCard key={item.id} data={item}/>
-            })}
+    if (isLoading) return <p>Loading...</p>;
+    if (data === undefined || data == null) return null;
+    console.log("statement data", data);
+
+    const columns = [{field: 'type', headerName: 'Type', flex: 1}, {
+        field: 'status',
+        headerName: 'Status',
+        flex: 1
+    }, {field: 'fromTo', headerName: 'From / To', flex: 1}, {
+        field: 'amount',
+        headerName: 'Amount',
+        flex: 1
+    }, {field: 'createdAt', headerName: 'DateTime', flex: 1},];
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    }
+    const rows = totalData.map((transaction) => {
+        if (transaction.type === "RECHARGE") {
+            return {
+                id: transaction.id,
+                type: "Recharge",
+                status: "Successful",
+                fromTo: "Self",
+                amount: amountAsRupee(transaction.amount),
+                createdAt: dateTimeAsString(transaction.created)
+            }
+        } else if (transaction.type === "CREDIT") {
+            return {
+                id: transaction.id,
+                type: "Credit",
+                status: capitalizeFirstLetter(transaction.status),
+                fromTo: transaction.from,
+                amount: amountAsRupee(transaction.amount),
+                createdAt: dateTimeAsString(transaction.created)
+            }
+        } else if (transaction.type === "DEBIT") {
+            return {
+                id: transaction.id,
+                type: "Debit",
+                status: capitalizeFirstLetter(transaction.status),
+                fromTo: transaction.to,
+                amount: amountAsRupee(transaction.amount),
+                createdAt: dateTimeAsString(transaction.created)
+            }
+        }
+    });
+    return (<>
+        {totalData.length === 0 ? <p>No Transactions in this period</p>
+            : <Card sx={{
+            width: '95vw',
+            padding: 1,
+            margin: "auto",
+            display: 'flex',
+            flexDirection: 'row',
+            height: 'fit-content',
+            alignContent: 'center',
+            justifyContent: 'space-evenly',
+            alignItems: 'center',
+            '@media (max-width: 900px)': {
+                flexWrap: 'wrap'
+            },
+        }}>
+            <div style={{width: '100%'}}>
+                <DataGrid
+                    sx={{
+                        margin: 1, borderRadius: 1,
+                    }}
+                    rows={rows}
+                    columns={columns}
+                    initialState={{
+                        pagination: {
+                            paginationModel: {page: 0, pageSize: 10},
+                        },
+                    }}
+                    pageSizeOptions={[5, 10]}
+                />
             </div>
-        </>
-    )
+        </Card>}
+        </>)
 }

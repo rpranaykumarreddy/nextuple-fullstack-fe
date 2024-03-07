@@ -1,23 +1,19 @@
 import React, {useEffect} from "react";
-import {useGetStatement} from "../data/serverHooks";
+import {useGetCashback} from "../data/serverHooks";
 import {
     Alert,
     Autocomplete,
-    Avatar,
-    Button, ButtonGroup,
+    Button,
     Card,
     CardContent,
-    CardHeader,
-    Divider,
     Stack,
     TextField
 } from "@mui/material";
-import StatementProcessor from "../component/StatementProcessor";
-import RefreshIcon from '@mui/icons-material/Refresh';
-import IconButton from "@mui/material/IconButton";
+import CashbackProcessor from "../component/CashbackProcessor";
 
-export default function StatementPage() {
-    const [data, setData, error, isLoading, getStatement, response] = useGetStatement();
+export default function CashbackPage() {
+    const [error, isLoading, getCashback, response] = useGetCashback();
+    const [data, setData] = React.useState({month: new Date().getMonth()+1, year: new Date().getFullYear()});
     const monthValues = [
         {label: "January", value: 1},
         {label: "February", value: 2},
@@ -40,10 +36,17 @@ export default function StatementPage() {
     }
     const handleYearChange = (event, selectedOption) => {
         setData({...data, year: Number(selectedOption)});
+        if(!isLoading)
+            getCashback(data.month, Number(selectedOption));
     }
     const handleMonthChange = (event, selectedOption) => {
         setData({...data, month: selectedOption ? Number(selectedOption.value) : null});
+        if(!isLoading)
+            getCashback(Number(selectedOption.value), data.year);
     }
+    useEffect(() => {
+        getCashback();
+    }, []);
     return (
         <main>
             <Card sx={{
@@ -56,7 +59,7 @@ export default function StatementPage() {
                 textAlign: "center"
             }}>
                 <CardContent>
-                    <h1>Statement</h1>
+                    <h1>Cashbacks</h1>
                     <Stack flexWrap="wrap"
                            justifyContent="center"
                            alignItems="center"
@@ -84,21 +87,15 @@ export default function StatementPage() {
                                 sx={{width: 200}}
                                 disableClearable={true}
                                 data-testid="year-input"
-                                renderInput={(params) => <TextField {...params} label="Year"/>}
+                                renderInput={(params) => <TextField  {...params} label="Year"/>}
                             />
                         </div>
                     </Stack>
-                    <div>
-                        <Button variant="contained" onClick={getStatement} data-testid="refresh"
-                                disabled={isLoading}>
-                            Get Statement
-                        </Button>
-                    </div>
                 </CardContent>
             </Card>
             {error && <Alert severity="error">{error}</Alert>}
             <br/>
-            <StatementProcessor data={response} isLoading={isLoading}/>
+            <CashbackProcessor data={response} isLoading={isLoading}/>
         </main>
     );
 }

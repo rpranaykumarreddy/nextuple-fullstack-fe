@@ -14,9 +14,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
 export default function TopNav({user, logout}) {
-    //todo: Write new testcases using test ids
     const pages = [{label: "Wallet", value: ""},
-        {label: "Statement", value: "statement"}, {label: "Cashback", value: "cashback"}];
+        {label: "Statement", value: "statement"}, {label: "Cashbacks", value: "cashback"}];
     const [linkValue, setValue] = useState("user");
     const location = useLocation();
     const navigate = useNavigate();
@@ -86,7 +85,7 @@ export default function TopNav({user, logout}) {
                             aria-haspopup="true"
                             onClick={handleOpenNavMenu}
                             color="inherit"
-                            data-test-id="handleOpenNavMenu"
+                            data-testid="handleOpenNavMenu"
                         >
                             <MenuIcon/>
                         </IconButton>
@@ -110,8 +109,10 @@ export default function TopNav({user, logout}) {
                         >
                             {
                                 pages.map(({label, value}) => (
-                                    <MenuItem key={value} onClick={() => openLink(value)} sx={{color:
-                                            linkValue === value && "#1976d2 !important" }}>
+                                    <MenuItem key={value}
+                                              data-testid={"menu-bar-" + value}
+                                              onClick={() => openLink(value)}
+                                              sx={{color: linkValue === value && "#1976d2 !important"}}>
                                         <Typography textAlign="center">{label}</Typography>
                                     </MenuItem>
                                 ))
@@ -137,12 +138,15 @@ export default function TopNav({user, logout}) {
                             textDecoration: 'none',
                         }}
                     >
-                        Infinitum Bank
+                        <Tooltip title={"Infinitum Bank"} placement="bottom">
+                            Banking
+                        </Tooltip>
                     </Typography>
                     <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
                         {pages.map(({label, value}) => (
                             <Button
                                 key={value}
+                                data-testid={"nav-bar-" + value}
                                 onClick={() => openLink(value)}
                                 sx={{
                                     my: 2, color:
@@ -182,7 +186,7 @@ export default function TopNav({user, logout}) {
                             <MenuItem>
                                 <Typography textAlign="center">Hi, {user && user?.sub}</Typography>
                             </MenuItem>
-                            <MenuItem onClick={handleLogout} data-test-id="handleLogout">
+                            <MenuItem onClick={handleLogout} data-testid="logout">
                                 <Typography textAlign="center">Logout</Typography>
                             </MenuItem>
                         </Menu>
