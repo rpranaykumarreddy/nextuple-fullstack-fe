@@ -2,6 +2,9 @@ import App from '../App';
 import {getToken, getUser} from "../data/store";
 import {renderWithRedux} from "../Utils/testHelper";
 import {token, tokenExpired, tokenInvalid, user, userExpired} from "../Utils/testData";
+import LoginForm from "../component/LoginForm";
+import TopNav from "../component/TopNav";
+import {fireEvent, screen} from "@testing-library/react";
 
 const mockDispatch = jest.fn();
 jest.mock("react-redux", () => ({
@@ -20,11 +23,12 @@ jest.mock("../data/store", () => ({
     clearUser: jest.fn(),
     clearWallet: jest.fn(),
 }));
-jest.mock("../pages/NotFoundPage", () => {
-    return function MockNotFoundPage() {
+jest.mock("../pages/NotFoundPage", () => ({
+    __esModule: true,
+    default: jest.fn(() => {
         return <div data-testid="not-found-page">Not Found Page</div>;
-    };
-});
+    }),
+}));
 jest.mock("../pages/AccountPage", () => {
     return function MockAccountPage() {
         return <div data-testid="account-page">Account Page</div>;
@@ -45,11 +49,12 @@ jest.mock("../pages/CashbackPage", () => {
         return <div data-testid="cashback-page">Cashback Page</div>;
     };
 });
-jest.mock("../component/TopNav", () => {
-    return function MockTopNav() {
+jest.mock("../component/TopNav", () => ({
+    __esModule: true,
+    default: jest.fn(() => {
         return <div data-testid="top-nav">TopNav</div>;
-    };
-});
+    }),
+}));
 jest.mock("../component/SnackBarSystem", () => {
     return function MockSnackBarSystem() {
         return <div data-testid="snack-bar-system">SnackBarSystem</div>;
@@ -83,5 +88,31 @@ describe('App', () => {
         getToken.mockImplementation(() => token);
         getUser.mockImplementation(() => user);
         renderWithRedux(<App />, '/user')
+    });
+    test('renders App component with user && click logout', () => {
+        getToken.mockImplementation(() => token);
+        getUser.mockImplementation(() => user);
+        TopNav.mockImplementation(({user,logout}) => {
+            return <><p data-testid="topNav">Top Nav</p>
+                <button onClick={logout} data-testid="logoutButton">logout</button>
+            </>;
+        });
+        renderWithRedux(<App />, '/');
+        const logoutButton = screen.getByTestId("logoutButton");
+        expect(logoutButton).toBeInTheDocument();
+        fireEvent.click(logoutButton);
+    });
+    test('renders App component without token && click logout', () => {
+        getToken.mockImplementation(() => null);
+        getUser.mockImplementation(() => user);
+        TopNav.mockImplementation(({user,logout}) => {
+            return <><p data-testid="topNav">Top Nav</p>
+                <button onClick={logout} data-testid="logoutButton">logout</button>
+            </>;
+        });
+        renderWithRedux(<App />, '/');
+        const logoutButton = screen.getByTestId("logoutButton");
+        expect(logoutButton).toBeInTheDocument();
+        fireEvent.click(logoutButton);
     });
 });

@@ -4,7 +4,6 @@ import {Card, CardContent} from "@mui/material";
 
 import LoginForm from "../component/LoginForm";
 import RegisterationForm from "../component/RegisterationForm";
-import WelcomeForm from "../component/WelcomeForm";
 import {getUser} from "../data/store";
 import {useNavigate} from "react-router-dom";
 
@@ -30,7 +29,7 @@ export default function AccountPage() {
     }
     return (
         <div>
-            <Card sx={{ minWidth: 275, marginTop: '50px', maxWidth: 400, margin: 'auto', padding: '5px' }}>
+            <Card sx={{ minWidth: 200, marginTop: '50px', maxWidth: 400, margin: '10px', padding: '5px' }}>
                 <CardContent>
                     {contents}
                 </CardContent>

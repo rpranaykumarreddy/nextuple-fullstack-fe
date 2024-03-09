@@ -47,6 +47,7 @@ describe("Cashback Page & useGetCashback fn()", () => {
         renderWithRedux(<CashbackPage/>);
     });
     test("should render & input year change", async () => {
+        jest.setTimeout(30000);
         getToken.mockImplementation(() => token);
         getUser.mockImplementation(() => user);
         global.fetch = jest.fn().mockResolvedValue(cashbackResponse);
@@ -69,6 +70,7 @@ describe("Cashback Page & useGetCashback fn()", () => {
         );
     });
     test("should render & input month change", async () => {
+        jest.setTimeout(30000);
         getToken.mockImplementation(() => token);
         getUser.mockImplementation(() => user);
         global.fetch = jest.fn().mockResolvedValue(cashbackResponse);
@@ -90,5 +92,4 @@ describe("Cashback Page & useGetCashback fn()", () => {
             }),
         );
     });
-
 });

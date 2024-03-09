@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {DataGrid} from '@mui/x-data-grid';
-import amountAsRupee from "../Utils/amountAsRupee";
+import amountAsRupee, {sortAmount} from "../Utils/amountAsRupee";
 import dateTimeAsString from "../Utils/dateTimeAsString";
 import {Card} from "@mui/material";
+import {sortDate} from "../Utils/dateAsString";
 
 export default function CashbackProcessor({data, isLoading}) {
     const [totalData, setTotalData] = useState([]);
@@ -18,9 +19,9 @@ export default function CashbackProcessor({data, isLoading}) {
     console.log("statement data", data);
 
     const columns = [
-        {field: 'cashback', headerName: 'Cashback', flex: 1},
-        {field: 'amount', headerName: 'Amount', flex: 1},
-        {field: 'createdAt', headerName: 'DateTime', flex: 1},];
+        {field: 'cashback', headerName: 'Cashback', flex: 1 ,sortComparator: (v1, v2) => sortAmount(v1, v2)},
+        {field: 'amount', headerName: 'Amount', flex: 1, sortComparator: (v1, v2) => sortAmount(v1, v2)},
+        {field: 'createdAt', headerName: 'DateTime', flex: 1, sortComparator: (v1, v2) => sortDate(v1, v2)},];
 
     const rows = totalData.map((transaction) => {
         return {

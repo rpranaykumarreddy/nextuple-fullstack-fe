@@ -4,7 +4,7 @@ import {Alert, Snackbar} from "@mui/material";
 
 export default function SnackBarSystem() {
     const dispatch = useDispatch();
-    const { message, isOpen, severity } = useSelector(getSnackbar);
+    const {isOpen, message, severity} = useSelector(getSnackbar);
     const handleClose = () => {
         dispatch(hideMessage());
     };
@@ -13,11 +13,13 @@ export default function SnackBarSystem() {
             open={isOpen}
             autoHideDuration={6000}
             onClose={handleClose}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
         >
-            <Alert onClose={handleClose} severity={severity}>
-                {message}
-            </Alert>
+            {message.trim() !== "" &&
+                <Alert onClose={handleClose} severity={severity}>
+                    {message}
+                </Alert>
+            }
         </Snackbar>
     );
 }

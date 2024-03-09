@@ -33,7 +33,7 @@ export default function TOTPEnableTool() {
   };
   return (
     <div>
-      {error && <Alert severity="error">{error}</Alert>}
+      {error && <><Alert severity="error">{error}</Alert><br/></>}
       <div>
         <ButtonGroup
           variant="contained"
