@@ -31,6 +31,7 @@ export const useTransactions = () => {
   const [data, setData] = useState(initTransactionAuthData.intialState);
   const [isWalletExists, setIsWalletExists] = useState(null);
   const [transactionId, setTransactionId] = useState(null);
+  const [created, setCreated] = useState(10000000);
   const token = useSelector(getToken);
   const user = useSelector(getUser);
 
@@ -56,6 +57,7 @@ export const useTransactions = () => {
       }
       setError(null);
       setTransactionId(json.transactionId);
+      setCreated(json.created);
       setLoading(false);
       dispatch(
         showMessage({ message: "Transaction initiated", severity: "info" })
@@ -183,6 +185,7 @@ export const useTransactions = () => {
     confirmTransaction,
     cancelTransaction,
     checkWallet,
+    created,
     data,
     setData,
     isWalletExists,

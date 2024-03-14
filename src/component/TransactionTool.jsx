@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { useTransactions } from "../data/serverHooks";
 import { useSelector } from "react-redux";
 import { getWallet } from "../data/store";
+import TransactionTimeoutProgress from "./TransactionTimeoutProgress";
 
 export default function TransactionTool({ open, onClose }) {
   const [
@@ -22,6 +23,7 @@ export default function TransactionTool({ open, onClose }) {
     confirmTransaction,
     cancelTransaction,
     checkWallet,
+    created,
     data,
     setData,
     isWalletExists,
@@ -61,6 +63,13 @@ export default function TransactionTool({ open, onClose }) {
     const fixedValue = Math.floor(Number(value) * 100) / 100;
     setData((prev) => ({ ...prev, amount: fixedValue }));
   };
+  const handleTimeout = async () => {
+    const response = await confirmTransaction(10000000);
+    if (response) {
+      setInitDone(false);
+      setCode(undefined);
+    }
+  };
   const style = {
     position: "absolute",
     top: "50%",
@@ -72,7 +81,6 @@ export default function TransactionTool({ open, onClose }) {
     boxShadow: 24,
     p: 4,
   };
-  //TODO: on typing displat "checking reciever...""
   let contentInit = (
     <>
       <FormControl fullWidth margin="normal">
@@ -118,15 +126,15 @@ export default function TransactionTool({ open, onClose }) {
           onClick={onClose}
           disabled={isLoading || !data}
         >
-          Cancel
+          Close
         </Button>
       </Stack>
     </>
   );
-  //TODO: Display time left for transaction
   let contentConfirm = (
     <>
       <br />
+      <TransactionTimeoutProgress created={created} onTimeout={handleTimeout} />
       <p>
         To: <b>{data.to}</b>
       </p>

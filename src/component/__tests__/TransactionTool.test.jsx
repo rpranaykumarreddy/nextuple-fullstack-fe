@@ -11,6 +11,8 @@ import {
   wallet,
   walletResponse,
 } from "../../Utils/testData";
+import TransactionTimeoutProgress from "../TransactionTimeoutProgress";
+
 import { renderWithRedux } from "../../Utils/testHelper";
 import TransactionTool from "../TransactionTool";
 import { fireEvent, screen, act, waitFor } from "@testing-library/react";
@@ -22,6 +24,17 @@ import {
   initTransactionAuthData,
 } from "../../data/hook/useTransactions";
 import React from "react";
+
+jest.mock("../TransactionTimeoutProgress", () => ({
+  __esModule: true,
+  default: jest.fn(() => {
+    return (
+      <div data-testid="TransactionTimeoutProgress">
+        TransactionTimeoutProgress
+      </div>
+    );
+  }),
+}));
 
 const open = true;
 const closeFn = jest.fn();
@@ -334,6 +347,63 @@ describe("TransactionTool & useTransactions fn()", () => {
     const confirmField = screen.getByText("Confirm");
     expect(confirmField).toBeInTheDocument();
     await userEvent.click(confirmField);
+  });
+  test("should render & fail at automatic timeout", async () => {
+    getToken.mockImplementation(() => token);
+    getUser.mockImplementation(() => user);
+    getWallet.mockImplementation(() => wallet);
+    global.fetch = jest
+      .fn()
+      .mockResolvedValueOnce(checkUsernameAvailableResponse)
+      .mockResolvedValueOnce(InitTransactionResponse)
+      .mockResolvedValueOnce(confirmTransactionTimeoutResponse);
+    TransactionTimeoutProgress.mockImplementation(({ created, onTimeout }) => {
+      return (
+        <>
+          {" "}
+          <p data-testid="TransactionTimeoutProgress">{created}</p>
+          <button onClick={onTimeout} data-testid="TimoeutButton">
+            Timeout
+          </button>
+        </>
+      );
+    });
+    renderWithRedux(<TransactionTool open={open} onClose={closeFn} />);
+    const toInput = screen.getByTestId("to-input").querySelector("input");
+    expect(toInput).toBeInTheDocument();
+    await userEvent.type(toInput, "pranay");
+    await userEvent.tab();
+    const amountInput = screen
+      .getByTestId("amount-input")
+      .querySelector("input");
+    expect(amountInput).toBeInTheDocument();
+    await userEvent.type(amountInput, "{backspace}");
+    await userEvent.type(amountInput, "100");
+    const field = screen.getByText("Initiate");
+    expect(field).toBeInTheDocument();
+    await userEvent.click(field);
+    await waitFor(() => {
+      screen.getByTestId("code-input");
+    });
+    const codeInput = screen.getByTestId("code-input").querySelector("input");
+    expect(codeInput).toBeInTheDocument();
+    const TimeoutField = screen.getByTestId("TimoeutButton");
+    expect(TimeoutField).toBeInTheDocument();
+    await userEvent.click(TimeoutField);
+
+    expect(global.fetch).toHaveBeenNthCalledWith(
+      3,
+      confirmTransactionAuthData.link +
+        "/" +
+        InitTransactionObject.transactionId +
+        "?code=10000000",
+      {
+        method: confirmTransactionAuthData.method,
+        headers: {
+          Authorization: `${token.tokenType} ${token.accessToken}`,
+        },
+      }
+    );
   });
   test("should render & fail at cancelTransaction response not ok", async () => {
     getToken.mockImplementation(() => token);
