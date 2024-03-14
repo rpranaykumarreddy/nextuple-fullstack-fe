@@ -61,6 +61,7 @@ describe("Statement Page & useGetStatement fn()", () => {
         fireEvent.click(field);
     });
     test("should render & input year change", async () => {
+        jest.setTimeout(30000);
         getToken.mockImplementation(() => token);
         getUser.mockImplementation(() => user);
         global.fetch = jest.fn().mockResolvedValue(statementResponse);

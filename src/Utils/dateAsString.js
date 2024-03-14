@@ -1,4 +1,5 @@
 export default function dateAsString(date){
+    console.log(date);
     return new Date(date).toLocaleString(
         "en-IN",
         {
@@ -8,3 +9,6 @@ export default function dateAsString(date){
         }
     )
 };
+export function sortDate(a, b)  {
+    return new Date(a).getTime() - new Date(b).getTime();
+}
