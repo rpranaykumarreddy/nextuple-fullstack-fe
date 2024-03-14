@@ -62,7 +62,7 @@ export default function WalletCard({ data, getWalletDetails, isLoading }) {
                 }
                 title={
                   <h4>
-                    <span style={{ "overflow-wrap": "anywhere" }}>
+                    <span style={{ overflowWrap: "anywhere" }}>
                       Balance: {amountAsRupee(data.balance)}
                     </span>
                     <IconButton

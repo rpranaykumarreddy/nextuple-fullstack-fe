@@ -93,7 +93,7 @@ describe("TransactionTool & useTransactions fn()", () => {
           "Content-Type": "application/json",
           Authorization: `${token.tokenType} ${token.accessToken}`,
         },
-        body: JSON.stringify({ to: "pranay", amount: "100" }),
+        body: JSON.stringify({ to: "pranay", amount: 100 }),
       }
     );
 
