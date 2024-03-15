@@ -23,10 +23,11 @@ export default function TransactionTool({ open, onClose }) {
     confirmTransaction,
     cancelTransaction,
     checkWallet,
-    created,
+    expire,
     data,
     setData,
     isWalletExists,
+    clearTrans,
   ] = useTransactions();
   const wallet = useSelector(getWallet);
   const [initDone, setInitDone] = useState(false);
@@ -72,7 +73,7 @@ export default function TransactionTool({ open, onClose }) {
   };
   const handleClose = (e) => {
     e.preventDefault();
-    setData(initTransactionAuthData.intialState);
+    clearTrans();
     onClose();
   };
   const style = {
@@ -139,7 +140,7 @@ export default function TransactionTool({ open, onClose }) {
   let contentConfirm = (
     <>
       <br />
-      <TransactionTimeoutProgress created={created} onTimeout={handleTimeout} />
+      <TransactionTimeoutProgress expire={expire} onTimeout={handleTimeout} />
       <p>
         To: <b>{data.to}</b>
       </p>

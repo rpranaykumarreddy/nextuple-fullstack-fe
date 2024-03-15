@@ -1,13 +1,15 @@
 import { Box, Typography, CircularProgress } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
-export default function TransactionTimeoutProgress({ created, onTimeout }) {
+export default function TransactionTimeoutProgress({ expire, onTimeout }) {
   const [seconds, setSeconds] = useState(
-    ((Date.parse(created) - Date.now()) / 1000 + 60).toFixed(0)
+    ((Date.parse(expire) - Date.now()) / 1000).toFixed(0)
+  );
+  const [timeNow, setTimeNow] = useState(
+    ((Date.parse(expire) - Date.now()) / 1000).toFixed(0)
   );
 
   let timer = null;
-
   useEffect(() => {
     const timer = setInterval(() => {
       setSeconds((prevSecond) => {
@@ -17,7 +19,7 @@ export default function TransactionTimeoutProgress({ created, onTimeout }) {
     return () => {
       clearInterval(timer);
     };
-  }, [created]);
+  }, [expire]);
 
   useEffect(() => {
     if (seconds <= 0) {
@@ -37,7 +39,7 @@ export default function TransactionTimeoutProgress({ created, onTimeout }) {
       <Box sx={{ position: "relative", display: "inline-flex" }}>
         <CircularProgress
           variant="determinate"
-          value={100 - ((60 - seconds) / 60) * 100}
+          value={100 - ((timeNow - seconds) / timeNow) * 100}
         />
         <Box
           sx={{
