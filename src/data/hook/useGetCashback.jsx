@@ -26,6 +26,7 @@ export const useGetCashback = () => {
     setLoading(true);
     setError(null);
     try {
+      setResponse(null);
       const response = await fetch(
         getCashbackAuthData.link + `?month=${month}&year=${year}`,
         {

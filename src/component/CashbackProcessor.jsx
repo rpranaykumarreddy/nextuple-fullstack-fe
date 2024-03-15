@@ -27,7 +27,7 @@ export default function CashbackProcessor({ data, isLoading }) {
     },
     {
       field: "amount",
-      headerName: "Amount",
+      headerName: "Recharge",
       flex: 1,
       sortComparator: (v1, v2) => sortAmount(v1, v2),
     },
@@ -82,6 +82,7 @@ export default function CashbackProcessor({ data, isLoading }) {
                 },
               }}
               pageSizeOptions={[5, 10]}
+              // hideFooter={true}
             />
           </div>
         </Card>

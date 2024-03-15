@@ -108,6 +108,7 @@ export default function StatementProcessor({ data, isLoading }) {
                 },
               }}
               pageSizeOptions={[5, 10]}
+              // hideFooter={true}
             />
           </div>
         </Card>
