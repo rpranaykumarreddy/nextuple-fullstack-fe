@@ -14,7 +14,7 @@ import { useTransactions } from "../data/serverHooks";
 import { useSelector } from "react-redux";
 import { getWallet } from "../data/store";
 import TransactionTimeoutProgress from "./TransactionTimeoutProgress";
-
+import { initTransactionAuthData } from "../data/serverHooks";
 export default function TransactionTool({ open, onClose }) {
   const [
     error,
@@ -70,6 +70,11 @@ export default function TransactionTool({ open, onClose }) {
       setCode(undefined);
     }
   };
+  const handleClose = (e) => {
+    e.preventDefault();
+    setData(initTransactionAuthData.intialState);
+    onClose();
+  };
   const style = {
     position: "absolute",
     top: "50%",
@@ -104,7 +109,7 @@ export default function TransactionTool({ open, onClose }) {
           label="Amount"
           type="number"
           variant="outlined"
-          value={data.amount}
+          value={Number(data.amount).toString()}
           disabled={isLoading}
           required
           data-testid="amount-input"
@@ -123,7 +128,7 @@ export default function TransactionTool({ open, onClose }) {
         <Button
           variant="contained"
           fullWidth
-          onClick={onClose}
+          onClick={handleClose}
           disabled={isLoading || !data}
         >
           Close
@@ -188,8 +193,8 @@ export default function TransactionTool({ open, onClose }) {
       <Box sx={style}>
         <h3>Transfer Money</h3>
         {error && <Alert severity="error">{error}</Alert>}
-        {initDone && contentConfirm}
         {!initDone && contentInit}
+        {initDone && contentConfirm}
       </Box>
     </Modal>
   );

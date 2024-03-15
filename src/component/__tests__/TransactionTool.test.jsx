@@ -170,6 +170,21 @@ describe("TransactionTool & useTransactions fn()", () => {
       }
     );
   });
+  test("should render & success path for close", async () => {
+    getToken.mockImplementation(() => token);
+    getUser.mockImplementation(() => user);
+    getWallet.mockImplementation(() => wallet);
+    global.fetch = jest
+      .fn()
+      .mockResolvedValueOnce(checkUsernameAvailableResponse)
+      .mockResolvedValueOnce(InitTransactionResponse)
+      .mockResolvedValueOnce(cancelTransactionResponse);
+    renderWithRedux(<TransactionTool open={open} onClose={closeFn} />);
+    const field = screen.getByText("Close");
+    expect(field).toBeInTheDocument();
+    await userEvent.click(field);
+    expect(closeFn).toHaveBeenCalledTimes(1);
+  });
   test("should render & fail at check Wallet trim part", async () => {
     getToken.mockImplementation(() => token);
     getUser.mockImplementation(() => user);

@@ -57,7 +57,6 @@ export default function TopNav({ user, logout }) {
     handleCloseUserMenu();
     logout();
   };
-  console.log(user);
   return (
     <AppBar
       position="sticky"
@@ -177,15 +176,26 @@ export default function TopNav({ user, logout }) {
 
           <Box sx={{ flexGrow: 0 }}>
             {user != null && (
-              <Tooltip title="Account">
-                <IconButton
-                  data-testid="handleOpenUserMenu"
-                  onClick={handleOpenUserMenu}
-                  sx={{ p: 0 }}
-                >
-                  <Avatar>{user.sub.charAt(0).toUpperCase()}</Avatar>
-                </IconButton>
-              </Tooltip>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" } }}>
+                  <b style={{ marginRight: "10px" }}>{user && user?.sub}</b>
+                </Box>
+                <Tooltip title="Account">
+                  <IconButton
+                    data-testid="handleOpenUserMenu"
+                    onClick={handleOpenUserMenu}
+                    sx={{ p: 0 }}
+                  >
+                    <Avatar>{user.sub.charAt(0).toUpperCase()}</Avatar>
+                  </IconButton>
+                </Tooltip>
+              </div>
             )}
             <Menu
               sx={{ mt: "45px" }}

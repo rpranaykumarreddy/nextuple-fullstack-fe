@@ -1,4 +1,13 @@
-import {Alert, Box, Button, ButtonGroup, FormControl,Stack, Modal, TextField} from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  ButtonGroup,
+  FormControl,
+  Stack,
+  Modal,
+  TextField,
+} from "@mui/material";
 import React, { useState } from "react";
 import { useGetInitTOTP } from "../data/serverHooks";
 import { useSelector } from "react-redux";
@@ -6,7 +15,7 @@ import { getWallet } from "../data/store";
 export default function TOTPEnableTool() {
   const [error, isLoading, getInitTOTP, QRCode, confirmTOTP] = useGetInitTOTP();
   const [open, setClose] = useState(false);
-  const [data, setData] = React.useState(null);
+  const [data, setData] = useState(null);
   const wallet = useSelector(getWallet);
   if (!wallet || wallet?.balance === undefined) {
     return null;
@@ -16,24 +25,34 @@ export default function TOTPEnableTool() {
     await confirmTOTP(data);
     setClose(false);
   };
-  const intiate = async ()=>{
+  const intiate = async () => {
     setClose(true);
     await getInitTOTP();
-  }
+  };
+  const handleClose = (e) => {
+    e.preventDefault();
+    setData(null);
+    setClose(false);
+  };
   const style = {
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      width: 400,
-      bgcolor: 'background.paper',
-      border: '2px solid #000',
-      boxShadow: 24,
-      p: 4,
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
   };
   return (
     <div>
-      {error && <><Alert severity="error">{error}</Alert><br/></>}
+      {error && (
+        <>
+          <Alert severity="error">{error}</Alert>
+          <br />
+        </>
+      )}
       <div>
         <ButtonGroup
           variant="contained"
@@ -68,12 +87,17 @@ export default function TOTPEnableTool() {
               />
             </FormControl>
             <Stack spacing={2} direction="row">
-                <Button variant="contained" fullWidth onClick={submit} disabled={isLoading || !data}>
-                    Confirm
-                </Button>
-                <Button variant="contained" fullWidth onClick={()=>{setClose(false);}} >
-                    Cancel
-                </Button>
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={submit}
+                disabled={isLoading || !data}
+              >
+                Confirm
+              </Button>
+              <Button variant="contained" fullWidth onClick={handleClose}>
+                Cancel
+              </Button>
             </Stack>
           </div>
         </Box>

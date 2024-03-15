@@ -8,12 +8,12 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { useRechargeWallet } from "../data/serverHooks";
 
 export default function RechargeTool({ open, onClose }) {
   const [error, isLoading, rechargeWallet] = useRechargeWallet();
-  const [amount, setAmount] = React.useState(0);
+  const [amount, setAmount] = useState(0);
   const submit = async (e) => {
     e.preventDefault();
     const response = await rechargeWallet(amount);
@@ -26,6 +26,11 @@ export default function RechargeTool({ open, onClose }) {
     const value = e.target.value;
     const fixedValue = Math.floor(Number(value) * 100) / 100;
     setAmount(fixedValue);
+  };
+  const handleClose = (e) => {
+    e.preventDefault();
+    setAmount(0);
+    onClose();
   };
   const style = {
     position: "absolute",
@@ -52,7 +57,7 @@ export default function RechargeTool({ open, onClose }) {
             label="amount"
             type="number"
             variant="outlined"
-            value={amount}
+            value={Number(amount).toString()}
             disabled={isLoading}
             required
             data-testid="amount-input"
@@ -72,7 +77,7 @@ export default function RechargeTool({ open, onClose }) {
           <Button
             variant="contained"
             fullWidth
-            onClick={onClose}
+            onClick={handleClose}
             disabled={isLoading}
           >
             Cancel
