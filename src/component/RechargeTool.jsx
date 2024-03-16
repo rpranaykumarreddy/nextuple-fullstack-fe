@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import { useRechargeWallet } from "../data/serverHooks";
 
 export default function RechargeTool({ open, onClose }) {
-  const [error, isLoading, rechargeWallet] = useRechargeWallet();
+  const [error, isLoading, rechargeWallet, clearRecharge] = useRechargeWallet();
   const [amount, setAmount] = useState(0);
   const submit = async (e) => {
     e.preventDefault();
@@ -30,6 +30,7 @@ export default function RechargeTool({ open, onClose }) {
   const handleClose = (e) => {
     e.preventDefault();
     setAmount(0);
+    clearRecharge();
     onClose();
   };
   const style = {
