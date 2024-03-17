@@ -37,14 +37,15 @@ function App() {
   const dispatch = useDispatch();
   const token = useSelector(getToken);
   const user = useSelector(getUser);
-  const logout = useLogout();
+  const [regenerate, logout] = useLogout();
   useEffect(() => {
     if (user?.exp) {
       const timeout = user.exp * 1000 - Date.now();
+      console.log(timeout);
       if (timeout > 0) {
         const timeoutId = setTimeout(() => {
-          logout("Session expired, please login again", "error");
-        }, timeout);
+          regenerate();
+        }, timeout - 120000);
         return () => clearTimeout(timeoutId);
       } else {
         logout("Session expired, please login again", "error");

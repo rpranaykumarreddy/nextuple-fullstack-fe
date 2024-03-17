@@ -62,6 +62,12 @@ export const tokenResponse = {
   ok: true,
   headers: { "Content-Type": "application/json" },
 };
+export const tokenResponseNotOk = {
+  message: "error",
+  status: 400,
+  ok: false,
+  headers: { "Content-Type": "application/json" },
+};
 
 export const QrCodeData = {
   message:
