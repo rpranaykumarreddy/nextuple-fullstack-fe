@@ -4,7 +4,7 @@ import { getToken, getUser, setWallet, showMessage } from "../store";
 import { GLOBALS } from "../../GLOBALS";
 
 export const rechargeWalletAuthData = {
-  link: `${GLOBALS.serverHost}/recharge`,
+  link: GLOBALS.serverHost + GLOBALS.link.recharge.id,
   method: "POST",
 };
 

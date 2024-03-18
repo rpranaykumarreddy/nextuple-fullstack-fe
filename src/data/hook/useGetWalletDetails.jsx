@@ -4,7 +4,8 @@ import { getToken, getUser, setWallet, showMessage } from "../store";
 import { GLOBALS } from "../../GLOBALS";
 
 export const getWalletDetailsAuthData = {
-  link: `${GLOBALS.serverHost}/wallet/details`,
+  link:
+    GLOBALS.serverHost + GLOBALS.link.wallet.id + GLOBALS.link.wallet.details,
   method: "GET",
 };
 

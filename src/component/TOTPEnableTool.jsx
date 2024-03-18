@@ -71,6 +71,9 @@ export default function TOTPEnableTool() {
       >
         <Box sx={style}>
           <div>
+            <h3>Scan QR for TOTP</h3>
+            <br />
+            <p>Use Google/Microsoft authenticator app</p>
             <div style={{ display: "flex", justifyContent: "center" }}>
               <img src={QRCode?.message} alt="QRCode" width="150px" />
             </div>

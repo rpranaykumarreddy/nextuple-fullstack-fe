@@ -4,7 +4,8 @@ import { getToken, getUser, showMessage } from "../store";
 import { GLOBALS } from "../../GLOBALS";
 
 export const getCashbackAuthData = {
-  link: `${GLOBALS.serverHost}/wallet/cashback`,
+  link:
+    GLOBALS.serverHost + GLOBALS.link.wallet.id + GLOBALS.link.wallet.cashback,
   method: "GET",
 };
 

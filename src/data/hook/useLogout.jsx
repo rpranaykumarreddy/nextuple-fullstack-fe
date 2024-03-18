@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  clearStatement,
   clearToken,
   clearUser,
   clearWallet,
@@ -11,7 +10,8 @@ import {
 import { GLOBALS } from "../../GLOBALS";
 
 export const regenerateAuthData = {
-  link: `${GLOBALS.serverHost}/auth/regenerate`,
+  link:
+    GLOBALS.serverHost + GLOBALS.link.auth.id + GLOBALS.link.auth.regenerate,
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -32,14 +32,13 @@ export const useLogout = () => {
           Authorization: `${token.tokenType} ${token.accessToken}`,
         },
       });
-      if (!response.ok) throw new Error(json.message);
       const json = await response.json();
+      if (!response.ok) throw new Error(json.message);
       dispatch(setToken(json));
       dispatch(showMessage({ message: msg, severity: severity }));
     } catch (error) {
       dispatch(clearToken());
       dispatch(clearUser());
-      dispatch(clearStatement());
       dispatch(clearWallet());
       dispatch(
         showMessage({
@@ -49,11 +48,11 @@ export const useLogout = () => {
       );
     }
   };
+
   const logout = (msg = "Logged out", severity = "success") => {
     if (token) {
       dispatch(clearToken());
       dispatch(clearUser());
-      dispatch(clearStatement());
       dispatch(clearWallet());
       dispatch(showMessage({ message: msg, severity: severity }));
     } else {

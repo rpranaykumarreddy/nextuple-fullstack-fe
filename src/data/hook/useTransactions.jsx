@@ -8,19 +8,31 @@ export const initTransactionAuthData = {
     to: "",
     amount: 0,
   },
-  link: `${GLOBALS.serverHost}/transaction/init`,
+  link:
+    GLOBALS.serverHost +
+    GLOBALS.link.transaction.id +
+    GLOBALS.link.transaction.initiate,
   method: "POST",
 };
 export const confirmTransactionAuthData = {
-  link: `${GLOBALS.serverHost}/transaction/confirm`,
+  link:
+    GLOBALS.serverHost +
+    GLOBALS.link.transaction.id +
+    GLOBALS.link.transaction.confirm,
   method: "POST",
 };
 export const cancelTransactionAuthData = {
-  link: `${GLOBALS.serverHost}/transaction/cancel`,
+  link:
+    GLOBALS.serverHost +
+    GLOBALS.link.transaction.id +
+    GLOBALS.link.transaction.cancel,
   method: "POST",
 };
 export const checkWalletAuthData = {
-  link: `${GLOBALS.serverHost}/transaction/check-wallet`,
+  link:
+    GLOBALS.serverHost +
+    GLOBALS.link.transaction.id +
+    GLOBALS.link.transaction.checkWallet,
   method: "GET",
 };
 

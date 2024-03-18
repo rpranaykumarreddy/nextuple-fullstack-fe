@@ -23,7 +23,6 @@ jest.mock("react-redux", () => ({
 
 jest.mock("../data/store", () => ({
   showMessage: jest.fn(),
-  setStatement: jest.fn(),
   getToken: jest.fn(() => null),
   setToken: jest.fn(),
   getUser: jest.fn(() => null),

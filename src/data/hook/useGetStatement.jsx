@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { getToken, getUser, setStatement, showMessage } from "../store";
+import { getToken, getUser, showMessage } from "../store";
 import { GLOBALS } from "../../GLOBALS";
 
 export const getStatementAuthData = {
-  link: `${GLOBALS.serverHost}/wallet/statement`,
+  link:
+    GLOBALS.serverHost + GLOBALS.link.wallet.id + GLOBALS.link.wallet.statement,
   method: "GET",
 };
 
@@ -13,9 +14,7 @@ export const useGetStatement = () => {
   const [error, setError] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [response, setResponse] = useState(
-    useSelector((state) => state.statement)
-  );
+  const [response, setResponse] = useState(null);
   const token = useSelector(getToken);
   const user = useSelector(getUser);
   useEffect(() => {
@@ -44,7 +43,6 @@ export const useGetStatement = () => {
         setError(null);
         setLoading(false);
         setResponse(json);
-        dispatch(setStatement(json));
         dispatch(
           showMessage({
             message: `Page ${page} of statement`,

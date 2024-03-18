@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { getToken, setToken, showMessage } from "../store";
-import {GLOBALS} from "../../GLOBALS";
+import { GLOBALS } from "../../GLOBALS";
 
 export const loginAuthData = {
   intialState: {
     username: "",
     password: "",
   },
-  link: `${GLOBALS.serverHost}/auth/login`,
+  link: GLOBALS.serverHost + GLOBALS.link.auth.id + GLOBALS.link.auth.login,
   method: "POST",
   headers: {
     "Content-Type": "application/json",

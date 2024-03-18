@@ -18,6 +18,7 @@ export default function RechargeTool({ open, onClose }) {
     e.preventDefault();
     const response = await rechargeWallet(amount);
     if (response) {
+      setAmount(0);
       onClose();
     }
   };
