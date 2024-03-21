@@ -57,7 +57,7 @@ export default function RechargeTool({ open, onClose }) {
         {error && <Alert severity="error">{error}</Alert>}
         <FormControl fullWidth margin="normal">
           <TextField
-            label="amount"
+            label="Amount"
             type="number"
             variant="outlined"
             value={Number(amount).toString()}

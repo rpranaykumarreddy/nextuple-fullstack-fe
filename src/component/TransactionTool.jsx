@@ -124,7 +124,7 @@ export default function TransactionTool({ open, onClose }) {
           variant="contained"
           fullWidth
           onClick={initSubmit}
-          disabled={isLoading || !data}
+          disabled={isLoading || !data || !(Number(data.amount) > 0)}
         >
           Initiate
         </Button>
