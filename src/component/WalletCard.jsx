@@ -44,7 +44,10 @@ export default function WalletCard({ data, getWalletDetails, isLoading }) {
             flexWrap="wrap"
             justifyContent="center"
             alignItems="center"
-            direction={{ xs: "column", sm: "row" }}
+            direction={{
+              xs: "column",
+              md: "row",
+            }}
             spacing={{ xs: 1, sm: 2, md: 4 }}
             divider={
               <>

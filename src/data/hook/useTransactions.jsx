@@ -112,6 +112,7 @@ export const useTransactions = () => {
           showMessage({ message: "Transaction timeout", severity: "warning" })
         );
       } else {
+        setIsWalletExists(false);
         setData(initTransactionAuthData.intialState);
         dispatch(setWallet(json));
         dispatch(
@@ -123,7 +124,6 @@ export const useTransactions = () => {
       }
       setError(null);
       setLoading(false);
-      setIsWalletExists(false);
       setTransactionId(null);
       return returnMsg;
     } catch (error) {
@@ -162,6 +162,7 @@ export const useTransactions = () => {
           showMessage({ message: "Transaction timeout", severity: "warning" })
         );
       } else {
+        setIsWalletExists(false);
         setData(initTransactionAuthData.intialState);
         dispatch(
           showMessage({ message: "Transaction cancelled", severity: "info" })
@@ -169,7 +170,6 @@ export const useTransactions = () => {
       }
       setError(null);
       setLoading(false);
-      setIsWalletExists(false);
       setTransactionId(null);
       return true;
     } catch (error) {
