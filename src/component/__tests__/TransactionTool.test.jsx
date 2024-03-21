@@ -408,12 +408,11 @@ describe("TransactionTool & useTransactions fn()", () => {
 
     expect(global.fetch).toHaveBeenNthCalledWith(
       3,
-      confirmTransactionAuthData.link +
+      cancelTransactionAuthData.link +
         "/" +
-        InitTransactionObject.transactionId +
-        "?code=10000000",
+        InitTransactionObject.transactionId,
       {
-        method: confirmTransactionAuthData.method,
+        method: cancelTransactionAuthData.method,
         headers: {
           Authorization: `${token.tokenType} ${token.accessToken}`,
         },

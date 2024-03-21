@@ -147,18 +147,30 @@ export const useTransactions = () => {
         }
       );
       const json = await response.json();
+      let returnMsg = "SUCCESS";
       if (!response.ok) {
         console.log(json);
-        throw new Error(json.message);
+        if (json.message !== "Transaction timeout") {
+          console.log(json.message);
+          throw new Error(json.message);
+        } else {
+          returnMsg = "TIMEOUT";
+        }
+      }
+      if (returnMsg === "TIMEOUT") {
+        dispatch(
+          showMessage({ message: "Transaction timeout", severity: "warning" })
+        );
+      } else {
+        setData(initTransactionAuthData.intialState);
+        dispatch(
+          showMessage({ message: "Transaction cancelled", severity: "info" })
+        );
       }
       setError(null);
       setLoading(false);
-      setData(initTransactionAuthData.intialState);
       setIsWalletExists(false);
       setTransactionId(null);
-      dispatch(
-        showMessage({ message: "Transaction cancelled", severity: "info" })
-      );
       return true;
     } catch (error) {
       setError(error.message);

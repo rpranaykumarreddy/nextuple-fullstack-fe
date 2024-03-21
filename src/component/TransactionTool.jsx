@@ -9,7 +9,7 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTransactions } from "../data/serverHooks";
 import { useSelector } from "react-redux";
 import { getWallet } from "../data/store";
@@ -65,7 +65,7 @@ export default function TransactionTool({ open, onClose }) {
     setData((prev) => ({ ...prev, amount: fixedValue }));
   };
   const handleTimeout = async () => {
-    const response = await confirmTransaction(10000000);
+    const response = await cancelTransaction();
     if (response) {
       setInitDone(false);
       setCode(undefined);
@@ -76,6 +76,7 @@ export default function TransactionTool({ open, onClose }) {
     clearTrans();
     onClose();
   };
+
   const style = {
     position: "absolute",
     top: "50%",
