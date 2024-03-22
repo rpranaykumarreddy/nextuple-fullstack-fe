@@ -93,7 +93,10 @@ export default function TransactionTool({ open, onClose }) {
     <>
       <FormControl fullWidth margin="normal">
         <TextField
-          label="Reciever's username"
+          error={
+            isWalletExists === false || (error && error.includes("Receiver"))
+          }
+          label="Receiver's username"
           type="text"
           variant="outlined"
           value={data.to}
@@ -101,14 +104,13 @@ export default function TransactionTool({ open, onClose }) {
           required
           onBlur={checkWallet}
           data-testid="to-input"
+          helperText={isWalletExists === false && "Wallet does not exist"}
           onChange={(e) => setData((prev) => ({ ...prev, to: e.target.value }))}
         />
-        {isWalletExists === false && (
-          <FormHelperText>Wallet does not exist</FormHelperText>
-        )}
       </FormControl>
       <FormControl fullWidth margin="normal">
         <TextField
+          error={error && error.includes("Amount")}
           label="Amount"
           type="number"
           variant="outlined"
@@ -153,6 +155,7 @@ export default function TransactionTool({ open, onClose }) {
       {wallet.totpEnabled ? (
         <FormControl fullWidth margin="normal">
           <TextField
+            error={error && error.includes("TOTP")}
             label="TOTP"
             type="number"
             variant="outlined"

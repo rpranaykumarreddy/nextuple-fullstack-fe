@@ -80,6 +80,7 @@ export default function TOTPEnableTool() {
             </div>
             <FormControl fullWidth margin="normal">
               <TextField
+                error={error && error.includes("TOTP")}
                 label="TOTP"
                 type="number"
                 variant="outlined"

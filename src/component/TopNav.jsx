@@ -87,46 +87,53 @@ export default function TopNav({ user, logout }) {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="Nav bar"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-              data-testid="handleOpenNavMenu"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages.map(({ label, value }) => (
-                <MenuItem
-                  key={value}
-                  data-testid={"menu-bar-" + value}
-                  onClick={() => openLink(value)}
-                  sx={{ color: linkValue === value && "#1976d2 !important" }}
+            {user != null && (
+              <>
+                {" "}
+                <IconButton
+                  size="large"
+                  aria-label="Nav bar"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleOpenNavMenu}
+                  color="inherit"
+                  data-testid="handleOpenNavMenu"
                 >
-                  <Typography textAlign="center">{label}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+                  <MenuIcon />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseNavMenu}
+                  sx={{
+                    display: { xs: "block", md: "none" },
+                  }}
+                >
+                  {pages.map(({ label, value }) => (
+                    <MenuItem
+                      key={value}
+                      data-testid={"menu-bar-" + value}
+                      onClick={() => openLink(value)}
+                      sx={{
+                        color: linkValue === value && "#1976d2 !important",
+                      }}
+                    >
+                      <Typography textAlign="center">{label}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </>
+            )}
           </Box>
 
           <Avatar
@@ -155,23 +162,24 @@ export default function TopNav({ user, logout }) {
             </Tooltip>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map(({ label, value }) => (
-              <Button
-                key={value}
-                data-testid={"nav-bar-" + value}
-                onClick={() => openLink(value)}
-                sx={{
-                  my: 2,
-                  color:
-                    linkValue === value
-                      ? "#1976d2 !important"
-                      : "#fff !important",
-                  display: "block",
-                }}
-              >
-                {label}
-              </Button>
-            ))}
+            {user != null &&
+              pages.map(({ label, value }) => (
+                <Button
+                  key={value}
+                  data-testid={"nav-bar-" + value}
+                  onClick={() => openLink(value)}
+                  sx={{
+                    my: 2,
+                    color:
+                      linkValue === value
+                        ? "#1976d2 !important"
+                        : "#fff !important",
+                    display: "block",
+                  }}
+                >
+                  {label}
+                </Button>
+              ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

@@ -41,6 +41,10 @@ export default function RegisterationForm({ flipLogin }) {
         {error && <Alert severity="error">{error}</Alert>}
         <FormControl fullWidth margin="normal">
           <TextField
+            error={
+              isUsernameAvailable === false ||
+              (error && error.includes("Username"))
+            }
             label="Username"
             type="text"
             variant="outlined"
@@ -49,14 +53,15 @@ export default function RegisterationForm({ flipLogin }) {
             required
             onBlur={checkUsername}
             data-testid="username-input"
+            helperText={
+              isUsernameAvailable === false && "Username is already taken"
+            }
             onChange={handleUsername}
           />
-          {isUsernameAvailable === false && (
-            <FormHelperText>Username is already taken</FormHelperText>
-          )}
         </FormControl>
         <FormControl fullWidth margin="normal">
           <TextField
+            error={error && error.includes("Email")}
             label="Email"
             type="email"
             variant="outlined"
@@ -70,6 +75,7 @@ export default function RegisterationForm({ flipLogin }) {
 
         <FormControl fullWidth margin="normal">
           <TextField
+            error={error && error.includes("Password")}
             label="Password"
             type="password"
             variant="outlined"

@@ -22,6 +22,7 @@ export default function LoginForm({ flipLogin }) {
         {error && <Alert severity="error">{error}</Alert>}
         <FormControl fullWidth margin="normal">
           <TextField
+            error={error && error.includes("Username or Email")}
             label="Username or Email"
             type="email"
             variant="outlined"
@@ -35,6 +36,7 @@ export default function LoginForm({ flipLogin }) {
 
         <FormControl fullWidth margin="normal">
           <TextField
+            error={error && error.includes("Password")}
             label="Password"
             type="password"
             variant="outlined"
