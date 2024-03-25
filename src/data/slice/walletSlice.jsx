@@ -12,6 +12,9 @@ export const walletSlice = createSlice({
         },
         enableTOTP: (state) => {
             return { ...state, totpEnabled: true };
+        },
+        disableTOTP: (state) => {
+            return { ...state, totpEnabled: false };
         }
     },
 });

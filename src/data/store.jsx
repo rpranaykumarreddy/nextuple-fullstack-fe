@@ -43,6 +43,6 @@ export const getSnackbar = (state) => state.snackbar;
 export const getWallet = (state) => state.wallet;
 export const { setToken, clearToken } = tokenSlice.actions;
 export const { setUser, clearUser } = userSlice.actions;
-export const { setWallet, clearWallet, enableTOTP } = walletSlice.actions;
+export const { setWallet, clearWallet, enableTOTP ,disableTOTP} = walletSlice.actions;
 export const { showMessage, hideMessage } = snackbarSlice.actions;
 export default store;

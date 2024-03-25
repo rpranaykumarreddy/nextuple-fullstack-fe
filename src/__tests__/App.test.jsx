@@ -8,7 +8,7 @@ import {
   user,
   tokenResponse,
   tokenResponseNotOk,
-  userExpired,
+  userExpired, generateUser,
 } from "../Utils/testData";
 import { regenerateAuthData } from "../data/hook/useLogout";
 import LoginForm from "../component/LoginForm";
@@ -70,14 +70,17 @@ jest.mock("../component/SnackBarSystem", () => {
     return <div data-testid="snack-bar-system">SnackBarSystem</div>;
   };
 });
+beforeEach(() => {
+    jest.clearAllMocks();
+});
 describe("App", () => {
   test("renders App component", () => {
     jest.useFakeTimers();
     getToken.mockImplementation(() => token);
-    getUser.mockImplementation(() => user);
+    getUser.mockImplementation(() => generateUser(5));
     global.fetch = jest.fn().mockResolvedValue(tokenResponse);
     renderWithRedux(<App />);
-    jest.advanceTimersByTime(1004798984);
+    jest.advanceTimersByTime(6000);
     expect(global.fetch).toHaveBeenCalledWith(
       regenerateAuthData.link,
       expect.objectContaining({
@@ -86,6 +89,23 @@ describe("App", () => {
           Authorization: `${token.tokenType} ${token.accessToken}`,
         },
       })
+    );
+  });
+  test("renders App component & response not ok", async () => {
+    jest.useFakeTimers();
+    getToken.mockImplementation(() => token);
+    getUser.mockImplementation(() => generateUser(5));
+    global.fetch = jest.fn().mockResolvedValue(tokenResponseNotOk);
+    renderWithRedux(<App />);
+    jest.advanceTimersByTime(6000);
+    expect(global.fetch).toHaveBeenCalledWith(
+        regenerateAuthData.link,
+        expect.objectContaining({
+          method: regenerateAuthData.method,
+          headers: {
+            Authorization: `${token.tokenType} ${token.accessToken}`,
+          },
+        })
     );
   });
   test("renders App component && expired token", () => {

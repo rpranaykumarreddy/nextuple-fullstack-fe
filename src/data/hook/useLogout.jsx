@@ -33,7 +33,8 @@ export const useLogout = () => {
         },
       });
       const json = await response.json();
-      if (!response.ok) throw new Error(json.message);
+      if (!response.ok){
+        throw new Error(json.message);}
       dispatch(setToken(json));
       dispatch(showMessage({ message: msg, severity: severity }));
     } catch (error) {

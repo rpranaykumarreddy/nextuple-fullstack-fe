@@ -22,7 +22,7 @@ export const walletNoTOTP = {
   created: "2024-02-27T22:30:01.119",
 };
 
-function generateUser(seconds = 604800) {
+export function generateUser(seconds = 604800) {
   const payload = {
     sub: "user1",
     iat: Math.floor(Date.now() / 1000) - 60 * 60 * 24 * 30,
@@ -31,7 +31,7 @@ function generateUser(seconds = 604800) {
   return payload;
 }
 
-function generateToken(seconds = 604800) {
+export function generateToken(seconds = 604800) {
   const payload = {
     sub: "user1",
     iat: Math.floor(Date.now() / 1000) - 60 * 60 * 24 * 30,
@@ -88,6 +88,18 @@ export const QrCodeConfirmResponse = {
   ok: true,
   headers: { "Content-Type": "application/json" },
 };
+export const disableTOTPResponse = {
+  json: () => ({ message: "TOTP disabled" }),
+  status: 200,
+  ok: true,
+  headers: { "Content-Type": "application/json" },
+};
+export const disableTOTPResponseNotOk = {
+    json: () => ({ message: "error" }),
+    status: 400,
+    ok: false,
+    headers: { "Content-Type": "application/json" },
+}
 export const checkUsernameAvailableResponse = {
   json: () => true,
   status: 200,

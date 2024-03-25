@@ -3,37 +3,32 @@ import {
     Box,
     Button,
     ButtonGroup,
-    FormControl,
     Stack,
     Modal,
-    TextField,
 } from "@mui/material";
 import React, {useState} from "react";
-import {useGetInitTOTP} from "../data/serverHooks";
 import {useSelector} from "react-redux";
 import {getWallet} from "../data/store";
+import {useGetDisableTOTP} from "../data/hook/useGetDisableTOTP";
 
-export default function TOTPEnableTool() {
-    const [error, isLoading, getInitTOTP, QRCode, confirmTOTP] = useGetInitTOTP();
+export default function TOTPDisableTool() {
+    const [error, isLoading, getDisableTOTP] = useGetDisableTOTP();
     const [open, setClose] = useState(false);
-    const [data, setData] = useState(null);
     const wallet = useSelector(getWallet);
     if (!wallet || wallet?.balance === undefined) {
         return null;
     }
     const submit = async (e) => {
         e.preventDefault();
-        const response = await confirmTOTP(data);
+        const response = await getDisableTOTP();
         if (response)
             setClose(false);
     };
     const intiate = async () => {
         setClose(true);
-        await getInitTOTP();
     };
     const handleClose = (e) => {
         e.preventDefault();
-        setData(null);
         setClose(false);
     };
     const style = {
@@ -63,46 +58,33 @@ export default function TOTPEnableTool() {
                     fullWidth
                 >
                     <Button onClick={intiate} disabled={isLoading}>
-                        Enable TOTP
+                        Disable TOTP
                     </Button>
                 </ButtonGroup>
             </div>
             <Modal
-                open={QRCode && open}
-                aria-labelledby="Recharge Modal"
-                aria-describedby="Helps in recharge of Wallet"
+                open={open}
+                aria-labelledby="Disable TOTP Modal"
+                aria-describedby="Helps in disabling TOTP of Wallet"
             >
                 <Box sx={style}>
                     <div>
-                        <h3>Scan QR for TOTP</h3>
+                        <h3>Are you sure you want to disable TOTP?</h3>
                         <br/>
-                        <p>Use Google/Microsoft authenticator app</p>
-                        <div style={{display: "flex", justifyContent: "center"}}>
-                            <img src={QRCode?.message} alt="QRCode" width="150px"/>
-                        </div>
-                        <FormControl fullWidth margin="normal">
-                            <TextField
-                                error={error && error.includes("TOTP")}
-                                label="TOTP"
-                                type="number"
-                                variant="outlined"
-                                value={data}
-                                disabled={isLoading}
-                                required
-                                data-testid="totp-input"
-                                onChange={(e) => setData(e.target.value)}
-                            />
-                        </FormControl>
+                        <p>Disabling TOTP will result in less secure transactions</p>
+                        <br/>
                         <Stack spacing={2} direction="row">
                             <Button
                                 variant="contained"
                                 fullWidth
                                 onClick={submit}
-                                disabled={isLoading || !data}
+                                data-testid="disable-totp-but"
+                                disabled={isLoading}
                             >
-                                Confirm
+                                Disable TOTP
                             </Button>
-                            <Button variant="contained" fullWidth onClick={handleClose}>
+                            <Button variant="contained"
+                                    data-testid="disable-totp-cancel-but" fullWidth onClick={handleClose}>
                                 Cancel
                             </Button>
                         </Stack>

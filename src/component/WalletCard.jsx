@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import amountAsRupee from "../Utils/amountAsRupee";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import IconButton from "@mui/material/IconButton";
+import TOTPDisableTool from "./TOTPDisableTool";
 
 export default function WalletCard({ data, getWalletDetails, isLoading }) {
   const navigate = useNavigate();
@@ -85,7 +86,7 @@ export default function WalletCard({ data, getWalletDetails, isLoading }) {
                 subheader={"updated: " + dateTimeAsString(data.updated)}
               />
               <CardContent sx={{ maxWidth: "90vw" }}>
-                {data.totpEnabled ? <p>TOTP Enabled</p> : <TOTPEnableTool />}
+                {data.totpEnabled ? <TOTPDisableTool/> : <TOTPEnableTool />}
               </CardContent>
             </div>
             <div style={{ maxWidth: "300px" }}>

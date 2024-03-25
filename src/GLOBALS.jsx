@@ -23,6 +23,7 @@ export const GLOBALS = {
       details: "/details",
       createTotp: "/totp",
       confirmTotp: "/totp/confirm",
+      disableTotp: "/totp/disable",
       statement: "/statement",
       cashback: "/cashback",
     },

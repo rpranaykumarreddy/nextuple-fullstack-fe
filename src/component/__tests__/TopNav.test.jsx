@@ -9,7 +9,8 @@ describe("TopNav", () => {
         expect(Title).toBeInTheDocument();
     });
     test("should navigate by clicking menu id's", () => {
-        renderWithRouter(<TopNav />);
+        const logout = jest.fn();
+        renderWithRouter(<TopNav user={user} logout={logout} />);
         const handleOpenNavMenu = screen.getByTestId("handleOpenNavMenu");
         handleOpenNavMenu.click();
         const walletMenu = screen.getByTestId("menu-bar-");
@@ -41,7 +42,8 @@ describe("TopNav", () => {
         expect(logout).toHaveBeenCalled();
     });
     test("should change color of active page", () => {
-        renderWithRouter(<TopNav />,  "/statement/");
+        const logout = jest.fn();
+        renderWithRouter(<TopNav user={user} logout={logout} />,  "/statement/");
         const walletMenu = screen.getByTestId("nav-bar-statement");
         waitFor(() => {
             expect(walletMenu).toHaveStyle("color: #1976d2");

@@ -31,6 +31,16 @@ describe('walletSlice reducer', () => {
         expect(state.totpEnabled).toEqual(true);
     });
 
+
+    test('should handle disableTOTP', () => {
+        const initialState = wallet;
+        const action = {
+            type: 'wallet/disableTOTP',
+        };
+        const state = walletReducer(initialState, action);
+        expect(state.totpEnabled).toEqual(false);
+    });
+
     test('should return the initial state', () => {
         expect(walletReducer(undefined, {})).toEqual(null);
     });
