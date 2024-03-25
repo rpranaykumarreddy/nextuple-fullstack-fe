@@ -10,9 +10,11 @@ export default function StatementProcessor({ data, isLoading, page, setPage }) {
   useEffect(() => {
     if (data === undefined || data == null) return;
     const totalData = data.statements.map((transaction) => {
+      const cashbackAsRupee = transaction.type==="Recharge" ? amountAsRupee(transaction.cashback) : "-";
       return {
         ...transaction,
         amount: amountAsRupee(transaction.amount),
+        cashback: cashbackAsRupee,
         createdAt: dateTimeAsString(transaction.createdAt),
       };
     });
@@ -23,10 +25,12 @@ export default function StatementProcessor({ data, isLoading, page, setPage }) {
 
   const columns = [
     { field: "type", headerName: "Type", flex: 1, sortable: false },
+    { field: "totpVerified", headerName: "TOTP Verified", flex: 1, sortable: false },
     { field: "status", headerName: "Status", flex: 1, sortable: false },
     { field: "fromTo", headerName: "From / To", flex: 1, sortable: false },
     { field: "amount", headerName: "Amount", flex: 1, sortable: false },
-    { field: "createdAt", headerName: "DateTime", flex: 1, sortable: false },
+    { field: "cashback", headerName: "Cashback", flex: 1, sortable: false },
+    { field: "createdAt", headerName: "Date Time", flex: 1, sortable: false },
   ];
 
   const handlePageChange = (event, value) => {
@@ -78,6 +82,11 @@ export default function StatementProcessor({ data, isLoading, page, setPage }) {
                     margin: 1,
                     borderRadius: 1,
                   }}
+                  autosizeOptions={{
+                  columns: ["type","totpVerified", "status","fromTo", "amount", "cashback",  "createdAt"],
+                  includeOutliers: true,
+                  includeHeaders: false,
+                }}
                   rows={totalData}
                   columns={columns}
                   initialState={{

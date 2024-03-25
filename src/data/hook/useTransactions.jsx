@@ -112,7 +112,7 @@ export const useTransactions = () => {
           showMessage({ message: "Transaction timeout", severity: "warning" })
         );
       } else {
-        setIsWalletExists(false);
+        setIsWalletExists(null);
         setData(initTransactionAuthData.intialState);
         dispatch(setWallet(json));
         dispatch(
@@ -162,7 +162,7 @@ export const useTransactions = () => {
           showMessage({ message: "Transaction timeout", severity: "warning" })
         );
       } else {
-        setIsWalletExists(false);
+        setIsWalletExists(null);
         setData(initTransactionAuthData.intialState);
         dispatch(
           showMessage({ message: "Transaction cancelled", severity: "info" })

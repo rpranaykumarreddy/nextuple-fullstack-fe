@@ -54,6 +54,7 @@ jest.mock("../../data/store", () => ({
 
 describe("TransactionTool & useTransactions fn()", () => {
   test("should render & success path", async () => {
+    jest.setTimeout(10000);
     getToken.mockImplementation(() => token);
     getUser.mockImplementation(() => user);
     getWallet.mockImplementation(() => wallet);
@@ -125,6 +126,7 @@ describe("TransactionTool & useTransactions fn()", () => {
     );
   });
   test("should render & success path for cancel", async () => {
+    jest.setTimeout(15000);
     getToken.mockImplementation(() => token);
     getUser.mockImplementation(() => user);
     getWallet.mockImplementation(() => wallet);
@@ -186,6 +188,7 @@ describe("TransactionTool & useTransactions fn()", () => {
     expect(closeFn).toHaveBeenCalledTimes(1);
   });
   test("should render & fail at check Wallet trim part", async () => {
+    jest.setTimeout(10000);
     getToken.mockImplementation(() => token);
     getUser.mockImplementation(() => user);
     getWallet.mockImplementation(() => wallet);

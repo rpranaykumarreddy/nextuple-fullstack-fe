@@ -1,10 +1,5 @@
 import {
-    Alert,
-    Box,
-    Button,
-    ButtonGroup,
-    Stack,
-    Modal,
+    Alert, Box, Button, ButtonGroup, Stack, Modal,
 } from "@mui/material";
 import React, {useState} from "react";
 import {useSelector} from "react-redux";
@@ -21,8 +16,7 @@ export default function TOTPDisableTool() {
     const submit = async (e) => {
         e.preventDefault();
         const response = await getDisableTOTP();
-        if (response)
-            setClose(false);
+        if (response) setClose(false);
     };
     const intiate = async () => {
         setClose(true);
@@ -43,14 +37,8 @@ export default function TOTPDisableTool() {
         boxShadow: 24,
         p: 4,
     };
-    return (
-        <div>
-            {error && (
-                <>
-                    <Alert severity="error">{error}</Alert>
-                    <br/>
-                </>
-            )}
+    return (<div>
+
             <div>
                 <ButtonGroup
                     variant="contained"
@@ -68,7 +56,10 @@ export default function TOTPDisableTool() {
                 aria-describedby="Helps in disabling TOTP of Wallet"
             >
                 <Box sx={style}>
-                    <div>
+                    <div> {error && (<>
+                            <Alert severity="error">{error}</Alert>
+                            <br/>
+                        </>)}
                         <h3>Are you sure you want to disable TOTP?</h3>
                         <br/>
                         <p>Disabling TOTP will result in less secure transactions</p>
@@ -91,6 +82,5 @@ export default function TOTPDisableTool() {
                     </div>
                 </Box>
             </Modal>
-        </div>
-    );
+        </div>);
 }

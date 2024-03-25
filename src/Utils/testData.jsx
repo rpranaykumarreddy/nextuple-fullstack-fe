@@ -128,6 +128,8 @@ export const statementData = {
       fromTo: "user2",
       amount: 100,
       createdAt: "2024-03-16T16:47:55.686",
+      cashback: 0,
+      totpVerified: "Yes",
     },
     {
       id: "65f489019fa5d160a8a94499",
@@ -136,6 +138,8 @@ export const statementData = {
       fromTo: "user2",
       amount: 10000000,
       createdAt: "2024-03-15T23:14:33.401",
+      cashback: 0,
+      totpVerified: "Yes",
     },
     {
       id: "65f488df9fa5d160a8a94498",
@@ -144,6 +148,8 @@ export const statementData = {
       fromTo: "Self",
       amount: 100000,
       createdAt: "2024-03-15T23:13:59.007",
+      cashback: 0,
+      totpVerified: "Yes",
     },
     {
       id: "65f488d69fa5d160a8a94497",
@@ -152,6 +158,8 @@ export const statementData = {
       fromTo: "Self",
       amount: 100000,
       createdAt: "2024-03-15T23:13:50.313",
+      cashback: 0,
+      totpVerified: "Yes",
     },
     {
       id: "65f43ccc0a783130783855e8",
@@ -160,6 +168,8 @@ export const statementData = {
       fromTo: "Self",
       amount: 100000,
       createdAt: "2024-03-15T17:49:24.267",
+      cashback: 0,
+      totpVerified: "Yes",
     },
     {
       id: "65f43c160a783130783855e7",
@@ -168,6 +178,8 @@ export const statementData = {
       fromTo: "user2",
       amount: 1000,
       createdAt: "2024-03-15T17:46:22.301",
+      cashback: 0,
+      totpVerified: "Yes",
     },
     {
       id: "65f43bd90a783130783855e6",
@@ -176,6 +188,8 @@ export const statementData = {
       fromTo: "user2",
       amount: 1000,
       createdAt: "2024-03-15T17:45:21.796",
+      cashback: 0,
+      totpVerified: "Yes",
     },
     {
       id: "65f43b510a783130783855e5",
@@ -184,6 +198,8 @@ export const statementData = {
       fromTo: "user2",
       amount: 1000,
       createdAt: "2024-03-15T17:43:05.768",
+      cashback: 0,
+      totpVerified: "Yes",
     },
     {
       id: "65f43ab40a783130783855e4",
@@ -192,6 +208,8 @@ export const statementData = {
       fromTo: "user2",
       amount: 1000,
       createdAt: "2024-03-15T17:40:28.467",
+      cashback: 0,
+      totpVerified: "Yes",
     },
     {
       id: "65f4022911974976e0986636",
@@ -200,6 +218,8 @@ export const statementData = {
       fromTo: "user2",
       amount: 100,
       createdAt: "2024-03-15T13:39:13.782",
+      cashback: 0,
+      totpVerified: "Yes",
     },
   ],
 };
