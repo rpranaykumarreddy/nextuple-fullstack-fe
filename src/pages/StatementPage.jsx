@@ -21,7 +21,6 @@ export default function StatementPage() {
     <main>
       <h1>Statement</h1>
       {error && <Alert severity="error">{error}</Alert>}
-      <br />
       <StatementProcessor
         data={response}
         isLoading={isLoading}

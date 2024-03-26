@@ -6,6 +6,8 @@ import {
   CardHeader,
   Divider,
   Stack,
+  Box,
+  Typography,
 } from "@mui/material";
 import React from "react";
 import WalletIcon from "@mui/icons-material/Wallet";
@@ -29,11 +31,12 @@ export default function WalletCard({ data, getWalletDetails, isLoading }) {
   if (data) {
     return (
       <>
-        <Card
+        <Box
           key={data.id}
           sx={{
             minWidth: 275,
-            width: "fit-content",
+            width: "90%",
+            maxWidth: "1000px",
             flexGrow: 1,
             flexBasis: 0,
             margin: "10px 10px 20px 10px",
@@ -43,7 +46,7 @@ export default function WalletCard({ data, getWalletDetails, isLoading }) {
         >
           <Stack
             flexWrap="wrap"
-            justifyContent="center"
+            justifyContent="space-evenly"
             alignItems="center"
             direction={{
               xs: "column",
@@ -56,11 +59,16 @@ export default function WalletCard({ data, getWalletDetails, isLoading }) {
               </>
             }
           >
-            <div style={{ maxWidth: "300px" }}>
+            <Box sx={{ maxWidth: "300px" }}>
+              <CardContent sx={{ maxWidth: "90vw" }}>
+                <WalletOpsTools />
+              </CardContent>
+            </Box>
+            <Box sx={{ maxWidth: "300px" }}>
               <CardHeader
                 sx={{ maxWidth: "90vw" }}
                 avatar={
-                  <Avatar sx={{ bgcolor: "#1976d2 " }} aria-label="Wallet">
+                  <Avatar sx={{ bgcolor: "#b72467" }} aria-label="Wallet">
                     <WalletIcon />
                   </Avatar>
                 }
@@ -86,15 +94,10 @@ export default function WalletCard({ data, getWalletDetails, isLoading }) {
                 subheader={"updated: " + dateTimeAsString(data.updated)}
               />
               <CardContent sx={{ maxWidth: "90vw" }}>
-                {data.totpEnabled ? <TOTPDisableTool/> : <TOTPEnableTool />}
+                {data.totpEnabled ? <TOTPDisableTool /> : <TOTPEnableTool />}
               </CardContent>
-            </div>
-            <div style={{ maxWidth: "300px" }}>
-              <CardContent sx={{ maxWidth: "90vw" }}>
-                <WalletOpsTools />
-              </CardContent>
-            </div>
-            <div style={{ maxWidth: "300px" }}>
+            </Box>
+            <Box sx={{ maxWidth: "300px" }}>
               <CardContent sx={{ maxWidth: "90vw" }}>
                 <Stack spacing={2} direction="row">
                   <Button
@@ -121,11 +124,30 @@ export default function WalletCard({ data, getWalletDetails, isLoading }) {
                   </Button>
                 </Stack>
               </CardContent>
-            </div>
+            </Box>
           </Stack>
-        </Card>
-        {/*<h3>How to use:</h3>*/}
-        <p></p>
+          <Box sx={{ textAlign: "left", mt: 5 }}>
+            <h2>How Internet Banking it works</h2>
+            <br />
+            <ul>
+              <li>
+                On recharge you can get upto 1% of the amount as cashback.
+              </li>
+              <li>You can recharge with upto ₹1,00,000.</li>
+              <li>You can transfer with upto ₹1,00,00,000.</li>
+              <li>
+                Enable TOTP using Google/Microsoft authenticator app for a
+                secure transfers.
+              </li>
+              <li>Click on statement to view all transactions.</li>
+              <li>Click on cashbacks to view cashbacks for each recharge.​</li>
+              <li>
+                You can find the logout option by clicking on the profile icon
+                on Top Right.
+              </li>
+            </ul>
+          </Box>
+        </Box>
       </>
     );
   } else {

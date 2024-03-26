@@ -1,39 +1,56 @@
-import React, {useState} from "react";
-import {useSelector} from "react-redux";
-import {Card, CardContent} from "@mui/material";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { Card, CardContent, Box } from "@mui/material";
 
 import LoginForm from "../component/LoginForm";
 import RegisterationForm from "../component/RegisterationForm";
-import {getUser} from "../data/store";
-import {useNavigate} from "react-router-dom";
+import { getUser } from "../data/store";
+import { useNavigate } from "react-router-dom";
 
 export default function AccountPage() {
-    const [isLogin, setIsLogin] = useState(true);
-    const user = useSelector(getUser);
-    const navigate = useNavigate();
-    const flipLogin = () => {
-        setIsLogin((prev) => !prev);
-    }
+  const [isLogin, setIsLogin] = useState(true);
+  const user = useSelector(getUser);
+  const navigate = useNavigate();
+  const flipLogin = () => {
+    setIsLogin((prev) => !prev);
+  };
 
-    let contents = null;
+  let contents = null;
 
-    if(user?.sub !==null && user?.sub !== undefined && user?.sub !== "") {
-        navigate("/");
-    }else{
-        if(isLogin) {
-            contents = <LoginForm flipLogin={flipLogin} />;
-        }
-        if (!isLogin) {
-            contents = <RegisterationForm flipLogin={flipLogin} />;
-        }
+  if (user?.sub !== null && user?.sub !== undefined && user?.sub !== "") {
+    navigate("/");
+  } else {
+    if (isLogin) {
+      contents = <LoginForm flipLogin={flipLogin} />;
     }
-    return (
-        <div>
-            <Card sx={{ minWidth: 200, marginTop: '50px', maxWidth: 400, margin: '10px', padding: '5px' }}>
-                <CardContent>
-                    {contents}
-                </CardContent>
-            </Card>
-        </div>
-    );
+    if (!isLogin) {
+      contents = <RegisterationForm flipLogin={flipLogin} />;
+    }
+  }
+  return (
+    <div>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "80vh",
+        }}
+      >
+        <Card
+          sx={{
+            minWidth: 200,
+            marginTop: "50px",
+            maxWidth: 400,
+            margin: "10px",
+            padding: "5px",
+          }}
+        >
+          <CardContent>
+            <div>{contents}</div>
+          </CardContent>
+        </Card>
+      </Box>
+    </div>
+  );
 }

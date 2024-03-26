@@ -5,6 +5,7 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "./App.css";
 import { getToken, getUser, setUser } from "./data/store";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -69,38 +70,53 @@ function App() {
       console.log("No token found");
     }
   }, [token, dispatch]);
-
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#b72467",
+      },
+      secondary: {
+        main: "#19384f",
+      },
+    },
+  });
   return (
     <Router>
-      <TopNav user={user} logout={logout} />
-      <div className="main">
-        <div className="complete">
-          <Routes>
-            <Route
-              exact
-              path="/user"
-              element={<RedirectOnLogin element={<AccountPage />} />}
-            />
-            <Route exact path="/" element={<Check element={<HomePage />} />} />
-            <Route
-              exact
-              path="/statement"
-              element={<Check element={<StatementPage />} />}
-            />
-            <Route
-              exact
-              path="/cashback"
-              element={<Check element={<CashbackPage />} />}
-            />
-            <Route
-              exact
-              path="*"
-              element={<Check element={<NotFoundPage />} />}
-            />
-          </Routes>
+      <ThemeProvider theme={theme}>
+        <TopNav user={user} logout={logout} />
+        <div className="main">
+          <div className="complete">
+            <Routes>
+              <Route
+                exact
+                path="/user"
+                element={<RedirectOnLogin element={<AccountPage />} />}
+              />
+              <Route
+                exact
+                path="/"
+                element={<Check element={<HomePage />} />}
+              />
+              <Route
+                exact
+                path="/statement"
+                element={<Check element={<StatementPage />} />}
+              />
+              <Route
+                exact
+                path="/cashback"
+                element={<Check element={<CashbackPage />} />}
+              />
+              <Route
+                exact
+                path="*"
+                element={<Check element={<NotFoundPage />} />}
+              />
+            </Routes>
+          </div>
+          <SnackBarSystem />
         </div>
-        <SnackBarSystem />
-      </div>
+      </ThemeProvider>
     </Router>
   );
 }

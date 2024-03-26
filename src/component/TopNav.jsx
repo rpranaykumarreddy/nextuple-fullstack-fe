@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Avatar,
+  Button,
+  Tooltip,
+  MenuItem,
+  Divider,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-
+import PersonIcon from "@mui/icons-material/Person";
 export default function TopNav({ user, logout }) {
   const pages = [
     { label: "Wallet", value: "" },
@@ -60,7 +63,11 @@ export default function TopNav({ user, logout }) {
   return (
     <AppBar
       position="sticky"
-      sx={{ width: "100%", zIndex: 1000, backgroundColor: "#111" }}
+      sx={{
+        width: "100%",
+        zIndex: 1000,
+        bgcolor: "#19384f",
+      }}
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -125,7 +132,7 @@ export default function TopNav({ user, logout }) {
                       data-testid={"menu-bar-" + value}
                       onClick={() => openLink(value)}
                       sx={{
-                        color: linkValue === value && "#1976d2 !important",
+                        color: linkValue === value && "#b72467 !important",
                       }}
                     >
                       <Typography textAlign="center">{label}</Typography>
@@ -162,37 +169,52 @@ export default function TopNav({ user, logout }) {
             </Tooltip>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {user != null &&
-              pages.map(({ label, value }) => (
-                <Button
-                  key={value}
-                  data-testid={"nav-bar-" + value}
-                  onClick={() => openLink(value)}
-                  sx={{
-                    my: 2,
-                    color:
-                      linkValue === value
-                        ? "#1976d2 !important"
-                        : "#fff !important",
-                    display: "block",
-                  }}
-                >
-                  {label}
-                </Button>
-              ))}
+            {user != null && (
+              <>
+                <Divider
+                  orientation="vertical"
+                  variant="middle"
+                  flexItem
+                  sx={{ bgcolor: "#fff", mr: 2 }}
+                />
+                {pages.map(({ label, value }) => (
+                  <Button
+                    key={value}
+                    data-testid={"nav-bar-" + value}
+                    onClick={() => openLink(value)}
+                    sx={{
+                      my: 2,
+                      color:
+                        linkValue === value
+                          ? "#aaa !important"
+                          : "#fff !important",
+                      display: "block",
+                    }}
+                  >
+                    {label}
+                  </Button>
+                ))}
+              </>
+            )}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             {user != null && (
-              <div
-                style={{
+              <Box
+                sx={{
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                 }}
               >
-                <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" } }}>
-                  <b style={{ marginRight: "10px" }}>{user && user?.sub}</b>
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    display: { xs: "none", sm: "flex" },
+                    mr: 3,
+                  }}
+                >
+                  <b>{user && user?.sub}</b>
                 </Box>
                 <Tooltip title="Account">
                   <IconButton
@@ -200,10 +222,16 @@ export default function TopNav({ user, logout }) {
                     onClick={handleOpenUserMenu}
                     sx={{ p: 0 }}
                   >
-                    <Avatar>{user.sub.charAt(0).toUpperCase()}</Avatar>
+                    <Avatar
+                      sx={{
+                        bgcolor: "#b72467",
+                      }}
+                    >
+                      <PersonIcon />
+                    </Avatar>
                   </IconButton>
                 </Tooltip>
-              </div>
+              </Box>
             )}
             <Menu
               sx={{ mt: "45px" }}
@@ -221,7 +249,7 @@ export default function TopNav({ user, logout }) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem style={{ pointerEvents: "none" }}>
+              <MenuItem sx={{ pointerEvents: "none" }}>
                 <Typography textAlign="center">
                   Username: {user && user?.sub}
                 </Typography>

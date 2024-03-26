@@ -29,8 +29,8 @@ export default function TransactionTimeoutProgress({ expire, onTimeout }) {
   }, [seconds]);
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -58,6 +58,6 @@ export default function TransactionTimeoutProgress({ expire, onTimeout }) {
           </Typography>
         </Box>
       </Box>
-    </div>
+    </Box>
   );
 }

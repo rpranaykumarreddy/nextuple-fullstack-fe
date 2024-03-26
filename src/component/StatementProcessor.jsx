@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import amountAsRupee, { sortAmount } from "../Utils/amountAsRupee";
 import dateTimeAsString from "../Utils/dateTimeAsString";
-import { Card, Pagination, Stack, Skeleton } from "@mui/material";
+import { Card, Pagination, Stack, Skeleton, Box } from "@mui/material";
 import { sortDate } from "../Utils/dateAsString";
 
 export default function StatementProcessor({ data, isLoading, page, setPage }) {
@@ -10,7 +10,10 @@ export default function StatementProcessor({ data, isLoading, page, setPage }) {
   useEffect(() => {
     if (data === undefined || data == null) return;
     const totalData = data.statements.map((transaction) => {
-      const cashbackAsRupee = transaction.type==="Recharge" ? amountAsRupee(transaction.cashback) : "-";
+      const cashbackAsRupee =
+        transaction.type === "Recharge"
+          ? amountAsRupee(transaction.cashback)
+          : "-";
       return {
         ...transaction,
         amount: amountAsRupee(transaction.amount),
@@ -25,7 +28,12 @@ export default function StatementProcessor({ data, isLoading, page, setPage }) {
 
   const columns = [
     { field: "type", headerName: "Type", flex: 1, sortable: false },
-    { field: "totpVerified", headerName: "TOTP Verified", flex: 1, sortable: false },
+    {
+      field: "totpVerified",
+      headerName: "TOTP Verified",
+      flex: 1,
+      sortable: false,
+    },
     { field: "status", headerName: "Status", flex: 1, sortable: false },
     { field: "fromTo", headerName: "From / To", flex: 1, sortable: false },
     { field: "amount", headerName: "Amount", flex: 1, sortable: false },
@@ -45,8 +53,8 @@ export default function StatementProcessor({ data, isLoading, page, setPage }) {
         <Card
           sx={{
             width: "95vw",
-            padding: 1,
-            margin: "auto",
+            margin: "0px",
+            mt: 3,
             display: "flex",
             flexDirection: "row",
             height: "fit-content",
@@ -57,6 +65,7 @@ export default function StatementProcessor({ data, isLoading, page, setPage }) {
               flexWrap: "wrap",
             },
           }}
+          elevation="0"
         >
           <Stack
             spacing={2}
@@ -65,7 +74,7 @@ export default function StatementProcessor({ data, isLoading, page, setPage }) {
             alignItems="center"
             sx={{ width: "100%" }}
           >
-            <div style={{ width: "100%" }}>
+            <Box sx={{ width: "100%" }}>
               {isLoading ? (
                 <>
                   <Skeleton
@@ -83,10 +92,18 @@ export default function StatementProcessor({ data, isLoading, page, setPage }) {
                     borderRadius: 1,
                   }}
                   autosizeOptions={{
-                  columns: ["type","totpVerified", "status","fromTo", "amount", "cashback",  "createdAt"],
-                  includeOutliers: true,
-                  includeHeaders: false,
-                }}
+                    columns: [
+                      "type",
+                      "totpVerified",
+                      "status",
+                      "fromTo",
+                      "amount",
+                      "cashback",
+                      "createdAt",
+                    ],
+                    includeOutliers: true,
+                    includeHeaders: false,
+                  }}
                   rows={totalData}
                   columns={columns}
                   initialState={{
@@ -98,7 +115,7 @@ export default function StatementProcessor({ data, isLoading, page, setPage }) {
                   hideFooter={true}
                 />
               )}
-            </div>
+            </Box>
             <Pagination
               count={data.totalPages}
               page={page}

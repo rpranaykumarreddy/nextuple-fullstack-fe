@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import amountAsRupee, { sortAmount } from "../Utils/amountAsRupee";
 import dateTimeAsString from "../Utils/dateTimeAsString";
-import { Card, Pagination, Stack, Skeleton } from "@mui/material";
+import { Card, Pagination, Stack, Skeleton, Box } from "@mui/material";
 import { sortDate } from "../Utils/dateAsString";
 
 export default function CashbackProcessor({ data, isLoading, page, setPage }) {
@@ -43,8 +43,8 @@ export default function CashbackProcessor({ data, isLoading, page, setPage }) {
         <Card
           sx={{
             width: "95vw",
-            padding: 1,
-            margin: "auto",
+            margin: "0px",
+            mt: 3,
             display: "flex",
             flexDirection: "row",
             height: "fit-content",
@@ -55,6 +55,7 @@ export default function CashbackProcessor({ data, isLoading, page, setPage }) {
               flexWrap: "wrap",
             },
           }}
+          elevation="0"
         >
           <Stack
             spacing={2}
@@ -63,7 +64,7 @@ export default function CashbackProcessor({ data, isLoading, page, setPage }) {
             alignItems="center"
             sx={{ width: "100%" }}
           >
-            <div style={{ width: "100%" }}>
+            <Box sx={{ width: "100%" }}>
               {isLoading ? (
                 <>
                   <Skeleton
@@ -85,7 +86,7 @@ export default function CashbackProcessor({ data, isLoading, page, setPage }) {
                   hideFooter={true}
                 />
               )}
-            </div>
+            </Box>
             <Pagination
               count={data.totalPages}
               page={page}
